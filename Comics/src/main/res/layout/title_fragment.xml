@@ -3,10 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView android:id="@+id/image_view"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:src="@drawable/bg_gradient_invert"/>
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_gradient_invert"/>
+
+    <Button
+        android:id="@+id/btn_test_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:text="test notification"
+        android:layout_gravity="center"/>
 
 </FrameLayout>
 
