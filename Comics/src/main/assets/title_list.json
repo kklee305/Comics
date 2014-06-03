@@ -1,0 +1,12 @@
+{
+  "title": {
+    "Garfield": {
+      "imgSrc": "google.ca",
+      "update": 1234567
+    },
+    "XKCD": {
+      "imgSrc": "google.ca",
+      "update": 135
+    }
+  }
+}
