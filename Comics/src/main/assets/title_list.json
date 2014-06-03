@@ -2,11 +2,13 @@
   "title": {
     "Garfield": {
       "imgSrc": "google.ca",
-      "update": 1234567
+      "update": 1234567,
+      "time": ""
     },
     "XKCD": {
       "imgSrc": "google.ca",
-      "update": 135
+      "update": 135,
+      "time": ""
     }
   }
 }
