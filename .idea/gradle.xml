@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="E:\My Documents\GitHub\Comics" />
-            <option value="E:\My Documents\GitHub\Comics\Comics" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Comics" />
           </set>
         </option>
       </GradleProjectSettings>
