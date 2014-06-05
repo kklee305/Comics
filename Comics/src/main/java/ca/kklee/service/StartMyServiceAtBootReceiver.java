@@ -1,8 +1,10 @@
-package ca.kklee.comics;
+package ca.kklee.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import ca.kklee.service.NotificationService;
 
 /**
  * Created by Keith on 30/05/2014.

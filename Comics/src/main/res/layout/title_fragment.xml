@@ -9,11 +9,10 @@
         android:layout_height="match_parent"
         android:src="@drawable/bg_gradient_invert"/>
 
-    <Button
-        android:id="@+id/btn_test_notification"
+    <TextView
+        android:id="@+id/id_view"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:text="test notification"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
 </FrameLayout>

@@ -20,11 +20,11 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".NotificationService" android:label="My Service">
+        <service android:name="ca.kklee.service.NotificationService" android:label="My Service">
         </service>
 
         <receiver
-            android:name="ca.kklee.comics.StartMyServiceAtBootReceiver"
+            android:name="ca.kklee.service.StartMyServiceAtBootReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="StartMyServiceAtBootReceiver">

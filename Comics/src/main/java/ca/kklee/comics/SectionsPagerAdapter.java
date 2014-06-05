@@ -1,5 +1,6 @@
 package ca.kklee.comics;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,27 +15,19 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            default:
-            case 0:
-                return new TitleFragment();
-            case 1:
-                return new TitleFragment();
-        }
+        Bundle bundle = new Bundle();
+        bundle.putInt("ID",position);
+        ComicFragment cf = new ComicFragment();
+        cf.setArguments(bundle);
+        return cf;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return ComicCollection.getInstance().getComics().length;
     }
 
     public CharSequence getPageTitle(int position) {
-        switch (position) {
-            default:
-            case 0:
-                return "Garfield";
-            case 1:
-                return "XKCD";
-        }
+        return ComicCollection.getInstance().getComics()[position].getTitle();
     }
 }

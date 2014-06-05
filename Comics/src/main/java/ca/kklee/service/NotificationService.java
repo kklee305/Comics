@@ -1,4 +1,4 @@
-package ca.kklee.comics;
+package ca.kklee.service;
 
 import android.app.Service;
 import android.content.Intent;
