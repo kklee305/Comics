@@ -21,10 +21,15 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
 
         initComicCollection();
+        dlComicCollection();
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
+
+    }
+
+    private void dlComicCollection() {
 
     }
 
