@@ -37,21 +37,6 @@ public class ComicCollection {
 
     public void setComics(Activity activity) {
         comics = parse(activity);
-        setTodayDate();
-    }
-
-    private void setTodayDate() {
-        String url = "";
-        for (int i = 0; i < comics.length; i++) {
-            url = comics[i].getImgSrc();
-            url = url.replace("[Date]", getTodayDateWithFormat(i));
-            comics[i].setImgSrc(url);
-        }
-    }
-
-    public String getTodayDateWithFormat(int id) {
-        SimpleDateFormat spf = new SimpleDateFormat(comics[id].getDateFormat());
-        return spf.format(Calendar.getInstance().getTime());
     }
 
     public Comic[] parse(Activity activity) {

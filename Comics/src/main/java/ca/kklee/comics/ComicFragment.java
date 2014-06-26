@@ -16,6 +16,7 @@ import ca.kklee.comics.loaders.CalvinHobbesLoader;
 import ca.kklee.comics.loaders.GarfieldLoader;
 import ca.kklee.comics.loaders.ImageLoader;
 import ca.kklee.comics.loaders.NerfNowLoader;
+import ca.kklee.comics.loaders.PeanutsLoader;
 import ca.kklee.comics.loaders.XKCDLoader;
 
 /**
@@ -53,8 +54,11 @@ public class ComicFragment extends Fragment {
                     NerfNowLoader nerfNowLoader = new NerfNowLoader(rootView,id);
                     nerfNowLoader.execute(getStringURL());
                     break;
-                case "Cyanide & Happiness":
                 case "Peanuts":
+                    PeanutsLoader peanutsLoader = new PeanutsLoader(rootView,id);
+                    peanutsLoader.execute(getStringURL());
+                    break;
+                case "Cyanide & Happiness":
                     ImageLoader imageLoader = new ImageLoader(loading,imageView,id);
                     imageLoader.execute(getURL());
                     break;

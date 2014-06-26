@@ -7,7 +7,7 @@ public class AppConfig {
 
 //    private static AppConfig instance = null;
     private static boolean IS_DEBUGGING = true;
-    private static boolean IS_LOGGING = true;
+    private static boolean IS_LOGGING = false;
 
 //    private AppConfig(){}
 
