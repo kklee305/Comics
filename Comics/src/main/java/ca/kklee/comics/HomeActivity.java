@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ca.kklee.util.AppConfig;
+
 public class HomeActivity extends ActionBarActivity {
 
     private SectionsPagerAdapter sectionsPagerAdapter;
@@ -44,6 +46,8 @@ public class HomeActivity extends ActionBarActivity {
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+        if (AppConfig.IS_DEBUGGING())
+            menu.findItem(R.id.menu_debugging).setVisible(true);
         return true;
     }
 
@@ -54,7 +58,7 @@ public class HomeActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id) {
-            case R.id.menu_settings:
+            case R.id.menu_about:
                 return true;
             case R.id.menu_debugging:
                 debugging();

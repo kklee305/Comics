@@ -7,6 +7,9 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 import ca.kklee.util.StringUtil;
 
@@ -34,6 +37,21 @@ public class ComicCollection {
 
     public void setComics(Activity activity) {
         comics = parse(activity);
+        setTodayDate();
+    }
+
+    private void setTodayDate() {
+        String url = "";
+        for (int i = 0; i < comics.length; i++) {
+            url = comics[i].getImgSrc();
+            url = url.replace("[Date]", getTodayDateWithFormat(i));
+            comics[i].setImgSrc(url);
+        }
+    }
+
+    public String getTodayDateWithFormat(int id) {
+        SimpleDateFormat spf = new SimpleDateFormat(comics[id].getDateFormat());
+        return spf.format(Calendar.getInstance().getTime());
     }
 
     public Comic[] parse(Activity activity) {
@@ -52,4 +70,5 @@ public class ComicCollection {
         Gson gson = new Gson();
         return gson.fromJson(inputString, Comic[].class);
     }
+
 }

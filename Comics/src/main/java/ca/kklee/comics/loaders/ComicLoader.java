@@ -1,4 +1,4 @@
-package ca.kklee.comics;
+package ca.kklee.comics.loaders;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,26 +19,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import ca.kklee.comics.ComicCollection;
+import ca.kklee.comics.R;
+import ca.kklee.util.Logger;
+
 /**
  * Created by Keith on 05/06/2014.
  */
-public class ComicLoader extends AsyncTask<URL, Void, Bitmap> {
+public abstract class ComicLoader<T> extends AsyncTask<T, Void, Bitmap> {
 
-    private ProgressBar loading;
-    private ImageView imageView;
+    private View rootView;
+    private int id;
 
-    public ComicLoader(ProgressBar loading, ImageView imageView) {
-        this.loading = loading;
-        this.imageView = imageView;
+    public ComicLoader(View rootView, int id) {
+        this.rootView = rootView;
+        this.id = id;
     }
 
-    @Override
-    protected Bitmap doInBackground(URL... urls) {
-        return downloadImage(urls[0]);
-    }
-
-    private Bitmap downloadImage(URL url) {
-        Log.d("", "Attempt DL image: " + url);
+    protected Bitmap downloadImage(URL url) {
+        Logger.d("", "Attempt DL image: " + url);
+        if (url == null) {
+            return null;
+        }
         HttpClient httpclient = new DefaultHttpClient();
         HttpGet httpget = new HttpGet(url.toString());
         HttpResponse response = null;
@@ -47,7 +48,7 @@ public class ComicLoader extends AsyncTask<URL, Void, Bitmap> {
             response = httpclient.execute(httpget);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK) {
-                Log.e("", "ERROR: downloadImage " + statusCode + " : " + url);
+                Logger.e("ERROR: downloadImage " + statusCode + " : " + url);
                 return null;
             }
             HttpEntity entity = response.getEntity();
@@ -56,6 +57,7 @@ public class ComicLoader extends AsyncTask<URL, Void, Bitmap> {
                 try {
                     inputStream = entity.getContent();
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    Logger.d("", "Success DLImage: " + url);
                     return bitmap;
                 } finally {
                     if (inputStream != null) {
@@ -65,23 +67,25 @@ public class ComicLoader extends AsyncTask<URL, Void, Bitmap> {
                 }
             }
         } catch (ClientProtocolException e) {
-            Log.e("ClientProtocolException", e.getLocalizedMessage());
+            Logger.e("ClientProtocolException: " + e.getLocalizedMessage());
             e.printStackTrace();
         } catch (IOException e) {
-            Log.e("IOException", e.getLocalizedMessage());
+            Logger.e("IOException: " + e.getLocalizedMessage());
             e.printStackTrace();
         } finally {
             httpclient.getConnectionManager().shutdown();
-            Log.d("", "Success DLImage: " + url);
         }
         return null;
     }
 
-    @Override
-    protected void onPostExecute(Bitmap bitmap) {
-        super.onPostExecute(bitmap);
-        loading.setVisibility(View.GONE);
-        imageView.setImageBitmap(bitmap);
-        imageView.setVisibility(View.VISIBLE);
+    protected void loadImage(Bitmap bitmap) {
+        if (bitmap != null) {
+            ComicCollection.getInstance().getComics()[id].setBitmap(bitmap);
+
+            ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
+            imageView.setImageBitmap(bitmap);
+            imageView.setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
+        }
     }
 }

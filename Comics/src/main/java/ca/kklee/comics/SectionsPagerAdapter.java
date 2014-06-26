@@ -16,10 +16,11 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
-        bundle.putInt("ID",position);
-        ComicFragment cf = new ComicFragment();
-        cf.setArguments(bundle);
-        return cf;
+        bundle.putInt("ID", position);
+
+        ComicFragment comicFragment = new ComicFragment();
+        comicFragment.setArguments(bundle);
+        return comicFragment;
     }
 
     @Override
