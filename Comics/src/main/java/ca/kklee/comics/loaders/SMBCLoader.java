@@ -1,7 +1,6 @@
 package ca.kklee.comics.loaders;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.View;
 
 import org.jsoup.Jsoup;
@@ -15,9 +14,9 @@ import ca.kklee.util.Logger;
 /**
  * Created by Keith on 05/06/2014.
  */
-public class GarfieldLoader extends ComicLoader<String> {
+public class SMBCLoader extends ComicLoader<String> {
 
-    public GarfieldLoader(View rootView, int id) {
+    public SMBCLoader(View rootView, int id) {
         super(rootView, id);
     }
 
@@ -32,7 +31,7 @@ public class GarfieldLoader extends ComicLoader<String> {
             Document dom = Jsoup.connect(comicUrl).get();
             URL imageUrl = null;
             try{
-                imageUrl = new URL(dom.getElementById("home_comic").select("img[src]").attr("src").toString());
+                imageUrl = new URL(dom.getElementById("comicimage").select("img[src]").attr("src").toString());
             } catch (Exception e) {
                 Logger.e("Failed to create url: "+ e.toString());
             }

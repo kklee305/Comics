@@ -23,13 +23,20 @@
   {
     "title": "Calvin and Hobbes",
     "imgSrc": "http://www.gocomics.com/calvinandhobbes",
-    "dateFormat": "yyyy-MM-dd",
+    "dateFormat": "",
     "update": 1234567,
     "time": ""
   },
   {
     "title": "Nerf Now",
     "imgSrc": "http://nerfnow.com",
+    "dateFormat": "",
+    "update": 1234567,
+    "time": ""
+  },
+  {
+    "title": "Saturday Morning Breakfast Cereal",
+    "imgSrc": "http://www.smbc-comics.com/",
     "dateFormat": "",
     "update": 1234567,
     "time": ""

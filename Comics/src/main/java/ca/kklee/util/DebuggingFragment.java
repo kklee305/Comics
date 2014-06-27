@@ -2,14 +2,10 @@ package ca.kklee.util;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import ca.kklee.comics.R;
 
@@ -23,15 +19,6 @@ public class DebuggingFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.debugging_fragment, container, false);
         TextView textView = (TextView) rootView.findViewById(R.id.text_view);
-
-        Log.d("DEBUGGING", "testing dom");
-        ComicDOM comicDom = new ComicDOM(textView);
-        try {
-            comicDom.execute(new URL("http://xkcd.com/"));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            Log.e("ERROR",e.toString());
-        }
 
         return rootView;
     }
