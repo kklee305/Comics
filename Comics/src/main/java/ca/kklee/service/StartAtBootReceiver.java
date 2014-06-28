@@ -9,7 +9,7 @@ import ca.kklee.service.NotificationService;
 /**
  * Created by Keith on 30/05/2014.
  */
-public class StartMyServiceAtBootReceiver extends BroadcastReceiver {
+public class StartAtBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {

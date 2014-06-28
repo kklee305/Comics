@@ -14,7 +14,7 @@ import ca.kklee.util.Logger;
 /**
  * Created by Keith on 05/06/2014.
  */
-public class GarfieldLoader extends ComicLoader<String> {
+public class GarfieldLoader extends ComicLoader {
 
     public GarfieldLoader(View rootView, int id) {
         super(rootView, id);

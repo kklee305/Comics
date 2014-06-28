@@ -23,15 +23,10 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
 
         initComicCollection();
-        dlComicCollection();
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-
-    }
-
-    private void dlComicCollection() {
 
     }
 
@@ -53,17 +48,16 @@ public class HomeActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_clear:
                 clear();
+                break;
             case R.id.menu_about:
-                return true;
+                break;
             case R.id.menu_debugging:
                 debugging();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

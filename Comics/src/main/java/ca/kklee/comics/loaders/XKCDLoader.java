@@ -15,7 +15,7 @@ import ca.kklee.util.Logger;
 /**
  * Created by Keith on 05/06/2014.
  */
-public class XKCDLoader extends ComicLoader<String> {
+public class XKCDLoader extends ComicLoader {
 
     public XKCDLoader(View rootView, int id) {
         super(rootView, id);

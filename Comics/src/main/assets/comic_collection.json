@@ -1,7 +1,7 @@
 [
   {
     "title": "Garfield",
-    "imgSrc": "http://garfield.com",
+    "imgSrc": "http://www.garfield.com",
     "dateFormat": "",
     "update": 1234567,
     "time": "",
@@ -9,7 +9,7 @@
   },
   {
     "title": "XKCD",
-    "imgSrc": "http://xkcd.com",
+    "imgSrc": "http://www.xkcd.com",
     "dateFormat": "",
     "update": 135,
     "time": "",
@@ -33,7 +33,7 @@
   },
   {
     "title": "Nerf Now",
-    "imgSrc": "http://nerfnow.com",
+    "imgSrc": "http://www.nerfnow.com",
     "dateFormat": "",
     "update": 1234567,
     "time": "",

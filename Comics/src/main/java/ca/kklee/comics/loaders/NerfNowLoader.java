@@ -14,7 +14,7 @@ import ca.kklee.util.Logger;
 /**
  * Created by Keith on 05/06/2014.
  */
-public class NerfNowLoader extends ComicLoader<String> {
+public class NerfNowLoader extends ComicLoader {
 
     public NerfNowLoader(View rootView, int id) {
         super(rootView, id);

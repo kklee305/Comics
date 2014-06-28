@@ -12,13 +12,7 @@ import android.widget.ProgressBar;
 
 import java.net.URL;
 
-import ca.kklee.comics.loaders.CalvinHobbesLoader;
-import ca.kklee.comics.loaders.GarfieldLoader;
-import ca.kklee.comics.loaders.ImageLoader;
-import ca.kklee.comics.loaders.NerfNowLoader;
-import ca.kklee.comics.loaders.PeanutsLoader;
-import ca.kklee.comics.loaders.SMBCLoader;
-import ca.kklee.comics.loaders.XKCDLoader;
+import ca.kklee.comics.loaders.AbstractComicLoaderFactory;
 
 /**
  * Created by Keith on 02/06/2014.
@@ -37,39 +31,7 @@ public class ComicFragment extends Fragment {
         Bitmap bitmap = ComicCollection.getInstance().getComics()[id].getBitmap();
 
         if (bitmap == null) {
-
-            switch (ComicCollection.getInstance().getComics()[id].getTitle()) {
-                case "Garfield":
-                    GarfieldLoader garfieldLoader = new GarfieldLoader(rootView, id);
-                    garfieldLoader.execute(getStringURL());
-                    break;
-                case "Calvin and Hobbes":
-                    CalvinHobbesLoader calvinHobbesLoader = new CalvinHobbesLoader(rootView, id);
-                    calvinHobbesLoader.execute(getStringURL());
-                    break;
-                case "XKCD":
-                    XKCDLoader xkcdLoader = new XKCDLoader(rootView, id);
-                    xkcdLoader.execute(getStringURL());
-                    break;
-                case "Nerf Now":
-                    NerfNowLoader nerfNowLoader = new NerfNowLoader(rootView, id);
-                    nerfNowLoader.execute(getStringURL());
-                    break;
-                case "Peanuts":
-                    PeanutsLoader peanutsLoader = new PeanutsLoader(rootView, id);
-                    peanutsLoader.execute(getStringURL());
-                    break;
-                case "Saturday Morning Breakfast Cereal":
-                    SMBCLoader smbcLoader = new SMBCLoader(rootView, id);
-                    smbcLoader.execute(getStringURL());
-                    break;
-                default:
-                    return null;
-                case "Cyanide & Happiness":
-                    ImageLoader imageLoader = new ImageLoader(loading,imageView,id);
-                    imageLoader.execute(getURL());
-                    break;
-            }
+            AbstractComicLoaderFactory.getLoader(rootView, id).execute(getStringURL());
         } else {
             imageView.setImageBitmap(bitmap);
             loading.setVisibility(View.GONE);

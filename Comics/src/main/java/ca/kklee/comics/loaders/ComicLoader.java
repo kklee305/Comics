@@ -25,7 +25,7 @@ import ca.kklee.util.Logger;
 /**
  * Created by Keith on 05/06/2014.
  */
-public abstract class ComicLoader<T> extends AsyncTask<T, Void, Bitmap> {
+public abstract class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
     private View rootView;
     protected int id;
@@ -80,11 +80,13 @@ public abstract class ComicLoader<T> extends AsyncTask<T, Void, Bitmap> {
     protected void loadImage(Bitmap bitmap) {
         if (bitmap != null) {
             ComicCollection.getInstance().getComics()[id].setBitmap(bitmap);
-
+            if (rootView == null)
+                return;
             ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
             imageView.setImageBitmap(bitmap);
             imageView.setVisibility(View.VISIBLE);
             rootView.findViewById(R.id.loading).setVisibility(View.GONE);
         }
     }
+
 }

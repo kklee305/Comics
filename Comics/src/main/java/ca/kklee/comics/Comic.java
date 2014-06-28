@@ -50,7 +50,9 @@ public class Comic {
     }
 
     public Bitmap getBitmap() {
-        bitmap = null;
+        if (bitmap != null) {
+            return bitmap;
+        }
         File file = BitmapLoader.findFile(title);
         SimpleDateFormat spf = new SimpleDateFormat("yyMMdd");
         String today = spf.format(Calendar.getInstance().getTime());
