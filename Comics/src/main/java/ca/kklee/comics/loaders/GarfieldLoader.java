@@ -33,6 +33,7 @@ public class GarfieldLoader extends ComicLoader<String> {
             try{
                 imageUrl = new URL(dom.getElementById("home_comic").select("img[src]").attr("src").toString());
             } catch (Exception e) {
+                Logger.d("",dom.toString());
                 Logger.e("Failed to create url: "+ e.toString());
             }
             return downloadImage(imageUrl);

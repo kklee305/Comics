@@ -71,6 +71,10 @@ public class Comic {
         BitmapLoader.saveBitmap(AppConfig.APPDIRECTORY + File.separator + title + "_" + new SimpleDateFormat("yyMMdd").format(Calendar.getInstance().getTime()), bitmap);
     }
 
+    public void clearBitmap() {
+        this.bitmap = null;
+    }
+
     public String toString() {
         return title + " | " + imgSrc + " | " + update + " | " + time;
     }

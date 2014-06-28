@@ -21,4 +21,12 @@ public class FileUtil {
         return null;
     }
 
+    public static void clearDir() {
+        File sdCardRoot = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File myDir = new File(sdCardRoot, AppConfig.APPDIRECTORY);
+        for (File f : myDir.listFiles()) {
+            f.delete();
+        }
+    }
+
 }

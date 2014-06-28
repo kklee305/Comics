@@ -2,6 +2,7 @@ package ca.kklee.comics;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
@@ -57,12 +58,24 @@ public class HomeActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id) {
+            case R.id.menu_clear:
+                clear();
             case R.id.menu_about:
                 return true;
             case R.id.menu_debugging:
                 debugging();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void clear() {
+        for(Comic c : ComicCollection.getInstance().getComics()) {
+            c.clearBitmap();
+        }
+        BitmapLoader.clearDir();
+        Intent i = new Intent(this,HomeActivity.class);
+        startActivity(i);
+        finish();
     }
 
     private void debugging() {
