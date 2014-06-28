@@ -3,11 +3,11 @@ package ca.kklee.util;
 /**
  * Created by Keith on 08/06/2014.
  */
-public class AppConfig {
+public class Config {
 
 //    private static AppConfig instance = null;
     private static boolean IS_DEBUGGING = true;
-    private static boolean IS_LOGGING = false;
+    private static boolean IS_LOGGING = true;
 
 //    private AppConfig(){}
 

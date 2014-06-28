@@ -1,13 +1,8 @@
 package ca.kklee.comics.loaders;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.View;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

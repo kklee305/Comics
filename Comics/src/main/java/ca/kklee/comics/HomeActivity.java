@@ -6,11 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import ca.kklee.util.AppConfig;
+import ca.kklee.util.Logger;
 
 public class HomeActivity extends ActionBarActivity {
 
@@ -67,7 +66,7 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void debugging() {
-        Log.d("DEBUGGING", "test notifications");
+        Logger.d("DEBUGGING", "test notifications");
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext())
                         .setSmallIcon(R.drawable.ic_launcher)
@@ -77,12 +76,21 @@ public class HomeActivity extends ActionBarActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, mBuilder.build());
 
-        Log.d("DEBUGGING", "testing parsing");
+        Logger.d("DEBUGGING", "testing parsing");
         Comic[] comics = ComicCollection.getInstance().getComics();
-        Log.d("test parsing", "" + comics.length);
+        Logger.d("test parsing", "Number of comics: " + comics.length);
         for (int i = 0; i < comics.length; i++) {
-            Log.d("test parsing", comics[i].toString());
+            Logger.d("test parsing", comics[i].toString());
         }
+//        Logger.d("DEBUGGING", "testing image to binary");
+//        Bitmap bitmap = ComicCollection.getInstance().getComics()[0].getBitmap();
+//        BitmapLoader.saveBitmap("testing2",bitmap);
+
+//        Logger.d("DEBUGGING", "testing bianary to image");
+//        Bitmap bitmap = BitmapLoader.loadBitmap("testing");
+//        if (bitmap != null) {
+//            Logger.d("","Yay worked");
+//        }
     }
 
 }

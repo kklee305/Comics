@@ -4,41 +4,55 @@
     "imgSrc": "http://garfield.com",
     "dateFormat": "",
     "update": 1234567,
-    "time": ""
+    "time": "",
+    "enabled": "true"
   },
   {
     "title": "XKCD",
     "imgSrc": "http://xkcd.com",
     "dateFormat": "",
     "update": 135,
-    "time": ""
+    "time": "",
+    "enabled": "true"
   },
   {
     "title": "Peanuts",
     "imgSrc": "http://www.peanuts.com/wp-content/comic-strip/color-low-resolution/desktop/2014/",
     "dateFormat": "yyMMdd",
     "update": 1234567,
-    "time": ""
+    "time": "",
+    "enabled": "true"
   },
   {
     "title": "Calvin and Hobbes",
     "imgSrc": "http://www.gocomics.com/calvinandhobbes",
     "dateFormat": "",
     "update": 1234567,
-    "time": ""
+    "time": "",
+    "enabled": "true"
   },
   {
     "title": "Nerf Now",
     "imgSrc": "http://nerfnow.com",
     "dateFormat": "",
     "update": 1234567,
-    "time": ""
+    "time": "",
+    "enabled": "true"
   },
   {
     "title": "Saturday Morning Breakfast Cereal",
     "imgSrc": "http://www.smbc-comics.com/",
     "dateFormat": "",
     "update": 1234567,
-    "time": ""
+    "time": "",
+    "enabled": "true"
+  },
+  {
+    "title": "Cyanide & Happiness",
+    "imgSrc": "",
+    "dateFormat": "",
+    "update": 1234567,
+    "time": "",
+    "enabled": "false"
   }
 ]

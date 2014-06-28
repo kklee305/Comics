@@ -14,6 +14,7 @@ import java.net.URL;
 
 import ca.kklee.comics.loaders.CalvinHobbesLoader;
 import ca.kklee.comics.loaders.GarfieldLoader;
+import ca.kklee.comics.loaders.ImageLoader;
 import ca.kklee.comics.loaders.NerfNowLoader;
 import ca.kklee.comics.loaders.PeanutsLoader;
 import ca.kklee.comics.loaders.SMBCLoader;
@@ -64,10 +65,10 @@ public class ComicFragment extends Fragment {
                     break;
                 default:
                     return null;
-//                case "Cyanide & Happiness":
-//                    ImageLoader imageLoader = new ImageLoader(loading,imageView,id);
-//                    imageLoader.execute(getURL());
-//                    break;
+                case "Cyanide & Happiness":
+                    ImageLoader imageLoader = new ImageLoader(loading,imageView,id);
+                    imageLoader.execute(getURL());
+                    break;
             }
         } else {
             imageView.setImageBitmap(bitmap);

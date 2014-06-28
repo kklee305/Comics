@@ -10,7 +10,6 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.net.URL;
 
-import ca.kklee.comics.loaders.ComicLoader;
 import ca.kklee.util.Logger;
 
 /**

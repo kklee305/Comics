@@ -2,6 +2,8 @@ package ca.kklee.util;
 
 import android.util.Log;
 
+import ca.kklee.comics.AppConfig;
+
 /**
  * Created by Keith on 10/06/2014.
  */

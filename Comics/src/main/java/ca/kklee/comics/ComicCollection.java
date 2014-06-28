@@ -7,8 +7,8 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import ca.kklee.util.StringUtil;
@@ -37,6 +37,7 @@ public class ComicCollection {
 
     public void setComics(Activity activity) {
         comics = parse(activity);
+        checkEnabled();
     }
 
     public Comic[] parse(Activity activity) {
@@ -54,6 +55,15 @@ public class ComicCollection {
             return null;
         Gson gson = new Gson();
         return gson.fromJson(inputString, Comic[].class);
+    }
+
+    private void checkEnabled() {
+        List<Comic> list = new LinkedList<Comic>(Arrays.asList(comics));
+        for (int i = 0; i < comics.length; i++) {
+            if (!comics[i].getEnabled())
+                list.remove(comics[i]);
+        }
+        comics = list.toArray(new Comic[list.size()]);
     }
 
 }
