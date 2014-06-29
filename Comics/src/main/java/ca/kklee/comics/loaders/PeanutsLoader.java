@@ -29,7 +29,7 @@ public class PeanutsLoader extends ComicLoader {
         try {
             URL imageUrl = null;
             if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == 1) {
-                imageUrl = new URL(comicUrl + getTodayDateWithFormat("Sundays/pe_c[Date].jpg"));
+                imageUrl = new URL(comicUrl + getTodayDateWithFormat("Sundays/pe[Date]comb_hs.jpg"));
             } else {
                 imageUrl = new URL(comicUrl + getTodayDateWithFormat("daily/pe_c[Date].jpg"));
             }
