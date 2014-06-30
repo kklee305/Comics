@@ -8,9 +8,14 @@
         android:orderInCategory="1"
         app:showAsAction="never" />
 
+    <item android:id="@+id/menu_cancel"
+        android:title="Cancel"
+        android:orderInCategory="2"
+        app:showAsAction="never" />
+
     <item android:id="@+id/menu_about"
         android:title="About"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         app:showAsAction="never" />
 
     <item android:id="@+id/menu_debugging"

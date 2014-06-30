@@ -19,21 +19,6 @@ import ca.kklee.util.Logger;
  */
 public class ScheduleTaskReceiver extends BroadcastReceiver {
 
-    public static void startScheduledTask(Context context) {
-        Intent intent = new Intent(context, ScheduleTaskReceiver.class);
-        Calendar cal = Calendar.getInstance();
-        AlarmManager alarms;
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        cal.set(Calendar.HOUR_OF_DAY, 6);
-        cal.set(Calendar.MINUTE, 00);
-        cal.set(Calendar.SECOND, 00);
-//        cal.getTimeInMillis()
-        alarms.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
-//        alarms.cancel(alarmIntent);
-        Logger.d("", "Alarm set");
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         downloadFiles(context);
@@ -72,4 +57,33 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         Intent i = new Intent(context, HomeActivity.class);
         return PendingIntent.getActivity(context, 0, i, 0);
     }
+
+    public static void startScheduledTask(Context context) {
+        Intent intent = new Intent(context, ScheduleTaskReceiver.class);
+        if (checkAlarmSet(context, intent)) {
+            Logger.d("", "Alarm already set");
+            return;
+        }
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 6);
+        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.SECOND, 00);
+        AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarms.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+        Logger.d("", "Alarm set");
+    }
+
+    private static boolean checkAlarmSet(Context context, Intent intent) {
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_NO_CREATE) != null;
+    }
+
+    public static void cancelAlarm(Context context) {
+        Logger.d("", "Alarm Cancelled");
+        Intent intent = new Intent(context, ScheduleTaskReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarms.cancel(alarmIntent);
+    }
+
 }

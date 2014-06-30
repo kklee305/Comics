@@ -52,7 +52,13 @@ public class HomeActivity extends ActionBarActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_clear:
-                clear();
+                BitmapLoader.clearBitmap();
+                Intent i = new Intent(this, HomeActivity.class);
+                startActivity(i);
+                finish();
+                break;
+            case R.id.menu_cancel:
+                ScheduleTaskReceiver.cancelAlarm(this);
                 break;
             case R.id.menu_about:
                 break;
@@ -61,16 +67,6 @@ public class HomeActivity extends ActionBarActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void clear() {
-        for(Comic c : ComicCollection.getInstance().getComics()) {
-            c.clearBitmap();
-        }
-        BitmapLoader.clearDir();
-        Intent i = new Intent(this, HomeActivity.class);
-        startActivity(i);
-        finish();
     }
 
     private void debugging() {

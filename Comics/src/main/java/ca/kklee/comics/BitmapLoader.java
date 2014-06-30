@@ -1,5 +1,6 @@
 package ca.kklee.comics;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -44,6 +45,13 @@ public class BitmapLoader extends FileUtil {
             Logger.e(e.getMessage());
         }
         return null;
+    }
+
+    public static void clearBitmap() {
+        for (Comic c : ComicCollection.getInstance().getComics()) {
+            c.clearBitmap();
+        }
+        clearDir();
     }
 
 }
