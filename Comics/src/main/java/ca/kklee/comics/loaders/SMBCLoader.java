@@ -30,10 +30,10 @@ public class SMBCLoader extends ComicLoader {
         try {
             Document dom = Jsoup.connect(comicUrl).get();
             URL imageUrl = null;
-            try{
+            try {
                 imageUrl = new URL(dom.getElementById("comicimage").select("img[src]").attr("src").toString());
             } catch (Exception e) {
-                Logger.e("Failed to create url: "+ e.toString());
+                Logger.e("Failed to create url: " + e.toString());
             }
             return downloadImage(imageUrl);
         } catch (IOException e) {

@@ -31,10 +31,10 @@ public class XKCDLoader extends ComicLoader {
         try {
             Document dom = Jsoup.connect(comicUrl).get();
             URL imageUrl = null;
-            try{
+            try {
                 imageUrl = new URL(dom.getElementById("comic").select("img[src]").attr("src").toString());
             } catch (Exception e) {
-                Log.e("ERROR", "Failed to create url: "+ e.toString());
+                Log.e("ERROR", "Failed to create url: " + e.toString());
             }
             return downloadImage(imageUrl);
         } catch (IOException e) {

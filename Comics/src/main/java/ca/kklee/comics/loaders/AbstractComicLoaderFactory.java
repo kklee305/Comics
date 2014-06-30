@@ -25,7 +25,7 @@ public class AbstractComicLoaderFactory {
                 loader = new NerfNowLoader(rootView, id);
                 break;
             case "Peanuts":
-                loader  = new PeanutsLoader(rootView, id);
+                loader = new PeanutsLoader(rootView, id);
                 break;
             case "Saturday Morning Breakfast Cereal":
                 loader = new SMBCLoader(rootView, id);

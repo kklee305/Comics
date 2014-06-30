@@ -43,7 +43,7 @@ public class PeanutsLoader extends ComicLoader {
 
     public String getTodayDateWithFormat(String string) {
         SimpleDateFormat spf = new SimpleDateFormat(ComicCollection.getInstance().getComics()[id].getDateFormat());
-        return string.replace("[Date]",spf.format(Calendar.getInstance().getTime()));
+        return string.replace("[Date]", spf.format(Calendar.getInstance().getTime()));
     }
 
     @Override

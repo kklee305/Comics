@@ -58,9 +58,9 @@ public class Comic {
         String today = spf.format(Calendar.getInstance().getTime());
         if (file != null && file.getName().equals(title + "_" + today + ".png")) {
             bitmap = BitmapLoader.loadBitmap(AppConfig.APPDIRECTORY + File.separator + title + "_" + today);
-            Logger.d("","Today's File found: " + title + "_" + today + ".png");
+            Logger.d("", "Today's File found: " + title + "_" + today + ".png");
         } else if (file != null) {
-            Logger.d("","File found but not today's: " + title + "_" + today + ".png");
+            Logger.d("", "File found but not today's: " + title + "_" + today + ".png");
             file.delete();
         } else {
             Logger.d("", "File not found: " + title + "_" + today + ".png");

@@ -27,8 +27,8 @@ import ca.kklee.util.Logger;
  */
 public abstract class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
-    private View rootView;
     protected int id;
+    private View rootView;
 
     public ComicLoader(View rootView, int id) {
         this.rootView = rootView;
