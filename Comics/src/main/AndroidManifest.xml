@@ -22,18 +22,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="ca.kklee.service.NotificationService" android:label="My Service">
-        </service>
-
-        <receiver
-            android:name="ca.kklee.service.StartAtBootReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:label="StartMyServiceAtBootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+        <receiver android:name=".ScheduleTaskReceiver"/>
     </application>
 
 </manifest>

@@ -24,10 +24,11 @@ public class HomeActivity extends ActionBarActivity {
 
         initComicCollection();
 
+        ScheduleTaskReceiver.startScheduledTask(this);
+
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-
     }
 
     private void initComicCollection() {
@@ -67,7 +68,7 @@ public class HomeActivity extends ActionBarActivity {
             c.clearBitmap();
         }
         BitmapLoader.clearDir();
-        Intent i = new Intent(this,HomeActivity.class);
+        Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
         finish();
     }

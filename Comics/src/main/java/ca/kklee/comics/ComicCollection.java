@@ -1,6 +1,6 @@
 package ca.kklee.comics;
 
-import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -35,16 +35,16 @@ public class ComicCollection {
         return comics;
     }
 
-    public void setComics(Activity activity) {
-        comics = parse(activity);
-        checkEnabled();
+    public void setComics(Context context) {
+        comics = parse(context);
+        checkComicEnabled();
     }
 
-    public Comic[] parse(Activity activity) {
+    public Comic[] parse(Context context) {
         String inputString = "";
 
         try {
-            InputStream inputFile = activity.getAssets().open("comic_collection.json");
+            InputStream inputFile = context.getAssets().open("comic_collection.json");
             inputString = StringUtil.convertStreamToString(inputFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,7 +57,7 @@ public class ComicCollection {
         return gson.fromJson(inputString, Comic[].class);
     }
 
-    private void checkEnabled() {
+    private void checkComicEnabled() {
         List<Comic> list = new LinkedList<Comic>(Arrays.asList(comics));
         for (int i = 0; i < comics.length; i++) {
             if (!comics[i].getEnabled())
