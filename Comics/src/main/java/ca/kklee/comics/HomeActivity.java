@@ -13,6 +13,12 @@ import android.widget.ImageView;
 
 import ca.kklee.util.Logger;
 
+/**
+ * TODO List
+ * Alarm switch in options
+ *
+ */
+
 public class HomeActivity extends ActionBarActivity {
 
     private SectionsPagerAdapter sectionsPagerAdapter;
