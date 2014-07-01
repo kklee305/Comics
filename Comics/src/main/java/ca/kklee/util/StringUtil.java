@@ -19,8 +19,7 @@ public class StringUtil {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line).append("\n");
                 }
-            }
-            finally {
+            } finally {
                 is.close();
             }
             return sb.toString();
@@ -28,4 +27,5 @@ public class StringUtil {
             return "";
         }
     }
+
 }

@@ -5,7 +5,7 @@ package ca.kklee.util;
  */
 public class Config {
 
-//    private static AppConfig instance = null;
+    //    private static AppConfig instance = null;
     private static boolean IS_DEBUGGING = true;
     private static boolean IS_LOGGING = true;
 

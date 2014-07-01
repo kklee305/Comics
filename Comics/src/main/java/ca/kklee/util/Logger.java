@@ -9,19 +9,19 @@ import ca.kklee.comics.AppConfig;
  */
 public class Logger {
 
-    public static void d(String tag,String message) {
+    public static void d(String tag, String message) {
         if (!AppConfig.IS_LOGGING()) return;
-        Log.d(tag,message);
+        Log.d(tag, message);
     }
 
     public static void e(String message) {
         if (!AppConfig.IS_LOGGING()) return;
         Log.e("ERROR", message);
-        logToFile("ERROR",message);
+        logToFile("ERROR", message);
     }
 
     private static void logToFile(String tag, String message) {
-        
+
     }
 
 }

@@ -1,14 +1,15 @@
 package ca.kklee.comics;
 
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.Intent;
+import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import ca.kklee.util.Logger;
 
@@ -20,11 +21,19 @@ public class HomeActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
         setContentView(R.layout.activity_home);
 
         initComicCollection();
 
         ScheduleTaskReceiver.startScheduledTask(this);
+
+        initOptions();
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -37,64 +46,21 @@ public class HomeActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        if (AppConfig.IS_DEBUGGING())
-            menu.findItem(R.id.menu_debugging).setVisible(true);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.menu_clear:
-                BitmapLoader.clearBitmap();
-                Intent i = new Intent(this, HomeActivity.class);
-                startActivity(i);
-                finish();
-                break;
-            case R.id.menu_cancel:
-                ScheduleTaskReceiver.cancelAlarm(this);
-                break;
-            case R.id.menu_about:
-                break;
-            case R.id.menu_debugging:
-                debugging();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void debugging() {
-        Logger.d("DEBUGGING", "test notifications");
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(getApplicationContext())
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(1, mBuilder.build());
-
-        Logger.d("DEBUGGING", "testing parsing");
-        Comic[] comics = ComicCollection.getInstance().getComics();
-        Logger.d("test parsing", "Number of comics: " + comics.length);
-        for (int i = 0; i < comics.length; i++) {
-            Logger.d("test parsing", comics[i].toString());
-        }
-//        Logger.d("DEBUGGING", "testing image to binary");
-//        Bitmap bitmap = ComicCollection.getInstance().getComics()[0].getBitmap();
-//        BitmapLoader.saveBitmap("testing2",bitmap);
-
-//        Logger.d("DEBUGGING", "testing bianary to image");
-//        Bitmap bitmap = BitmapLoader.loadBitmap("testing");
-//        if (bitmap != null) {
-//            Logger.d("","Yay worked");
-//        }
+    private void initOptions() {
+        ImageView view = (ImageView) findViewById(R.id.swipe_options);
+        final Activity activity = this;
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Logger.d("", "options");
+                Dialog dialog = OptionsDialogFactory.createDialog(activity);
+                Window window = dialog.getWindow();
+                WindowManager.LayoutParams wlp = window.getAttributes();
+                wlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
+                window.setAttributes(wlp);
+                dialog.show();
+            }
+        });
     }
 
 }
