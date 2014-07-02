@@ -8,8 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import ca.kklee.comics.loaders.AbstractComicLoaderFactory;
 import ca.kklee.util.Logger;
@@ -21,7 +24,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
 
     public static void startScheduledTask(Context context) {
         Intent intent = new Intent(context, ScheduleTaskReceiver.class);
-        if (checkAlarmSet(context, intent)) {
+        if (isAlarmSet(context)) {
             Logger.d("", "Alarm already set");
             return;
         }
@@ -32,19 +35,21 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         calendar.set(Calendar.SECOND, 00);
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarms.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
-        Logger.d("", "Alarm set");
+        Toast.makeText(context, "Scheduled Download Started", Toast.LENGTH_LONG).show();
     }
 
-    private static boolean checkAlarmSet(Context context, Intent intent) {
+    public static boolean isAlarmSet(Context context) {
+        Intent intent = new Intent(context, ScheduleTaskReceiver.class);
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_NO_CREATE) != null;
     }
 
     public static void cancelAlarm(Context context) {
-        Logger.d("", "Alarm Cancelled");
         Intent intent = new Intent(context, ScheduleTaskReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarms.cancel(alarmIntent);
+        alarmIntent.cancel();
+        Toast.makeText(context, "Scheduled Download Cancelled", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -69,11 +74,12 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
     }
 
     private void fireNotification(Context context) {
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("New Comics Downloaded")
-                        .setContentText("")
+                        .setContentTitle("New Comics Downloaded!")
+                        .setContentText(currentDateTimeString)
                         .setContentIntent(startAppIntent(context))
                         .setAutoCancel(true);
         NotificationManager mNotificationManager =

@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import ca.kklee.util.Logger;
@@ -17,12 +20,15 @@ import ca.kklee.util.Logger;
  */
 public class OptionsDialogFactory {
 
+    private enum MenuItems {CLEAR, ALARM, ABOUT}
+
     public static Dialog createDialog(final Activity activity) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity, 2);
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, 2); //2 is for theme
         builder.setTitle("Options")
-                .setItems(enumToStringList(), new DialogInterface.OnClickListener() {
+                .setItems(enumToStringList(activity), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         switch (i) {
                             case 0:
                                 BitmapLoader.clearBitmap();
@@ -31,18 +37,28 @@ public class OptionsDialogFactory {
                                 activity.startActivity(intent);
                                 break;
                             case 1:
-                                ScheduleTaskReceiver.cancelAlarm(activity);
+                                if (ScheduleTaskReceiver.isAlarmSet(activity)) {
+                                    ScheduleTaskReceiver.cancelAlarm(activity);
+                                } else {
+                                    ScheduleTaskReceiver.startScheduledTask(activity);
+                                }
                                 break;
                             case 2:
                                 Toast.makeText(activity, "Keith made this", Toast.LENGTH_SHORT).show();
                                 break;
-                            case 3:
-                                debugging(activity);
-                                break;
+//                            case 3:
+//                                debugging(activity);
+//                                break;
                         }
                     }
                 });
-        return builder.create();
+        Dialog dialog = builder.create();
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        window.setAttributes(wlp);
+
+        return dialog;
     }
 
     private static void debugging(Activity activity) {
@@ -73,15 +89,25 @@ public class OptionsDialogFactory {
 //        }
     }
 
-    private static String[] enumToStringList() {
+    private static String[] enumToStringList(Activity activity) {
         String[] menuList = new String[MenuItems.values().length];
         int i = 0;
         for (MenuItems m : MenuItems.values()) {
             menuList[i] = m.name();
+            if (menuList[i].equals(MenuItems.ALARM.name())) {
+                menuList[i] = getAlarmStateString(activity);
+            }
             i++;
         }
         return menuList;
     }
 
-    private enum MenuItems {CLEAR, CANCEL, ABOUT}
+    private static String getAlarmStateString(Activity activity) {
+        if (ScheduleTaskReceiver.isAlarmSet(activity)) {
+            return "Set Auto-DL OFF";
+        } else {
+            return "Set Auto-DL ON";
+        }
+    }
+
 }
