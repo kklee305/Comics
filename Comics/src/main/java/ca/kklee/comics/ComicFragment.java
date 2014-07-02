@@ -1,6 +1,7 @@
 package ca.kklee.comics;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 import java.net.URL;
 
 import ca.kklee.comics.loaders.AbstractComicLoaderFactory;
+import ca.kklee.util.ConnectionUtil;
 
 /**
  * Created by Keith on 02/06/2014.
@@ -29,6 +31,12 @@ public class ComicFragment extends Fragment {
         ProgressBar loading = (ProgressBar) rootView.findViewById(R.id.loading);
 
         Bitmap bitmap = ComicCollection.getInstance().getComics()[id].getBitmap();
+
+        if (!ConnectionUtil.isOnline(getActivity())) {
+            bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.no_wifi);
+            imageView.setMaxWidth(500);
+            imageView.setMaxHeight(500);
+        }
 
         if (bitmap == null) {
             AbstractComicLoaderFactory.getLoader(rootView, id).execute(getStringURL());

@@ -20,8 +20,6 @@ import ca.kklee.util.Logger;
  */
 public class OptionsDialogFactory {
 
-    private enum MenuItems {CLEAR, ALARM, ABOUT}
-
     public static Dialog createDialog(final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, 2); //2 is for theme
         builder.setTitle("Options")
@@ -109,5 +107,7 @@ public class OptionsDialogFactory {
             return "Set Auto-DL ON";
         }
     }
+
+    private enum MenuItems {CLEAR, ALARM, ABOUT}
 
 }

@@ -35,5 +35,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_margin="5dp"
-        android:src="@drawable/options_transparent" />
+        android:src="@drawable/options" />
 </RelativeLayout>
