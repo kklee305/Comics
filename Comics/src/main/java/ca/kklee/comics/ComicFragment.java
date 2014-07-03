@@ -32,14 +32,15 @@ public class ComicFragment extends Fragment {
 
         Bitmap bitmap = ComicCollection.getInstance().getComics()[id].getBitmap();
 
-        if (!ConnectionUtil.isOnline(getActivity())) {
-            bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.no_wifi);
-            imageView.setMaxWidth(500);
-            imageView.setMaxHeight(500);
-        }
-
         if (bitmap == null) {
-            AbstractComicLoaderFactory.getLoader(rootView, id).execute(getStringURL());
+            if (!ConnectionUtil.isOnline(getActivity())) {
+                ImageView errorView = (ImageView) rootView.findViewById(R.id.error_view);
+                errorView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.no_wifi));
+                errorView.setVisibility(View.VISIBLE);
+                loading.setVisibility(View.GONE);
+            } else {
+                AbstractComicLoaderFactory.getLoader(rootView, id).execute(getStringURL());
+            }
         } else {
             imageView.setImageBitmap(bitmap);
             loading.setVisibility(View.GONE);

@@ -6,7 +6,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import ca.kklee.util.ConnectionUtil;
 import ca.kklee.util.Logger;
 
 /**

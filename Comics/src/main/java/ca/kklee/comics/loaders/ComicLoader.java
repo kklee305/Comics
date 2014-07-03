@@ -13,6 +13,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,6 +36,19 @@ public abstract class ComicLoader extends AsyncTask<String, Void, Bitmap> {
     public ComicLoader(View rootView, int id) {
         this.rootView = rootView;
         this.id = id;
+    }
+
+    protected Document getDom(String url) {
+        try {
+            Connection.Response response = Jsoup.connect(url).timeout(10000).execute();
+            int statusCode = response.statusCode();
+            if (statusCode == 200) {
+                return response.parse();
+            }
+        } catch (IOException e) {
+            Logger.e("Error getting dom: " + e.getMessage());
+        }
+        return null;
     }
 
     protected Bitmap downloadImage(URL url) {
@@ -99,7 +115,6 @@ public abstract class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         return Bitmap.createScaledBitmap(bitmap, width, height, true);
     }
 
-
     protected void loadImage(Bitmap bitmap) {
         if (bitmap != null) {
             ComicCollection.getInstance().getComics()[id].setBitmap(bitmap);
@@ -109,7 +124,13 @@ public abstract class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             imageView.setImageBitmap(bitmap);
             imageView.setVisibility(View.VISIBLE);
             rootView.findViewById(R.id.loading).setVisibility(View.GONE);
+        } else {
+            if (rootView == null)
+                return;
+            ImageView errorView = (ImageView) rootView.findViewById(R.id.error_view);
+            errorView.setImageBitmap(BitmapFactory.decodeResource(rootView.getResources(), R.drawable.error));
+            errorView.setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
         }
     }
-
 }
