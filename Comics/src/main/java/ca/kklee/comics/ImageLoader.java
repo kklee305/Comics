@@ -1,4 +1,4 @@
-package ca.kklee.comics.loaders;
+package ca.kklee.comics;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import ca.kklee.comics.ComicCollection;
+import ca.kklee.comics.comic.ComicCollection;
 
 /**
  * Created by Keith on 05/06/2014.

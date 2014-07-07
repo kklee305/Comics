@@ -1,4 +1,4 @@
-package ca.kklee.comics;
+package ca.kklee.comics.comic;
 
 import android.graphics.Bitmap;
 
@@ -6,6 +6,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import ca.kklee.comics.AppConfig;
+import ca.kklee.comics.BitmapLoader;
 import ca.kklee.util.Logger;
 
 /**

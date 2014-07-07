@@ -13,6 +13,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import ca.kklee.comics.comic.Comic;
+import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.util.Logger;
 
 /**

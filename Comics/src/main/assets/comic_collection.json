@@ -54,5 +54,13 @@
     "update": 1234567,
     "time": "",
     "enabled": "false"
+  },
+  {
+    "title": "Dilbert",
+    "imgSrc": "http://www.dilbert.com/",
+    "dateFormat": "",
+    "update": 1234567,
+    "time": "",
+    "enabled": "false"
   }
 ]

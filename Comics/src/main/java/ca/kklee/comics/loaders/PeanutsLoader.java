@@ -7,7 +7,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import ca.kklee.comics.ComicCollection;
+import ca.kklee.comics.comic.ComicCollection;
+import ca.kklee.comics.comic.ComicLoader;
 import ca.kklee.util.Logger;
 
 /**

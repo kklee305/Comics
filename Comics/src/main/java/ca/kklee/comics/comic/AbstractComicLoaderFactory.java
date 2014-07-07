@@ -1,8 +1,13 @@
-package ca.kklee.comics.loaders;
+package ca.kklee.comics.comic;
 
 import android.view.View;
 
-import ca.kklee.comics.ComicCollection;
+import ca.kklee.comics.loaders.CalvinHobbesLoader;
+import ca.kklee.comics.loaders.GarfieldLoader;
+import ca.kklee.comics.loaders.NerfNowLoader;
+import ca.kklee.comics.loaders.PeanutsLoader;
+import ca.kklee.comics.loaders.SMBCLoader;
+import ca.kklee.comics.loaders.XKCDLoader;
 
 /**
  * Created by Keith on 28/06/2014.
@@ -10,7 +15,7 @@ import ca.kklee.comics.ComicCollection;
 public class AbstractComicLoaderFactory {
 
     public static ComicLoader getLoader(View rootView, int id) {
-        ComicLoader loader = null;
+        ComicLoader loader;
         switch (ComicCollection.getInstance().getComics()[id].getTitle()) {
             case "Garfield":
                 loader = new GarfieldLoader(rootView, id);

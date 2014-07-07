@@ -1,4 +1,4 @@
-package ca.kklee.comics;
+package ca.kklee.comics.viewpager;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +13,9 @@ import android.widget.ProgressBar;
 
 import java.net.URL;
 
-import ca.kklee.comics.loaders.AbstractComicLoaderFactory;
+import ca.kklee.comics.comic.AbstractComicLoaderFactory;
+import ca.kklee.comics.R;
+import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.util.ConnectionUtil;
 
 /**

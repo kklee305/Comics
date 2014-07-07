@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import ca.kklee.comics.comic.Comic;
+import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.util.FileUtil;
 import ca.kklee.util.Logger;
 

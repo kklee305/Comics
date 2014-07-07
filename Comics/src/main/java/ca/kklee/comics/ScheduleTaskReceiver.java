@@ -14,7 +14,9 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import ca.kklee.comics.loaders.AbstractComicLoaderFactory;
+import ca.kklee.comics.comic.AbstractComicLoaderFactory;
+import ca.kklee.comics.comic.Comic;
+import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.util.Logger;
 
 /**

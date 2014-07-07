@@ -1,4 +1,4 @@
-package ca.kklee.comics;
+package ca.kklee.comics.comic;
 
 import android.content.Context;
 import android.util.Log;

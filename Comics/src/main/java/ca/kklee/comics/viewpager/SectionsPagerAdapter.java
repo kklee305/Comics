@@ -1,9 +1,12 @@
-package ca.kklee.comics;
+package ca.kklee.comics.viewpager;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import ca.kklee.comics.comic.ComicCollection;
+import ca.kklee.comics.viewpager.ComicFragment;
 
 /**
  * Created by Keith on 02/06/2014.

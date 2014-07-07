@@ -1,4 +1,4 @@
-package ca.kklee.comics.loaders;
+package ca.kklee.comics.comic;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import ca.kklee.comics.ComicCollection;
 import ca.kklee.comics.R;
 import ca.kklee.util.Logger;
 
@@ -44,6 +43,8 @@ public abstract class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             int statusCode = response.statusCode();
             if (statusCode == 200) {
                 return response.parse();
+            } else {
+                Logger.e("Error getting dom: Response code " + statusCode);
             }
         } catch (IOException e) {
             Logger.e("Error getting dom: " + e.getMessage());

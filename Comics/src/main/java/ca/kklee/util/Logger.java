@@ -1,5 +1,6 @@
 package ca.kklee.util;
 
+import android.os.Environment;
 import android.util.Log;
 
 import ca.kklee.comics.AppConfig;
@@ -9,13 +10,14 @@ import ca.kklee.comics.AppConfig;
  */
 public class Logger {
 
+    private static final boolean IS_LOGGING = Config.IS_LOGGING();
+
     public static void d(String tag, String message) {
         if (!AppConfig.IS_LOGGING()) return;
         Log.d(tag, message);
     }
 
     public static void e(String message) {
-        if (!AppConfig.IS_LOGGING()) return;
         Log.e("ERROR", message);
         logToFile("ERROR", message);
     }

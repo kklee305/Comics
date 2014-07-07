@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 
 import java.net.URL;
 
+import ca.kklee.comics.comic.ComicLoader;
 import ca.kklee.util.Logger;
 
 /**

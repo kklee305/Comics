@@ -10,8 +10,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import ca.kklee.comics.comic.ComicCollection;
+import ca.kklee.comics.viewpager.SectionsPagerAdapter;
+
 /**
  * TODO List
+ * logger
+ * add dilbert
+ * view comics of diff dates ***
+ * clean up comic object
  */
 
 public class HomeActivity extends ActionBarActivity {
@@ -36,6 +43,7 @@ public class HomeActivity extends ActionBarActivity {
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
+
     }
 
     private void initComicCollection() {
