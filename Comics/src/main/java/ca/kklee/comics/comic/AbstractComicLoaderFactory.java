@@ -2,8 +2,8 @@ package ca.kklee.comics.comic;
 
 import android.view.View;
 
-import ca.kklee.comics.loaders.CalvinHobbesLoader;
 import ca.kklee.comics.loaders.GarfieldLoader;
+import ca.kklee.comics.loaders.GoComicsLoader;
 import ca.kklee.comics.loaders.NerfNowLoader;
 import ca.kklee.comics.loaders.PeanutsLoader;
 import ca.kklee.comics.loaders.SMBCLoader;
@@ -20,9 +20,6 @@ public class AbstractComicLoaderFactory {
             case "Garfield":
                 loader = new GarfieldLoader(rootView, id);
                 break;
-            case "Calvin and Hobbes":
-                loader = new CalvinHobbesLoader(rootView, id);
-                break;
             case "XKCD":
                 loader = new XKCDLoader(rootView, id);
                 break;
@@ -34,6 +31,14 @@ public class AbstractComicLoaderFactory {
                 break;
             case "Saturday Morning Breakfast Cereal":
                 loader = new SMBCLoader(rootView, id);
+                break;
+            case "Calvin and Hobbes":
+            case "2 Cows and a Chicken":
+            case "Wizard of Id":
+            case "Get Fuzzy":
+            case "Dilbert Classics":
+            case "Marmaduke":
+                loader = new GoComicsLoader(rootView, id);
                 break;
             default:
                 return null;

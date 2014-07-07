@@ -62,5 +62,45 @@
     "update": 1234567,
     "time": "",
     "enabled": "false"
+  },
+  {
+    "title": "Dilbert Classics",
+    "imgSrc": "http://www.gocomics.com/dilbert-classics",
+    "dateFormat": "",
+    "update": 1234567,
+    "time": "",
+    "enabled": "true"
+  },
+  {
+    "title": "Wizard of Id",
+    "imgSrc": "http://www.gocomics.com/wizardofid",
+    "dateFormat": "",
+    "update": 1234567,
+    "time": "",
+    "enabled": "true"
+  },
+  {
+    "title": "2 Cows and a Chicken",
+    "imgSrc": "http://www.gocomics.com/2cowsandachicken",
+    "dateFormat": "",
+    "update": 1234567,
+    "time": "",
+    "enabled": "true"
+  },
+  {
+    "title": "Get Fuzzy",
+    "imgSrc": "http://www.gocomics.com/getfuzzy",
+    "dateFormat": "",
+    "update": 1234567,
+    "time": "",
+    "enabled": "true"
+  },
+  {
+    "title": "Marmaduke",
+    "imgSrc": "http://www.gocomics.com/marmaduke",
+    "dateFormat": "",
+    "update": 1234567,
+    "time": "",
+    "enabled": "true"
   }
 ]

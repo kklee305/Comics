@@ -15,10 +15,14 @@ import ca.kklee.comics.viewpager.SectionsPagerAdapter;
 
 /**
  * TODO List
+ * Hiding action bar
  * logger
- * add dilbert
+ * add other comics
+ * proper image scaling
+ * limit async task (add resource pool)
  * view comics of diff dates ***
  * clean up comic object
+ * add authors
  */
 
 public class HomeActivity extends ActionBarActivity {
