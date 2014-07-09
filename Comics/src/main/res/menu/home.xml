@@ -3,4 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ca.kklee.comics.HomeActivity">
 
+    <item android:id="@+id/action_clear"
+          android:title="Clear"
+          android:orderInCategory="100"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/action_schedule_switch"
+          android:title="AutoDL"
+          android:orderInCategory="100"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/action_about"
+          android:title="About"
+          android:orderInCategory="100"
+          app:showAsAction="never" />
+
 </menu>
