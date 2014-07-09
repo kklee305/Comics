@@ -30,7 +30,7 @@ public class GestureListener extends SimpleOnGestureListener {
     }
 
     private void hideUI() {
-        Logger.d("","hide UI");
+        Logger.d("", "hide UI");
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -43,7 +43,7 @@ public class GestureListener extends SimpleOnGestureListener {
 
     private void showUI() {
 
-        Logger.d("","show UI");
+        Logger.d("", "show UI");
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
