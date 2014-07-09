@@ -2,7 +2,6 @@ package ca.kklee.comics;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,9 +59,8 @@ public class HomeActivity extends ActionBarActivity {
         initComicPager();
         initNavDrawer(); //ComicPager comes first
 
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT) {
-            initOptions();
-        } else {
+        initOptions();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             initImmersionFullScreen();
         }
     }
@@ -102,8 +100,17 @@ public class HomeActivity extends ActionBarActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog = OptionsDialogFactory.createDialog(activity);
-                dialog.show();
+                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT) {
+                    Dialog dialog = OptionsDialogFactory.createDialog(activity);
+                    dialog.show();
+                } else {
+                    if ((getWindow().getDecorView().getSystemUiVisibility() & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                        hideUI();
+                    } else {
+                        stopAutoHideUI();
+                        showUI();
+                    }
+                }
             }
         });
         view.setVisibility(View.VISIBLE);
@@ -154,7 +161,7 @@ public class HomeActivity extends ActionBarActivity {
         });
     }
 
-    public void hideUI() {
+    private void hideUI() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -162,6 +169,14 @@ public class HomeActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE
+        );
+    }
+
+    private void showUI() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         );
     }
 
