@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -64,6 +65,14 @@ public class ComicCollection {
                 list.remove(comics[i]);
         }
         comics = list.toArray(new Comic[list.size()]);
+    }
+
+    public String[] getTitleArray() {
+        List<String> list = new ArrayList<String>();
+        for (Comic c : ComicCollection.getInstance().getComics()) {
+            list.add(c.getTitle());
+        }
+        return list.toArray(new String[list.size()]);
     }
 
 }
