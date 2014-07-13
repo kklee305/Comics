@@ -36,7 +36,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 00);
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarms.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+        alarms.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR * 3, alarmIntent);
         Toast.makeText(context, "Scheduled Download Started", Toast.LENGTH_LONG).show();
     }
 
