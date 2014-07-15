@@ -56,31 +56,36 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        downloadFiles(context);
-        fireNotification(context);
+        int newComics = downloadFiles(context);
+        fireNotification(context, newComics);
     }
 
-    private void downloadFiles(Context context) {
+    private int downloadFiles(Context context) {
         Logger.d("", "SilentDownload");
+        int newComics = 0;
         Comic[] comics = ComicCollection.getInstance().getComics();
         if (comics == null) {
             ComicCollection.getInstance().setComics(context);
             comics = ComicCollection.getInstance().getComics();
         }
-        for (Comic c : comics) c.clearBitmap();
+        ComicCollection.getInstance().clearAllBitmap();
         for (int i = 0; i < comics.length; i++) {
             Bitmap bitmap = ComicCollection.getInstance().getComics()[i].getBitmap();
-            if (bitmap == null)
-                AbstractComicLoaderFactory.getLoader(null, i).execute(comics[i].getImgSrc());
+            if (bitmap == null) {
+                AbstractComicLoaderFactory.getLoader(null, i).execute(comics[i].getUrl());
+                newComics++;
+            }
         }
+        return newComics;
     }
 
-    private void fireNotification(Context context) {
+    private void fireNotification(Context context, int newComics) {
+        if (newComics == 0) return;
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("New Comics Downloaded!")
+                        .setContentTitle(newComics + " New Comics Downloaded!")
                         .setContentText(currentDateTimeString)
                         .setContentIntent(startAppIntent(context))
                         .setAutoCancel(true);
