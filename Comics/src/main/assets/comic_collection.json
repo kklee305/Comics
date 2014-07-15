@@ -1,106 +1,67 @@
 [
   {
     "title": "Garfield",
-    "imgSrc": "http://www.garfield.com",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.garfield.com",
     "enabled": "true"
   },
   {
     "title": "XKCD",
-    "imgSrc": "http://www.xkcd.com",
-    "dateFormat": "",
-    "update": 135,
-    "time": "",
+    "url": "http://www.xkcd.com",
     "enabled": "true"
   },
   {
     "title": "Peanuts",
-    "imgSrc": "http://www.peanuts.com/wp-content/comic-strip/color-low-resolution/desktop/2014/",
-    "dateFormat": "yyMMdd",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.gocomics.com/peanuts",
     "enabled": "true"
   },
   {
     "title": "Calvin and Hobbes",
-    "imgSrc": "http://www.gocomics.com/calvinandhobbes",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.gocomics.com/calvinandhobbes",
     "enabled": "true"
   },
   {
     "title": "Nerf Now",
-    "imgSrc": "http://www.nerfnow.com",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.nerfnow.com",
     "enabled": "true"
   },
   {
     "title": "Saturday Morning Breakfast Cereal",
-    "imgSrc": "http://www.smbc-comics.com/",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.smbc-comics.com/",
     "enabled": "true"
   },
   {
     "title": "Cyanide & Happiness",
-    "imgSrc": "",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "",
     "enabled": "false"
   },
   {
     "title": "Dilbert",
-    "imgSrc": "http://www.dilbert.com/",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.dilbert.com/",
     "enabled": "false"
   },
   {
     "title": "Dilbert Classics",
-    "imgSrc": "http://www.gocomics.com/dilbert-classics",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.gocomics.com/dilbert-classics",
     "enabled": "true"
   },
   {
     "title": "Wizard of Id",
-    "imgSrc": "http://www.gocomics.com/wizardofid",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.gocomics.com/wizardofid",
     "enabled": "true"
   },
   {
     "title": "2 Cows and a Chicken",
-    "imgSrc": "http://www.gocomics.com/2cowsandachicken",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.gocomics.com/2cowsandachicken",
     "enabled": "true"
   },
   {
     "title": "Get Fuzzy",
-    "imgSrc": "http://www.gocomics.com/getfuzzy",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.gocomics.com/getfuzzy",
     "enabled": "true"
   },
   {
     "title": "Marmaduke",
-    "imgSrc": "http://www.gocomics.com/marmaduke",
-    "dateFormat": "",
-    "update": 1234567,
-    "time": "",
+    "url": "http://www.gocomics.com/marmaduke",
     "enabled": "true"
   }
 ]

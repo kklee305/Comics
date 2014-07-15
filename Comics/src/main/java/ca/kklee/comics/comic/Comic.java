@@ -16,15 +16,17 @@ import ca.kklee.util.Logger;
 public class Comic {
 
     private String title;
+    private String url;
     private String imgSrc;
-    private String dateFormat;
-    private String update;
-    private String time;
     private Boolean enabled;
     private Bitmap bitmap;
 
     public String getTitle() {
         return title;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public String getImgSrc() {
@@ -35,20 +37,8 @@ public class Comic {
         this.imgSrc = imgSrc;
     }
 
-    public String getDateFormat() {
-        return dateFormat;
-    }
-
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-    public String getUpdate() {
-        return update;
-    }
-
-    public String getTime() {
-        return time;
+    public String getBitmapFileName() {
+        return BitmapLoader.findFile(title).getName();
     }
 
     public Bitmap getBitmap() {
@@ -80,7 +70,7 @@ public class Comic {
     }
 
     public String toString() {
-        return title + " | " + imgSrc + " | " + update + " | " + time;
+        return title + " | " + url + " | " + imgSrc + " | " + enabled;
     }
 
     public Boolean getEnabled() {

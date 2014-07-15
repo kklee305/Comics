@@ -32,7 +32,7 @@ public class ComicFragment extends Fragment {
         ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
         ProgressBar loading = (ProgressBar) rootView.findViewById(R.id.loading);
 
-        Bitmap bitmap = ComicCollection.getInstance().getComics()[id].getBitmap();
+        Bitmap bitmap = ComicCollection.getInstance().getComics()[id].getBitmap(); //tells me if i need to re-dl
 
         if (bitmap == null) {
             if (!ConnectionUtil.isOnline(getActivity())) {
@@ -55,7 +55,7 @@ public class ComicFragment extends Fragment {
 
     private URL getURL() {
         try {
-            return new URL(ComicCollection.getInstance().getComics()[getArguments().getInt("ID")].getImgSrc());
+            return new URL(ComicCollection.getInstance().getComics()[getArguments().getInt("ID")].getUrl());
         } catch (Exception e) {
             Log.e("ERROR", "Failed to create url: " + e.toString());
             return null;
@@ -63,6 +63,6 @@ public class ComicFragment extends Fragment {
     }
 
     private String getStringURL() {
-        return ComicCollection.getInstance().getComics()[getArguments().getInt("ID")].getImgSrc();
+        return ComicCollection.getInstance().getComics()[getArguments().getInt("ID")].getUrl();
     }
 }
