@@ -75,4 +75,9 @@ public class ComicCollection {
         return list.toArray(new String[list.size()]);
     }
 
+    public void clearAllBitmap() {
+        if (comics != null)
+            for (Comic c : comics) c.clearBitmap();
+    }
+
 }
