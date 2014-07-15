@@ -5,7 +5,6 @@ import android.view.View;
 import ca.kklee.comics.loaders.GarfieldLoader;
 import ca.kklee.comics.loaders.GoComicsLoader;
 import ca.kklee.comics.loaders.NerfNowLoader;
-import ca.kklee.comics.loaders.PeanutsLoader;
 import ca.kklee.comics.loaders.SMBCLoader;
 import ca.kklee.comics.loaders.XKCDLoader;
 
@@ -26,12 +25,10 @@ public class AbstractComicLoaderFactory {
             case "Nerf Now":
                 loader = new NerfNowLoader(rootView, id);
                 break;
-            case "Peanuts":
-                loader = new PeanutsLoader(rootView, id);
-                break;
             case "Saturday Morning Breakfast Cereal":
                 loader = new SMBCLoader(rootView, id);
                 break;
+            case "Peanuts":
             case "Calvin and Hobbes":
             case "2 Cows and a Chicken":
             case "Wizard of Id":
