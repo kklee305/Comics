@@ -14,8 +14,8 @@ import android.widget.ProgressBar;
 import java.net.URL;
 
 import ca.kklee.comics.R;
-import ca.kklee.comics.comic.AbstractComicLoaderFactory;
 import ca.kklee.comics.comic.ComicCollection;
+import ca.kklee.comics.comic.ComicLoader;
 import ca.kklee.util.ConnectionUtil;
 
 /**
@@ -41,7 +41,7 @@ public class ComicFragment extends Fragment {
                 errorView.setVisibility(View.VISIBLE);
                 loading.setVisibility(View.GONE);
             } else {
-                AbstractComicLoaderFactory.getLoader(rootView, id).execute(getStringURL());
+                new ComicLoader(rootView, id).execute(getStringURL());
             }
         } else {
             imageView.setImageBitmap(bitmap);

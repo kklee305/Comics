@@ -27,7 +27,7 @@ import ca.kklee.util.Logger;
 /**
  * Created by Keith on 05/06/2014.
  */
-public abstract class ComicLoader extends AsyncTask<String, Void, Bitmap> {
+public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
     protected int id;
     private View rootView;
@@ -37,7 +37,55 @@ public abstract class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         this.id = id;
     }
 
-    protected Document getDom(String url) {
+    private String getImageUrlFromDOM(Document dom) {
+        switch (ComicCollection.getInstance().getComics()[id].getTitle()) {
+            case "Garfield":
+                return dom.getElementById("home_comic").select("img[src]").attr("src");
+            case "XKCD":
+                return dom.getElementById("comic").select("img[src]").attr("src");
+            case "Nerf Now":
+                return dom.getElementById("comic").select("img[src]").attr("src");
+            case "Saturday Morning Breakfast Cereal":
+                return dom.getElementById("comicimage").select("img[src]").attr("src");
+            case "Peanuts":
+            case "Calvin and Hobbes":
+            case "2 Cows and a Chicken":
+            case "Wizard of Id":
+            case "Get Fuzzy":
+            case "Dilbert Classics":
+            case "Marmaduke":
+                return dom.select("Body").select("img[src*=amuniversal]").attr("src");
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    protected Bitmap doInBackground(String... strings) {
+        return downloadImage(downloadDom(strings[0]));
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
+        loadImage(bitmap);
+    }
+
+    private URL downloadDom(String comicUrl) {
+        Logger.d("", "Attempt DOM Retrieval: " + comicUrl);
+        Document dom = getDom(comicUrl);
+        if (dom == null) {
+            return null;
+        }
+        URL imageUrl = null;
+        try {
+            imageUrl = new URL(getImageUrlFromDOM(dom));
+        } catch (Exception e) {
+            Logger.e("Failed to create url: " + e.toString());
+        }
+        return imageUrl;
+    }
+
+    private Document getDom(String url) {
         try {
             Connection.Response response = Jsoup.connect(url).timeout(10000).execute();
             int statusCode = response.statusCode();
@@ -52,7 +100,7 @@ public abstract class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         return null;
     }
 
-    protected Bitmap downloadImage(URL url) {
+    private Bitmap downloadImage(URL url) {
         Logger.d("", "Attempt DL image: " + url);
         if (url == null) {
             return null;
@@ -116,7 +164,7 @@ public abstract class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         return Bitmap.createScaledBitmap(bitmap, width, height, true);
     }
 
-    protected void loadImage(Bitmap bitmap) {
+    private void loadImage(Bitmap bitmap) {
         if (bitmap != null) {
             ComicCollection.getInstance().getComics()[id].setBitmap(bitmap);
             if (rootView == null)
