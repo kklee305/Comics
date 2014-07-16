@@ -14,9 +14,9 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import ca.kklee.comics.comic.AbstractComicLoaderFactory;
 import ca.kklee.comics.comic.Comic;
 import ca.kklee.comics.comic.ComicCollection;
+import ca.kklee.comics.comic.ComicLoader;
 import ca.kklee.util.Logger;
 
 /**
@@ -72,7 +72,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         for (int i = 0; i < comics.length; i++) {
             Bitmap bitmap = ComicCollection.getInstance().getComics()[i].getBitmap();
             if (bitmap == null) {
-                AbstractComicLoaderFactory.getLoader(null, i).execute(comics[i].getUrl());
+                new ComicLoader(null, i).execute(comics[i].getUrl());
                 newComics++;
             }
         }
