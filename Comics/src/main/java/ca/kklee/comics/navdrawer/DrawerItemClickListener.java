@@ -1,4 +1,4 @@
-package ca.kklee.comics;
+package ca.kklee.comics.navdrawer;
 
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
