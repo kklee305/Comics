@@ -4,18 +4,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import java.net.URL;
-
+import ca.kklee.comics.HomeActivity;
 import ca.kklee.comics.R;
-import ca.kklee.comics.comic.AbstractComicLoaderFactory;
 import ca.kklee.comics.comic.ComicCollection;
+import ca.kklee.comics.comic.ComicLoader;
 import ca.kklee.util.ConnectionUtil;
 
 /**
@@ -30,18 +28,34 @@ public class ComicFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.comic_fragment, container, false);
         ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
+        ImageView errorView = (ImageView) rootView.findViewById(R.id.error_view);
         ProgressBar loading = (ProgressBar) rootView.findViewById(R.id.loading);
 
-        Bitmap bitmap = ComicCollection.getInstance().getComics()[id].getBitmap(); //tells me if i need to re-dl
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View decorView = getActivity().getWindow().getDecorView();
+                if ((decorView.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                    HomeActivity.hideUI(decorView);
+                } else {
+                    HomeActivity.showUI(decorView);
+                }
+            }
+        };
+
+        rootView.setOnClickListener(onClickListener);
+        imageView.setOnClickListener(onClickListener);
+        errorView.setOnClickListener(onClickListener);
+
+        Bitmap bitmap = ComicCollection.getInstance().getComics()[id].getBitmap();
 
         if (bitmap == null) {
             if (!ConnectionUtil.isOnline(getActivity())) {
-                ImageView errorView = (ImageView) rootView.findViewById(R.id.error_view);
                 errorView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.no_wifi));
                 errorView.setVisibility(View.VISIBLE);
                 loading.setVisibility(View.GONE);
             } else {
-                AbstractComicLoaderFactory.getLoader(rootView, id).execute(getStringURL());
+                new ComicLoader(rootView, id, null).execute(getStringURL());
             }
         } else {
             imageView.setImageBitmap(bitmap);
@@ -51,15 +65,6 @@ public class ComicFragment extends Fragment {
         }
 
         return rootView;
-    }
-
-    private URL getURL() {
-        try {
-            return new URL(ComicCollection.getInstance().getComics()[getArguments().getInt("ID")].getUrl());
-        } catch (Exception e) {
-            Log.e("ERROR", "Failed to create url: " + e.toString());
-            return null;
-        }
     }
 
     private String getStringURL() {

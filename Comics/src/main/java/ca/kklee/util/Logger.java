@@ -1,6 +1,5 @@
 package ca.kklee.util;
 
-import android.os.Environment;
 import android.util.Log;
 
 import ca.kklee.comics.AppConfig;

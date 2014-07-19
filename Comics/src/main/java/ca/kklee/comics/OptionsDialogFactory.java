@@ -3,19 +3,11 @@ package ca.kklee.comics;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.view.Gravity;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
-import ca.kklee.comics.comic.Comic;
-import ca.kklee.comics.comic.ComicCollection;
-import ca.kklee.util.Logger;
+import ca.kklee.comics.scheduletask.ScheduleTaskReceiver;
 
 /**
  * Created by Keith on 30/06/2014.
@@ -53,40 +45,14 @@ public class OptionsDialogFactory {
                     }
                 });
         Dialog dialog = builder.create();
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
-        window.setAttributes(wlp);
 
         return dialog;
     }
 
     private static void debugging(Activity activity) {
-        Logger.d("DEBUGGING", "test notifications");
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(activity)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
-        NotificationManager mNotificationManager =
-                (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(1, mBuilder.build());
-
-        Logger.d("DEBUGGING", "testing parsing");
-        Comic[] comics = ComicCollection.getInstance().getComics();
-        Logger.d("test parsing", "Number of comics: " + comics.length);
-        for (int i = 0; i < comics.length; i++) {
-            Logger.d("test parsing", comics[i].toString());
-        }
-//        Logger.d("DEBUGGING", "testing image to binary");
-//        Bitmap bitmap = ComicCollection.getInstance().getComics()[0].getBitmap();
-//        BitmapLoader.saveBitmap("testing2",bitmap);
-
-//        Logger.d("DEBUGGING", "testing bianary to image");
-//        Bitmap bitmap = BitmapLoader.loadBitmap("testing");
-//        if (bitmap != null) {
-//            Logger.d("","Yay worked");
-//        }
+        ScheduleTaskReceiver.cancelAlarm(activity);
+        ScheduleTaskReceiver.startDebugging(activity);
+        ScheduleTaskReceiver.cancelAlarm(activity);
     }
 
     private static String[] enumToStringList(Activity activity) {
