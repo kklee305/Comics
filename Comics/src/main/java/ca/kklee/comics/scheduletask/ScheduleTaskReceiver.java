@@ -1,4 +1,4 @@
-package ca.kklee.comics;
+package ca.kklee.comics.scheduletask;
 
 import android.app.AlarmManager;
 import android.app.NotificationManager;
@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -14,6 +13,8 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import ca.kklee.comics.HomeActivity;
+import ca.kklee.comics.R;
 import ca.kklee.comics.comic.Comic;
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.comic.ComicLoader;
@@ -23,6 +24,9 @@ import ca.kklee.util.Logger;
  * Created by Keith on 28/06/2014.
  */
 public class ScheduleTaskReceiver extends BroadcastReceiver {
+
+    private static int newComics = 0;
+    private static int dlComplete = 0;
 
     public static void startScheduledTask(Context context) {
         Intent intent = new Intent(context, ScheduleTaskReceiver.class);
@@ -38,6 +42,13 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarms.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR * 3, alarmIntent);
         Toast.makeText(context, "Scheduled Download Started", Toast.LENGTH_LONG).show();
+    }
+
+    public static void startDebugging(Context context) {
+        Intent intent = new Intent(context, ScheduleTaskReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarms.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmIntent);
     }
 
     public static boolean isAlarmSet(Context context) {
@@ -56,27 +67,32 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        int newComics = downloadFiles(context);
-        fireNotification(context, newComics);
+        initComics(context);
+        downloadFiles(context);
     }
 
-    private int downloadFiles(Context context) {
+    private void downloadFiles(final Context context) {
         Logger.d("", "SilentDownload");
-        int newComics = 0;
-        Comic[] comics = ComicCollection.getInstance().getComics();
-        if (comics == null) {
-            ComicCollection.getInstance().setComics(context);
-            comics = ComicCollection.getInstance().getComics();
-        }
+        final Comic[] comics = ComicCollection.getInstance().getComics();
+        newComics = 0;
+        dlComplete = 0;
+        NewComicListener newComicListener = new NewComicListener() {
+            @Override
+            public void onDomCheckCompleted(int response) {
+                dlComplete++;
+                if (response == 1)
+                    newComics++;
+                if (dlComplete == comics.length) {
+                    Logger.d("", "Done All Scheduled DL, new comics: " + newComics);
+                    fireNotification(context, newComics);
+                }
+            }
+        };
+
         ComicCollection.getInstance().clearAllBitmap();
         for (int i = 0; i < comics.length; i++) {
-            Bitmap bitmap = ComicCollection.getInstance().getComics()[i].getBitmap();
-            if (bitmap == null) {
-                new ComicLoader(null, i).execute(comics[i].getUrl());
-                newComics++;
-            }
+            new ComicLoader(null, i, newComicListener).execute(comics[i].getUrl());
         }
-        return newComics;
     }
 
     private void fireNotification(Context context, int newComics) {
@@ -97,6 +113,12 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
     private PendingIntent startAppIntent(Context context) {
         Intent i = new Intent(context, HomeActivity.class);
         return PendingIntent.getActivity(context, 0, i, 0);
+    }
+
+    private void initComics(Context context) {
+        if (ComicCollection.getInstance().getComics() == null) {
+            ComicCollection.getInstance().setComics(context);
+        }
     }
 
 }

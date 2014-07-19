@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import ca.kklee.comics.R;
+import ca.kklee.comics.scheduletask.NewComicListener;
 import ca.kklee.util.Logger;
 
 /**
@@ -30,11 +31,14 @@ import ca.kklee.util.Logger;
 public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
     protected int id;
+    private NewComicListener newComicListener;
     private View rootView;
+    private String imageUrlString;
 
-    public ComicLoader(View rootView, int id) {
+    public ComicLoader(View rootView, int id, NewComicListener newComicListener) {
         this.rootView = rootView;
         this.id = id;
+        this.newComicListener = newComicListener;
     }
 
     private String getImageUrlFromDOM(Document dom) {
@@ -62,12 +66,40 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(String... strings) {
-        return downloadImage(downloadDom(strings[0]));
+        Comic comic = ComicCollection.getInstance().getComics()[id];
+        URL imageUrl = downloadDom(strings[0]);
+        if (imageUrl == null) {
+            return null;
+        }
+        int newFileCode = imageUrl.toString().hashCode();
+        int oldFileCode = comic.getFileHashCode();
+        if (newFileCode == oldFileCode) {
+            return null;
+        }
+        imageUrlString = imageUrl.toString();
+        return downloadImage(imageUrl);
     }
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        loadImage(bitmap);
+        if (bitmap != null) {
+            ComicCollection.getInstance().getComics()[id].saveBitmap(bitmap, imageUrlString.hashCode());
+            newComicResponse(1);
+            if (rootView == null)
+                return;
+            ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
+            imageView.setImageBitmap(bitmap);
+            imageView.setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
+        } else {
+            newComicResponse(0);
+            if (rootView == null)
+                return;
+            ImageView errorView = (ImageView) rootView.findViewById(R.id.error_view);
+            errorView.setImageBitmap(BitmapFactory.decodeResource(rootView.getResources(), R.drawable.error));
+            errorView.setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
+        }
     }
 
     private URL downloadDom(String comicUrl) {
@@ -164,22 +196,9 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         return Bitmap.createScaledBitmap(bitmap, width, height, true);
     }
 
-    private void loadImage(Bitmap bitmap) {
-        if (bitmap != null) {
-            ComicCollection.getInstance().getComics()[id].setBitmap(bitmap);
-            if (rootView == null)
-                return;
-            ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
-            imageView.setImageBitmap(bitmap);
-            imageView.setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
-        } else {
-            if (rootView == null)
-                return;
-            ImageView errorView = (ImageView) rootView.findViewById(R.id.error_view);
-            errorView.setImageBitmap(BitmapFactory.decodeResource(rootView.getResources(), R.drawable.error));
-            errorView.setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
+    private void newComicResponse(int response) {
+        if (newComicListener != null) {
+            newComicListener.onDomCheckCompleted(response);
         }
     }
 }

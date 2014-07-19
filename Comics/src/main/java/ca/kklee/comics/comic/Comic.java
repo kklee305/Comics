@@ -3,8 +3,6 @@ package ca.kklee.comics.comic;
 import android.graphics.Bitmap;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import ca.kklee.comics.AppConfig;
 import ca.kklee.comics.BitmapLoader;
@@ -17,7 +15,6 @@ public class Comic {
 
     private String title;
     private String url;
-    private String imgSrc;
     private Boolean enabled;
     private Bitmap bitmap;
 
@@ -29,40 +26,45 @@ public class Comic {
         return url;
     }
 
-    public String getImgSrc() {
-        return imgSrc;
-    }
-
-    public void setImgSrc(String imgSrc) {
-        this.imgSrc = imgSrc;
-    }
-
-    public String getBitmapFileName() {
-        return BitmapLoader.findFile(title).getName();
-    }
-
     public Bitmap getBitmap() {
-        if (bitmap != null) {
-            return bitmap;
-        }
-        File file = BitmapLoader.findFile(title);
-        SimpleDateFormat spf = new SimpleDateFormat("yyMMdd");
-        String today = spf.format(Calendar.getInstance().getTime());
-        if (file != null && file.getName().equals(title + "_" + today + ".png")) {
-            bitmap = BitmapLoader.loadBitmap(AppConfig.APPDIRECTORY + File.separator + title + "_" + today);
-            Logger.d("", "Today's File found: " + title + "_" + today + ".png");
-        } else if (file != null) {
-            Logger.d("", "File found but not today's: " + title + "_" + today + ".png");
-            file.delete();
-        } else {
-            Logger.d("", "File not found: " + title + "_" + today + ".png");
+        if (bitmap == null) {
+            bitmap = getBitmapFromFile();
         }
         return bitmap;
     }
 
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
-        BitmapLoader.saveBitmap(AppConfig.APPDIRECTORY + File.separator + title + "_" + new SimpleDateFormat("yyMMdd").format(Calendar.getInstance().getTime()), bitmap);
+    }
+
+    public int getFileHashCode() {
+        File file = BitmapLoader.findFile(title);
+        if (file == null) {
+            return 0;
+        }
+        String code = file.getName();
+        code = code.replace(title + "_", "").replace(".png", "");
+        return Integer.parseInt(code);
+    }
+
+    public Bitmap getBitmapFromFile() {
+        File file = BitmapLoader.findFile(title);
+        if (file != null) {
+            Logger.d("", "File found: " + file.getName());
+            return BitmapLoader.loadBitmap(file);
+        } else {
+            Logger.d("", "File not found: " + title);
+            return null;
+        }
+    }
+
+    public void saveBitmap(Bitmap bitmap, int hashCode) {
+        setBitmap(bitmap);
+        File file = BitmapLoader.findFile(title);
+        if (file != null) {
+            file.delete();
+        }
+        BitmapLoader.saveBitmap(AppConfig.APPDIRECTORY + File.separator + title + "_" + hashCode, bitmap);
     }
 
     public void clearBitmap() {
@@ -70,7 +72,7 @@ public class Comic {
     }
 
     public String toString() {
-        return title + " | " + url + " | " + imgSrc + " | " + enabled;
+        return title + " | " + url + " | " + " | " + enabled;
     }
 
     public Boolean getEnabled() {
