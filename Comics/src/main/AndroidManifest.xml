@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".ScheduleTaskReceiver" />
+        <receiver android:name=".scheduletask.ScheduleTaskReceiver" />
     </application>
 
 </manifest>

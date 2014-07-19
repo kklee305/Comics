@@ -39,9 +39,9 @@ public class BitmapLoader extends FileUtil {
         }
     }
 
-    public static Bitmap loadBitmap(String fileName) {
+    public static Bitmap loadBitmap(File file) {
         try {
-            return BitmapFactory.decodeFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + fileName + ".png");
+            return BitmapFactory.decodeFile(file.getPath());
         } catch (Exception e) {
             Logger.e(e.getMessage());
         }

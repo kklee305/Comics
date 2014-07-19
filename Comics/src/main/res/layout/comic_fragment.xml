@@ -32,6 +32,17 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
+    <!-- do not use yet -->
+    <ImageView
+        android:id="@+id/http_error_icon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="40dp"
+        android:alpha="0.3"
+        android:src="@drawable/error"
+        android:visibility="gone"/>
 
 </FrameLayout>
 

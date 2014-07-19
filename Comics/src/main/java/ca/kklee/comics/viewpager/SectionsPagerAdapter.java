@@ -11,6 +11,7 @@ import ca.kklee.comics.comic.ComicCollection;
  * Created by Keith on 02/06/2014.
  */
 public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
