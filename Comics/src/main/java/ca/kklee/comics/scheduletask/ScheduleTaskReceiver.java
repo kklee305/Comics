@@ -27,6 +27,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
 
     private static int newComics = 0;
     private static int dlComplete = 0;
+    private final int NOTIFICATION_ID = 1;
 
     public static void startScheduledTask(Context context) {
         Intent intent = new Intent(context, ScheduleTaskReceiver.class);
@@ -98,16 +99,16 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
     private void fireNotification(Context context, int newComics) {
         if (newComics == 0) return;
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        NotificationCompat.Builder mBuilder =
+        NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle(newComics + " New Comics Downloaded!")
                         .setContentText(currentDateTimeString)
                         .setContentIntent(startAppIntent(context))
                         .setAutoCancel(true);
-        NotificationManager mNotificationManager =
+        NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(1, mBuilder.build());
+        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
     }
 
     private PendingIntent startAppIntent(Context context) {

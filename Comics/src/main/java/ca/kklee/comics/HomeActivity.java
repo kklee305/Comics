@@ -10,37 +10,37 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import ca.kklee.comics.comic.ComicCollection;
+import ca.kklee.comics.navdrawer.DrawerItemClickListener;
+import ca.kklee.comics.navdrawer.NavDrawerAdapter;
 import ca.kklee.comics.viewpager.SectionsPagerAdapter;
 import ca.kklee.util.Logger;
 
 /**
  * TODO List
+ * updating notifications
+ * use actionbar for comic title so to show nav drawer icon
  * custom options menu
- * show which comic is new
- * display error icons
- * new File naming using hashcode
+ * show which comic is new ** needs custom nav drawer list
+ * display error icons ??
  * logger
  * proper image scaling
  * image pinch zooming
  * limit async task (add resource pool)
  * view comics of diff dates ***
  * add authors
- * GestureListener for Immersive
  */
 
 public class HomeActivity extends ActionBarActivity {
 
-    private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
-    private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private ListView drawerList;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         @Override
@@ -96,7 +96,8 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void initNavDrawer() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ListView drawerList = (ListView) findViewById(R.id.left_drawer);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, 0, 0) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -105,15 +106,33 @@ public class HomeActivity extends ActionBarActivity {
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
-        drawerList = (ListView) findViewById(R.id.left_drawer);
-        drawerList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ComicCollection.getInstance().getTitleArray()));
+        drawerList.setAdapter(new NavDrawerAdapter(this, R.layout.nav_list_item_layout, ComicCollection.getInstance().getTitleArray()));
         drawerList.setOnItemClickListener(new DrawerItemClickListener(viewPager, drawerLayout));
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void initComicPager() {
-        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                hideUI(getWindow().getDecorView());
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                hideUI(getWindow().getDecorView());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                hideUI(getWindow().getDecorView());
+            }
+        });
     }
 
     private void initOptions() {
@@ -149,6 +168,13 @@ public class HomeActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
     }
 
     @Override
@@ -201,17 +227,17 @@ public class HomeActivity extends ActionBarActivity {
 //        }
 //    }
 //
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Pass the event to ActionBarDrawerToggle, if it returns
-//        // true, then it has handled the app icon touch event
-//        if (drawerToggle.onOptionsItemSelected(item)) {
-//            return true;
-//        }
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
 //        switch (item.getItemId()) {
 //            case R.id.action_clear:
 //                BitmapLoader.clearBitmap();
@@ -233,6 +259,6 @@ public class HomeActivity extends ActionBarActivity {
 ////                                debugging(activity);
 ////                                break;
 //        }
-//        return super.onOptionsItemSelected(item);
-//    }
+        return super.onOptionsItemSelected(item);
+    }
 }
