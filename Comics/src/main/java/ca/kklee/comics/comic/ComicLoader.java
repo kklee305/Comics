@@ -198,7 +198,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
     private void newComicResponse(int response) {
         if (newComicListener != null) {
-            newComicListener.onDomCheckCompleted(response);
+            newComicListener.onDomCheckCompleted(response, ComicCollection.getInstance().getComics()[id].getTitle());
         }
     }
 }

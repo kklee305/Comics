@@ -2,6 +2,7 @@ package ca.kklee.comics;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,7 +13,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -24,10 +24,7 @@ import ca.kklee.util.Logger;
 
 /**
  * TODO List
- * updating notifications
- * use actionbar for comic title so to show nav drawer icon
  * custom options menu
- * show which comic is new ** needs custom nav drawer list
  * display error icons ??
  * logger
  * proper image scaling
@@ -41,6 +38,9 @@ public class HomeActivity extends ActionBarActivity {
 
     private ViewPager viewPager;
     private ActionBarDrawerToggle drawerToggle;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private ListView drawerList;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         @Override
@@ -50,22 +50,26 @@ public class HomeActivity extends ActionBarActivity {
     };
 
     public static void hideUI(View decorView) {
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE
-        );
+        if ((decorView.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE
+            );
+        }
     }
 
     public static void showUI(View decorView) {
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        );
+        if ((decorView.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0) {
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            );
+        }
     }
 
     @Override
@@ -80,9 +84,12 @@ public class HomeActivity extends ActionBarActivity {
         Logger.d("", Environment.getExternalStorageDirectory().toString());
         Logger.d("", Environment.getRootDirectory().toString());
 
+        pref = getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
+        editor = pref.edit();
+
         initComicCollection(); //do this before everything else
         initComicPager();
-        initNavDrawer(); //ComicPager comes first
+        initNavDrawer(); //ComicPager comes before this
         initOptions();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             initImmersionFullScreen();
@@ -97,7 +104,7 @@ public class HomeActivity extends ActionBarActivity {
 
     private void initNavDrawer() {
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerList = (ListView) findViewById(R.id.left_drawer);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, 0, 0) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -111,6 +118,12 @@ public class HomeActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        if (pref.getBoolean(SharedPrefConstants.OPENDRAWER, false)) {
+            drawerLayout.openDrawer(drawerList);
+            editor.putBoolean(SharedPrefConstants.OPENDRAWER, false);
+            editor.commit();
+        }
     }
 
     private void initComicPager() {
@@ -125,13 +138,18 @@ public class HomeActivity extends ActionBarActivity {
 
             @Override
             public void onPageSelected(int position) {
-                hideUI(getWindow().getDecorView());
+                String title = ComicCollection.getInstance().getComics()[position].getTitle();
+                if (pref.getBoolean(title, false)) {
+                    editor.putBoolean(title, false);
+                    editor.commit();
+                    if (drawerList != null) drawerList.invalidateViews();
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                hideUI(getWindow().getDecorView());
             }
+
         });
     }
 
@@ -188,7 +206,6 @@ public class HomeActivity extends ActionBarActivity {
         super.onWindowFocusChanged(hasFocus);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             if (hasFocus) {
-                Logger.d("Immersion", "Hide UI onFocusChange");
                 hideUI(getWindow().getDecorView());
             }
         }

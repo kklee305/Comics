@@ -5,6 +5,6 @@ package ca.kklee.comics.scheduletask;
  */
 public interface NewComicListener {
 
-    void onDomCheckCompleted(int response);
+    void onDomCheckCompleted(int response, String title);
 
 }

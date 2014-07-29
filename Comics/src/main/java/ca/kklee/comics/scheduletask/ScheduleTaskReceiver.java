@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 
 import ca.kklee.comics.HomeActivity;
 import ca.kklee.comics.R;
+import ca.kklee.comics.SharedPrefConstants;
 import ca.kklee.comics.comic.Comic;
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.comic.ComicLoader;
@@ -49,7 +51,11 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         Intent intent = new Intent(context, ScheduleTaskReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarms.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmIntent);
+        alarms.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 20, alarmIntent);
+        SharedPreferences preferences = context.getSharedPreferences("debuggingAlarm", 0);
+        SharedPreferences.Editor editor2 = preferences.edit();
+        editor2.putBoolean("alarmOff", true);
+        editor2.apply();
     }
 
     public static boolean isAlarmSet(Context context) {
@@ -70,21 +76,50 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         initComics(context);
         downloadFiles(context);
+        SharedPreferences preferences = context.getSharedPreferences("debuggingAlarm", 0);
+        SharedPreferences.Editor editor2 = preferences.edit();
+        if (preferences.getBoolean("alarmOff", false)) {
+            cancelAlarm(context);
+            editor2.remove("alarmOff");
+            editor2.apply();
+        }
+    }
+
+    private void initComics(Context context) {
+        if (ComicCollection.getInstance().getComics() == null) {
+            ComicCollection.getInstance().setComics(context);
+        }
+
     }
 
     private void downloadFiles(final Context context) {
         Logger.d("", "SilentDownload");
+
+        final SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
+        final SharedPreferences.Editor editorForNew = prefForNew.edit();
+        final SharedPreferences prefForTime = context.getSharedPreferences(SharedPrefConstants.COMICUPDATETIME, 0);
+        final SharedPreferences.Editor editorForTime = prefForTime.edit();
+
         final Comic[] comics = ComicCollection.getInstance().getComics();
         newComics = 0;
         dlComplete = 0;
-        NewComicListener newComicListener = new NewComicListener() {
+        final NewComicListener newComicListener = new NewComicListener() {
             @Override
-            public void onDomCheckCompleted(int response) {
+            public void onDomCheckCompleted(int response, String title) {
                 dlComplete++;
-                if (response == 1)
+                if (response == 1) {
+                    editorForNew.putBoolean(title, true);
+                    editorForNew.commit();
+                    editorForTime.putLong(title, System.currentTimeMillis());
+                    editorForTime.apply();
+                }
+                if (prefForNew.getBoolean(title, false)) {
                     newComics++;
+                }
                 if (dlComplete == comics.length) {
                     Logger.d("", "Done All Scheduled DL, new comics: " + newComics);
+                    editorForNew.putBoolean(SharedPrefConstants.OPENDRAWER, true);
+                    editorForNew.apply();
                     fireNotification(context, newComics);
                 }
             }
@@ -114,12 +149,6 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
     private PendingIntent startAppIntent(Context context) {
         Intent i = new Intent(context, HomeActivity.class);
         return PendingIntent.getActivity(context, 0, i, 0);
-    }
-
-    private void initComics(Context context) {
-        if (ComicCollection.getInstance().getComics() == null) {
-            ComicCollection.getInstance().setComics(context);
-        }
     }
 
 }

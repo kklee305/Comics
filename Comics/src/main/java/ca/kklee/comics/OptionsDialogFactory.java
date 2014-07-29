@@ -38,9 +38,9 @@ public class OptionsDialogFactory {
                             case 2:
                                 Toast.makeText(activity, "Keith made this", Toast.LENGTH_SHORT).show();
                                 break;
-//                            case 3:
-//                                debugging(activity);
-//                                break;
+                            case 3:
+                                debugging(activity);
+                                break;
                         }
                     }
                 });
@@ -52,7 +52,6 @@ public class OptionsDialogFactory {
     private static void debugging(Activity activity) {
         ScheduleTaskReceiver.cancelAlarm(activity);
         ScheduleTaskReceiver.startDebugging(activity);
-        ScheduleTaskReceiver.cancelAlarm(activity);
     }
 
     private static String[] enumToStringList(Activity activity) {
@@ -76,6 +75,6 @@ public class OptionsDialogFactory {
         }
     }
 
-    private enum MenuItems {CLEAR, ALARM, ABOUT}
+    private enum MenuItems {CLEAR, ALARM, ABOUT, DEBUGGIN}
 
 }
