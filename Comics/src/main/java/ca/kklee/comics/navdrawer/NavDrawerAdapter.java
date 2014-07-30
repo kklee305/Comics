@@ -74,9 +74,9 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
         } else if (timeDiff < 1000 * 60 * 60) {
             comicUpdate.setText((int) (timeDiff / 60000) + "m");
         } else if (timeDiff < 1000 * 60 * 60 * 24) {
-            comicUpdate.setText((int) (timeDiff / 360000) + "hr");
+            comicUpdate.setText((int) (timeDiff / 3600000) + "hr");
         } else {
-            comicUpdate.setText((int) (timeDiff / 8640000) + "d");
+            comicUpdate.setText((int) (timeDiff / 86400000) + "d");
         }
     }
 
