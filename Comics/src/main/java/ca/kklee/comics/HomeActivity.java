@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
@@ -24,6 +23,7 @@ import ca.kklee.util.Logger;
 
 /**
  * TODO List
+ * left right nav buttons
  * custom options menu
  * display error icons ??
  * logger
@@ -78,15 +78,9 @@ public class HomeActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_home);
 
-        Logger.d("", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString());
-        Logger.d("", getExternalFilesDir(null).toString());
-        Logger.d("", Environment.getDataDirectory().toString());
-        Logger.d("", Environment.getExternalStorageDirectory().toString());
-        Logger.d("", Environment.getRootDirectory().toString());
-
         pref = getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
         editor = pref.edit();
-
+        hideUI(getWindow().getDecorView());
         initComicCollection(); //do this before everything else
         initComicPager();
         initNavDrawer(); //ComicPager comes before this
@@ -103,7 +97,7 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void initNavDrawer() {
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, 0, 0) {
             @Override
@@ -111,19 +105,36 @@ public class HomeActivity extends ActionBarActivity {
                 hideUI(getWindow().getDecorView());
                 super.onDrawerSlide(drawerView, slideOffset);
             }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+            }
         };
         drawerLayout.setDrawerListener(drawerToggle);
         drawerList.setAdapter(new NavDrawerAdapter(this, R.layout.nav_list_item_layout, ComicCollection.getInstance().getTitleArray()));
         drawerList.setOnItemClickListener(new DrawerItemClickListener(viewPager, drawerLayout));
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        View header = getLayoutInflater().inflate(R.layout.nav_list_header_layout, null);
+        drawerList.addHeaderView(header);
+        drawerList.setHeaderDividersEnabled(false);
 
-        if (pref.getBoolean(SharedPrefConstants.OPENDRAWER, false)) {
+        if (pref.getBoolean(SharedPrefConstants.OPENDRAWER, true)) {
             drawerLayout.openDrawer(drawerList);
             editor.putBoolean(SharedPrefConstants.OPENDRAWER, false);
             editor.commit();
         }
+
+        ImageView navButton = (ImageView) findViewById(R.id.nav_icon);
+        navButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(drawerList);
+            }
+        });
     }
 
     private void initComicPager() {
@@ -154,16 +165,16 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void initOptions() {
-        ImageView view = (ImageView) findViewById(R.id.options_icon);
+        ImageView optionsButton = (ImageView) findViewById(R.id.options_icon);
         final Activity activity = this;
-        view.setOnClickListener(new View.OnClickListener() {
+        optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Dialog dialog = OptionsDialogFactory.createDialog(activity);
                 dialog.show();
             }
         });
-        view.setVisibility(View.VISIBLE);
+        optionsButton.setVisibility(View.VISIBLE);
     }
 
     private void initImmersionFullScreen() {
@@ -173,15 +184,11 @@ public class HomeActivity extends ActionBarActivity {
                 // Note that system bars will only be "visible" if none of the
                 // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
                 if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
-                    // TODO: The system bars are visible. Make any desired
-                    // adjustments to your UI, such as showing the action bar or
-                    // other navigational controls.
+                    // The system bars are visible
                     Logger.d("Immersion", "start timer");
                     handler.postDelayed(runnable, 1000 * 5);
                 } else {
-                    // TODO: The system bars are NOT visible. Make any desired
-                    // adjustments to your UI, such as hiding the action bar or
-                    // other navigational controls.
+                    // The system bars are NOT visible
                     stopAutoHideUI();
                 }
             }
@@ -246,11 +253,6 @@ public class HomeActivity extends ActionBarActivity {
 //
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -258,9 +260,9 @@ public class HomeActivity extends ActionBarActivity {
 //        switch (item.getItemId()) {
 //            case R.id.action_clear:
 //                BitmapLoader.clearBitmap();
-////                Intent intent = new Intent(this, HomeActivity.class);
-////                finish();
-////                startActivity(intent);
+//                  Intent intent = new Intent(this, HomeActivity.class);
+//                  finish();
+//                  startActivity(intent);
 //                return true;
 //            case R.id.action_schedule_switch:
 //                if (ScheduleTaskReceiver.isAlarmSet(this)) {
@@ -272,9 +274,9 @@ public class HomeActivity extends ActionBarActivity {
 //            case R.id.action_about:
 //                Toast.makeText(this, "Keith made this", Toast.LENGTH_SHORT).show();
 //                return true;
-////                            case 3:
-////                                debugging(activity);
-////                                break;
+//            case 3:
+//                debugging(activity);
+//                break;
 //        }
         return super.onOptionsItemSelected(item);
     }

@@ -21,7 +21,9 @@ public class DrawerItemClickListener implements OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        viewPager.setCurrentItem(i, true);
-        drawerLayout.closeDrawers();
+        if (i > 0) {
+            viewPager.setCurrentItem(i - 1, true); //cause of header
+            drawerLayout.closeDrawers();
+        }
     }
 }
