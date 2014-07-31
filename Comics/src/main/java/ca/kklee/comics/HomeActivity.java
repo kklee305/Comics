@@ -23,10 +23,9 @@ import ca.kklee.util.Logger;
 
 /**
  * TODO List
- * left right nav buttons
+ * logger
  * custom options menu
  * display error icons ??
- * logger
  * proper image scaling
  * image pinch zooming
  * limit async task (add resource pool)
@@ -108,6 +107,7 @@ public class HomeActivity extends ActionBarActivity {
 
             @Override
             public void onDrawerOpened(View drawerView) {
+                drawerList.invalidateViews();
             }
 
             @Override
@@ -153,7 +153,6 @@ public class HomeActivity extends ActionBarActivity {
                 if (pref.getBoolean(title, false)) {
                     editor.putBoolean(title, false);
                     editor.commit();
-                    if (drawerList != null) drawerList.invalidateViews();
                 }
             }
 
