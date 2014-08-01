@@ -42,7 +42,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
     }
 
     private String getImageUrlFromDOM(Document dom) {
-        switch (ComicCollection.getInstance().getComics()[id].getTitle()) {
+        switch (ComicCollection.getInstance().getComics()[id].getFullTitle()) {
             case "Garfield":
                 return dom.getElementById("home_comic").select("img[src]").attr("src");
             case "XKCD":

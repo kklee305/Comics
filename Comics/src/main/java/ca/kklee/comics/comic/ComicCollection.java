@@ -67,10 +67,10 @@ public class ComicCollection {
         comics = list.toArray(new Comic[list.size()]);
     }
 
-    public String[] getTitleArray() {
+    public String[] getFullTitleArray() {
         List<String> list = new ArrayList<String>();
         for (Comic c : ComicCollection.getInstance().getComics()) {
-            list.add(c.getTitle());
+            list.add(c.getFullTitle());
         }
         return list.toArray(new String[list.size()]);
     }

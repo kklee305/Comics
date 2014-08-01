@@ -14,11 +14,18 @@ import ca.kklee.util.Logger;
 public class Comic {
 
     private String title;
+    private String shortForm;
     private String url;
     private Boolean enabled;
     private Bitmap bitmap;
 
     public String getTitle() {
+        if (shortForm == null || shortForm.equals(""))
+            return title;
+        return shortForm;
+    }
+
+    public String getFullTitle() {
         return title;
     }
 
@@ -82,4 +89,5 @@ public class Comic {
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
+
 }
