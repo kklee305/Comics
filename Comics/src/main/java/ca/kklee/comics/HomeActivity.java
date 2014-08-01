@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -14,12 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.navdrawer.DrawerItemClickListener;
 import ca.kklee.comics.navdrawer.NavDrawerAdapter;
 import ca.kklee.comics.viewpager.SectionsPagerAdapter;
-import ca.kklee.util.Logger;
 
 /**
  * TODO List
@@ -35,9 +37,9 @@ import ca.kklee.util.Logger;
 
 public class HomeActivity extends ActionBarActivity {
 
+    DrawerLayout drawerLayout;
     private ViewPager viewPager;
     private ActionBarDrawerToggle drawerToggle;
-    DrawerLayout drawerLayout;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private ListView drawerList;
@@ -116,13 +118,14 @@ public class HomeActivity extends ActionBarActivity {
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
-        drawerList.setAdapter(new NavDrawerAdapter(this, R.layout.nav_list_item_layout, ComicCollection.getInstance().getTitleArray()));
-        drawerList.setOnItemClickListener(new DrawerItemClickListener(viewPager, drawerLayout));
+        drawerList.setAdapter(new NavDrawerAdapter(this, R.layout.nav_list_item_layout, ComicCollection.getInstance().getFullTitleArray()));
+        drawerList.setOnItemClickListener(new DrawerItemClickListener(viewPager, drawerList, drawerLayout));
 
         View header = getLayoutInflater().inflate(R.layout.nav_list_header_layout, null);
         drawerList.addHeaderView(header);
         drawerList.setHeaderDividersEnabled(false);
         drawerList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        drawerList.setItemChecked(1, true);
 
         ImageView navButton = (ImageView) findViewById(R.id.nav_icon);
         navButton.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +160,16 @@ public class HomeActivity extends ActionBarActivity {
             }
 
         });
+
+        PagerTitleStrip pagerTitleStrip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/ComicNeue-Regular-Oblique.ttf");
+        for (int counter = 0; counter < pagerTitleStrip.getChildCount(); counter++) {
+
+            if (pagerTitleStrip.getChildAt(counter) instanceof TextView) {
+                ((TextView) pagerTitleStrip.getChildAt(counter)).setTypeface(typeface);
+                ((TextView) pagerTitleStrip.getChildAt(counter)).setTextSize(18);
+            }
+        }
     }
 
     private void initOptions() {
@@ -180,7 +193,6 @@ public class HomeActivity extends ActionBarActivity {
                 // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
                 if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
                     // The system bars are visible
-                    Logger.d("Immersion", "start timer");
                     handler.postDelayed(runnable, 1000 * 5);
                 } else {
                     // The system bars are NOT visible
@@ -223,14 +235,13 @@ public class HomeActivity extends ActionBarActivity {
         }
     }
 
-    //    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        ComicCollection.getInstance().clearAllBitmap();
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ComicCollection.getInstance().clearAllBitmap();
+    }
 
     private void stopAutoHideUI() {
-        Logger.d("Immersion", "Stop Timer");
         handler.removeCallbacks(runnable);
     }
 

@@ -2,6 +2,7 @@ package ca.kklee.comics.navdrawer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
     private int resource;
     private String[] items;
     private LayoutInflater inflater;
+    private Typeface type;
     private SharedPreferences prefForNew, prefForUpdate;
 
     public NavDrawerAdapter(Context context, int resource, String[] items) {
@@ -30,6 +32,7 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
         inflater = LayoutInflater.from(context);
         prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
         prefForUpdate = context.getSharedPreferences(SharedPrefConstants.COMICUPDATETIME, 0);
+        type = Typeface.createFromAsset(context.getAssets(), "fonts/ComicNeue-Regular-Oblique.ttf");
     }
 
     @Override
@@ -40,6 +43,7 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
             holder = new NavItem();
             holder.comicIcon = (ImageView) convertView.findViewById(R.id.comic_icon);
             holder.comicTitle = (TextView) convertView.findViewById(R.id.comic_title);
+            holder.comicTitle.setTypeface(type);
             holder.comicUpdate = (TextView) convertView.findViewById(R.id.comic_update);
             holder.newIcon = (ImageView) convertView.findViewById(R.id.new_icon);
             convertView.setTag(holder);
@@ -67,7 +71,8 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
         long currentTime = System.currentTimeMillis();
         long timeDiff = currentTime - updateTime;
         if (updateTime == 0) {
-            comicUpdate.setVisibility(View.INVISIBLE);
+            comicUpdate.setText("--");
+            return;
         }
         if (timeDiff < 1000 * 60) {
             comicUpdate.setText((int) (timeDiff / 1000) + "s");
@@ -79,7 +84,6 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
             comicUpdate.setText((int) (timeDiff / 86400000) + "d");
         }
     }
-
 
     static private class NavItem {
         ImageView comicIcon;
