@@ -8,4 +8,10 @@
     <color name="primary_2">#7BBEFF</color>
     <color name="primary_3">#00488D</color>
     <color name="primary_4">#00376C</color>
+
+    <color name="complement_base">#FF9700</color>
+    <color name="complement_1">#FFDAA4</color>
+    <color name="complement_2">#FFC570</color>
+    <color name="complement_3">#D98000</color>
+    <color name="complement_4">#A76300</color>
 </resources>
