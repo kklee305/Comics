@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_list_item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeightSmall"
     android:layout_weight="1"
-    android:padding="5dp"
-    android:orientation="horizontal">
+    android:background="@drawable/nav_item_selector"
+    android:orientation="horizontal"
+    android:padding="5dp">
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -23,16 +24,16 @@
             android:src="@drawable/ic_launcher"
             android:visibility="invisible"/>
 
-        <TextView
+        <ca.kklee.util.AutoResizeTextView
             android:id="@+id/comic_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:typeface="sans"
+            android:layout_height="43dp"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_toRightOf="@id/comic_icon"
+            android:gravity="center_vertical"
             android:text="Movie Title"
-            android:textSize="16dp"/>
+            android:textSize="20dp"/>
 
     </RelativeLayout>
 
