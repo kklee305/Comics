@@ -37,6 +37,7 @@ public class HomeActivity extends ActionBarActivity {
 
     private ViewPager viewPager;
     private ActionBarDrawerToggle drawerToggle;
+    DrawerLayout drawerLayout;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private ListView drawerList;
@@ -96,7 +97,7 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void initNavDrawer() {
-        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, 0, 0) {
             @Override
@@ -121,12 +122,7 @@ public class HomeActivity extends ActionBarActivity {
         View header = getLayoutInflater().inflate(R.layout.nav_list_header_layout, null);
         drawerList.addHeaderView(header);
         drawerList.setHeaderDividersEnabled(false);
-
-        if (pref.getBoolean(SharedPrefConstants.OPENDRAWER, true)) {
-            drawerLayout.openDrawer(drawerList);
-            editor.putBoolean(SharedPrefConstants.OPENDRAWER, false);
-            editor.commit();
-        }
+        drawerList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         ImageView navButton = (ImageView) findViewById(R.id.nav_icon);
         navButton.setOnClickListener(new View.OnClickListener() {
@@ -194,12 +190,12 @@ public class HomeActivity extends ActionBarActivity {
         });
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
-    }
+//    @Override
+//    protected void onPostCreate(Bundle savedInstanceState) {
+//        super.onPostCreate(savedInstanceState);
+//        // Sync the toggle state after onRestoreInstanceState has occurred.
+//        drawerToggle.syncState();
+//    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -217,7 +213,17 @@ public class HomeActivity extends ActionBarActivity {
         }
     }
 
-//    @Override
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (pref.getBoolean(SharedPrefConstants.OPENDRAWER, true)) {
+            drawerLayout.openDrawer(drawerList);
+            editor.putBoolean(SharedPrefConstants.OPENDRAWER, false);
+            editor.commit();
+        }
+    }
+
+    //    @Override
 //    protected void onPause() {
 //        super.onPause();
 //        ComicCollection.getInstance().clearAllBitmap();
