@@ -39,7 +39,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         }
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 6);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 00);
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -118,6 +118,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
                 }
                 if (dlComplete == comics.length) {
                     Logger.d("", "Done All Scheduled DL, new comics: " + newComics);
+                    if (newComics == 0) return;
                     editorForNew.putBoolean(SharedPrefConstants.OPENDRAWER, true);
                     editorForNew.apply();
                     fireNotification(context, newComics);
@@ -132,7 +133,6 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
     }
 
     private void fireNotification(Context context, int newComics) {
-        if (newComics == 0) return;
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
