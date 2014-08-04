@@ -15,8 +15,12 @@ public class FileUtil {
         File sdCardRoot = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File myDir = new File(sdCardRoot, AppConfig.APPDIRECTORY);
         for (File f : myDir.listFiles()) {
-            if (f.isFile() && f.getName().contains(file))
-                return f;
+            if (f.isFile()) {
+                int seperator = f.getName().lastIndexOf("_");
+                String comicTitle = f.getName().substring(0, seperator);
+                if (comicTitle.equals(file))
+                    return f;
+            }
         }
         return null;
     }
