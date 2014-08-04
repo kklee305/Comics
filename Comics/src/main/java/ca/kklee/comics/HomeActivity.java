@@ -233,8 +233,8 @@ public class HomeActivity extends ActionBarActivity {
             drawerLayout.openDrawer(drawerList);
             editor.putBoolean(SharedPrefConstants.OPENDRAWER, false);
             editor.commit();
-            ComicCollection.getInstance().clearAllBitmap();
         }
+        ComicCollection.getInstance().clearAllBitmap();
     }
 
     private void stopAutoHideUI() {
