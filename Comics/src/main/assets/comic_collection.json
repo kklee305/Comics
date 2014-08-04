@@ -38,14 +38,14 @@
   {
     "title": "Cyanide & Happiness",
     "shortForm": "",
-    "url": "",
-    "enabled": "false"
+    "url": "http://www.explosm.tumblr.com/",
+    "enabled": "true"
   },
   {
     "title": "Dilbert",
     "shortForm": "",
     "url": "http://www.dilbert.com/",
-    "enabled": "false"
+    "enabled": "true"
   },
   {
     "title": "Dilbert Classics",
@@ -72,9 +72,9 @@
     "enabled": "true"
   },
   {
-    "title": "Marmaduke",
+    "title": "MANvsMAGIC",
     "shortForm": "",
-    "url": "http://www.gocomics.com/marmaduke",
+    "url": "http://www.manvsmagic.com/",
     "enabled": "true"
   }
 ]

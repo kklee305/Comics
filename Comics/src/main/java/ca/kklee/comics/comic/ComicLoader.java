@@ -3,6 +3,7 @@ package ca.kklee.comics.comic;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -51,6 +52,12 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 return dom.getElementById("comic").select("img[src]").attr("src");
             case "Saturday Morning Breakfast Cereal":
                 return dom.getElementById("comicimage").select("img[src]").attr("src");
+            case "Cyanide & Happiness":
+                return dom.getElementById("posts").select("article").select("img[src]").attr("src");
+            case "MANvsMAGIC":
+                return ComicCollection.getInstance().getComics()[id].getUrl() + dom.select("main").select("img[src]").attr("src");
+            case "Dilbert":
+                return ComicCollection.getInstance().getComics()[id].getUrl() + dom.select("div[class*=STR_Image").select("img[src]").attr("src");
             case "Peanuts":
             case "Calvin and Hobbes":
             case "2 Cows and a Chicken":
@@ -104,6 +111,10 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
     private URL downloadDom(String comicUrl) {
         Logger.d("", "Attempt DOM Retrieval: " + comicUrl);
+        if (!Patterns.WEB_URL.matcher(comicUrl).matches()) {
+            Logger.e("Base URL not valid: " + comicUrl);
+            return null;
+        }
         Document dom = getDom(comicUrl);
         if (dom == null) {
             return null;
