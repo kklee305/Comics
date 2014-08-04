@@ -153,6 +153,7 @@ public class HomeActivity extends ActionBarActivity {
                     editor.putBoolean(title, false);
                     editor.commit();
                 }
+                drawerList.setItemChecked(position+1, true); //+1 due to header
             }
 
             @Override
