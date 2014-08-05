@@ -33,7 +33,7 @@
             android:layout_toRightOf="@id/comic_icon"
             android:gravity="center_vertical"
             android:text="Movie Title"
-            android:textSize="20dp"/>
+            android:textSize="22dp"/>
 
     </RelativeLayout>
 
