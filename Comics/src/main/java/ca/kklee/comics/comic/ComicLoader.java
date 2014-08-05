@@ -58,6 +58,8 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 return ComicCollection.getInstance().getComics()[id].getUrl() + dom.select("main").select("img[src]").attr("src");
             case "Dilbert":
                 return ComicCollection.getInstance().getComics()[id].getUrl() + dom.select("div[class*=STR_Image").select("img[src]").attr("src");
+            case "Extra Fabulous Comics":
+                return dom.getElementById("comic").select("img[src]").attr("src");
             case "Peanuts":
             case "Calvin and Hobbes":
             case "2 Cows and a Chicken":
@@ -67,7 +69,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             case "Marmaduke":
                 return dom.select("Body").select("img[src*=amuniversal]").attr("src");
             default:
-                return null;
+                return "error";
         }
     }
 
@@ -120,10 +122,11 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             return null;
         }
         URL imageUrl = null;
+        String imageUrlFromDOM = getImageUrlFromDOM(dom);
         try {
-            imageUrl = new URL(getImageUrlFromDOM(dom));
+            imageUrl = new URL(imageUrlFromDOM);
         } catch (Exception e) {
-            Logger.e("Failed to create url: " + e.toString());
+            Logger.e("Failed to create url: " + imageUrlFromDOM + " exception: " + e.toString());
         }
         return imageUrl;
     }

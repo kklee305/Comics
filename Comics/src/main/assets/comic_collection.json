@@ -76,5 +76,11 @@
     "shortForm": "",
     "url": "http://www.manvsmagic.com/",
     "enabled": "true"
+  },
+  {
+    "title": "Extra Fabulous Comics",
+    "shortForm": "",
+    "url": "http://www.extrafabulouscomics.com/",
+    "enabled": "true"
   }
 ]
