@@ -39,7 +39,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         }
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, nearestQuarter(calendar));
         calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 00);
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -151,4 +151,16 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         return PendingIntent.getActivity(context, 0, i, 0);
     }
 
+    private static int nearestQuarter(Calendar calendar) {
+        switch (calendar.get(Calendar.HOUR_OF_DAY)) {
+            case 0:case 1:case 2:
+                return 3;
+            case 3:case 4:case 5:
+                return 6;
+            case 6:case 7:case 8:
+                return 9;
+            default:
+                return 0;
+        }
+    }
 }
