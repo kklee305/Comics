@@ -1,4 +1,4 @@
-package ca.kklee.util; /**
+package ca.kklee.util.customviews; /**
  *               DO WHAT YOU WANT TO PUBLIC LICENSE
  *                    Version 2, December 2004
  *
@@ -34,12 +34,8 @@ public class AutoResizeTextView extends TextView {
 
     // Minimum text size for this text view
     public static final float MIN_TEXT_SIZE = 1;
-
-    // Interface for resize notifications
-    public interface OnTextResizeListener {
-        public void onTextResize(TextView textView, float oldSize, float newSize);
-    }
-
+    // Lower bounds for text size
+    private float mMinTextSize = MIN_TEXT_SIZE;
     // Our ellipse string
     private static final String mEllipsis = "...";
 
@@ -54,16 +50,10 @@ public class AutoResizeTextView extends TextView {
 
     // Temporary upper bounds on the starting text size
     private float mMaxTextSize = 0;
-
-    // Lower bounds for text size
-    private float mMinTextSize = MIN_TEXT_SIZE;
-
     // Text view line spacing multiplier
     private float mSpacingMult = 1.0f;
-
     // Text view additional line spacing
     private float mSpacingAdd = 0.0f;
-
     // Add ellipsis to text that overflows at the smallest text size
     private boolean mAddEllipsis = true;
 
@@ -105,6 +95,7 @@ public class AutoResizeTextView extends TextView {
 
     /**
      * Register listener to receive resize notifications
+     *
      * @param listener
      */
     public void setOnResizeListener(OnTextResizeListener listener) {
@@ -140,7 +131,17 @@ public class AutoResizeTextView extends TextView {
     }
 
     /**
+     * Return upper text size limit
+     *
+     * @return
+     */
+    public float getMaxTextSize() {
+        return mMaxTextSize;
+    }
+
+    /**
      * Set the upper text size limit and invalidate the view
+     *
      * @param maxTextSize
      */
     public void setMaxTextSize(float maxTextSize) {
@@ -150,15 +151,17 @@ public class AutoResizeTextView extends TextView {
     }
 
     /**
-     * Return upper text size limit
+     * Return lower text size limit
+     *
      * @return
      */
-    public float getMaxTextSize() {
-        return mMaxTextSize;
+    public float getMinTextSize() {
+        return mMinTextSize;
     }
 
     /**
      * Set the lower text size limit and invalidate the view
+     *
      * @param minTextSize
      */
     public void setMinTextSize(float minTextSize) {
@@ -168,27 +171,21 @@ public class AutoResizeTextView extends TextView {
     }
 
     /**
-     * Return lower text size limit
-     * @return
-     */
-    public float getMinTextSize() {
-        return mMinTextSize;
-    }
-
-    /**
-     * Set flag to add ellipsis to text that overflows at the smallest text size
-     * @param addEllipsis
-     */
-    public void setAddEllipsis(boolean addEllipsis) {
-        mAddEllipsis = addEllipsis;
-    }
-
-    /**
      * Return flag to add ellipsis to text that overflows at the smallest text size
+     *
      * @return
      */
     public boolean getAddEllipsis() {
         return mAddEllipsis;
+    }
+
+    /**
+     * Set flag to add ellipsis to text that overflows at the smallest text size
+     *
+     * @param addEllipsis
+     */
+    public void setAddEllipsis(boolean addEllipsis) {
+        mAddEllipsis = addEllipsis;
     }
 
     /**
@@ -226,6 +223,7 @@ public class AutoResizeTextView extends TextView {
 
     /**
      * Resize the text size with specified width and height
+     *
      * @param width
      * @param height
      */
@@ -310,6 +308,11 @@ public class AutoResizeTextView extends TextView {
         // Measure using a static layout
         StaticLayout layout = new StaticLayout(source, paintCopy, width, Alignment.ALIGN_NORMAL, mSpacingMult, mSpacingAdd, true);
         return layout.getHeight();
+    }
+
+    // Interface for resize notifications
+    public interface OnTextResizeListener {
+        public void onTextResize(TextView textView, float oldSize, float newSize);
     }
 
 }

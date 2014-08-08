@@ -8,19 +8,13 @@ import android.content.Context;
  */
 public class Config extends Application {
 
-    private static Config instance = null;
+//    private static Config instance = null;
     private static boolean IS_DEBUGGING = true;
     private static boolean IS_LOGGING = true;
 
-    @Override
-    public void onCreate() {
-        instance = this;
-        super.onCreate();
-    }
-
-    public static Context getContext() {
-        return instance;
-    }
+//    public static Context getContext() {
+//        return instance;
+//    }
 
     public static boolean IS_DEBUGGING() {
         return IS_DEBUGGING;
@@ -29,4 +23,10 @@ public class Config extends Application {
     public static boolean IS_LOGGING() {
         return IS_LOGGING;
     }
+
+//    @Override
+//    public void onCreate() {
+//        instance = this;
+//        super.onCreate();
+//    }
 }

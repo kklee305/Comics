@@ -57,7 +57,6 @@ public class Comic {
     public Bitmap getBitmapFromFile() {
         File file = BitmapLoader.findFile(title);
         if (file != null) {
-            Logger.d("", "File found: " + file.getName());
             return BitmapLoader.loadBitmap(file);
         } else {
             Logger.d("", "File not found: " + title);

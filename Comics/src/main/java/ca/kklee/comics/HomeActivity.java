@@ -82,12 +82,13 @@ public class HomeActivity extends ActionBarActivity {
 
         pref = getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
         editor = pref.edit();
-        hideUI(getWindow().getDecorView());
+
         initComicCollection(); //do this before everything else
         initComicPager();
         initNavDrawer(); //ComicPager comes before this
         initOptions();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            hideUI(getWindow().getDecorView());
             initImmersionFullScreen();
         }
     }
@@ -153,7 +154,7 @@ public class HomeActivity extends ActionBarActivity {
                     editor.putBoolean(title, false);
                     editor.commit();
                 }
-                drawerList.setItemChecked(position+1, true); //+1 due to header
+                drawerList.setItemChecked(position + 1, true); //+1 due to header
             }
 
             @Override
