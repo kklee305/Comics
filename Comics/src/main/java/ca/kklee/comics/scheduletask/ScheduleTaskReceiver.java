@@ -6,7 +6,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import ca.kklee.comics.SharedPrefConstants;
 import ca.kklee.comics.comic.Comic;
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.comic.ComicLoader;
+import ca.kklee.util.ConnectionUtil;
 import ca.kklee.util.Logger;
 
 /**
@@ -72,24 +75,57 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         Toast.makeText(context, "Scheduled Download Cancelled", Toast.LENGTH_LONG).show();
     }
 
+    private static int nearestQuarter(Calendar calendar) {
+        switch (calendar.get(Calendar.HOUR_OF_DAY)) {
+            case 0:
+            case 1:
+            case 2:
+                return 3;
+            case 3:
+            case 4:
+            case 5:
+                return 6;
+            case 6:
+            case 7:
+            case 8:
+                return 9;
+            default:
+                return 0;
+        }
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (!checkConnection(context)) return;
         initComics(context);
         downloadFiles(context);
-        SharedPreferences preferences = context.getSharedPreferences("debuggingAlarm", 0);
-        SharedPreferences.Editor editor2 = preferences.edit();
-        if (preferences.getBoolean("alarmOff", false)) {
-            cancelAlarm(context);
-            editor2.remove("alarmOff");
-            editor2.apply();
+        debugging(context);
+    }
+
+    private boolean checkConnection(Context context) {
+        if (!ConnectionUtil.isOnline(context)){
+            Logger.d("","No Connection, Silent Download delayed");
+            SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
+            SharedPreferences.Editor editorForNew = prefForNew.edit();
+            if (prefForNew.getBoolean(SharedPrefConstants.WIFIRECONNECT,false)) {
+                return false;
+            }
+            OnWifiConnectedReceiver broadcastReceiver = new OnWifiConnectedReceiver();
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+            context.getApplicationContext().registerReceiver(broadcastReceiver, intentFilter);
+
+            editorForNew.putBoolean(SharedPrefConstants.WIFIRECONNECT, true);
+            editorForNew.apply();
+            return false;
         }
+        return true;
     }
 
     private void initComics(Context context) {
         if (ComicCollection.getInstance().getComics() == null) {
             ComicCollection.getInstance().setComics(context);
         }
-
     }
 
     private void downloadFiles(final Context context) {
@@ -151,16 +187,13 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         return PendingIntent.getActivity(context, 0, i, 0);
     }
 
-    private static int nearestQuarter(Calendar calendar) {
-        switch (calendar.get(Calendar.HOUR_OF_DAY)) {
-            case 0:case 1:case 2:
-                return 3;
-            case 3:case 4:case 5:
-                return 6;
-            case 6:case 7:case 8:
-                return 9;
-            default:
-                return 0;
+    private void debugging(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("debuggingAlarm", 0);
+        SharedPreferences.Editor editor2 = preferences.edit();
+        if (preferences.getBoolean("alarmOff", false)) {
+            cancelAlarm(context);
+            editor2.remove("alarmOff");
+            editor2.apply();
         }
     }
 }
