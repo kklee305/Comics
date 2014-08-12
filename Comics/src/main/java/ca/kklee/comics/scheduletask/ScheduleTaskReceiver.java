@@ -30,6 +30,7 @@ import ca.kklee.util.Logger;
  */
 public class ScheduleTaskReceiver extends BroadcastReceiver {
 
+    private static final long INTERVAL_MILLIS = AlarmManager.INTERVAL_HOUR * 3;
     private static int newComics = 0;
     private static int dlComplete = 0;
     private final int NOTIFICATION_ID = 1;
@@ -46,7 +47,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 00);
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarms.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR * 3, alarmIntent);
+        alarms.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL_MILLIS, alarmIntent);
         Toast.makeText(context, "Scheduled Download Started", Toast.LENGTH_LONG).show();
     }
 
@@ -103,11 +104,11 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
     }
 
     private boolean checkConnection(Context context) {
-        if (!ConnectionUtil.isOnline(context)){
-            Logger.d("","No Connection, Silent Download delayed");
+        if (!ConnectionUtil.isOnline(context)) {
+            Logger.d("", "No Connection, Silent Download delayed");
             SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
             SharedPreferences.Editor editorForNew = prefForNew.edit();
-            if (prefForNew.getBoolean(SharedPrefConstants.WIFIRECONNECT,false)) {
+            if (prefForNew.getBoolean(SharedPrefConstants.WIFIRECONNECT, false)) {
                 return false;
             }
             OnWifiConnectedReceiver broadcastReceiver = new OnWifiConnectedReceiver();
