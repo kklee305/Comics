@@ -12,7 +12,6 @@ import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -99,6 +98,47 @@ public class HomeActivity extends ActionBarActivity {
         }
     }
 
+    private void initComicPager() {
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                hideUI(getWindow().getDecorView());
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                drawerList.setItemChecked(position + 1, true); //because of header
+                final String title = ComicCollection.getInstance().getComics()[position].getTitle();
+                if (pref.getBoolean(title, false)) {
+                    (new Handler()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            editor.putBoolean(title, false);
+                            editor.commit();
+                        }
+                    }, 500);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+
+        });
+
+        PagerTitleStrip pagerTitleStrip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/ComicNeue-Regular-Oblique.ttf");
+        for (int counter = 0; counter < pagerTitleStrip.getChildCount(); counter++) {
+            if (pagerTitleStrip.getChildAt(counter) instanceof TextView) {
+                ((TextView) pagerTitleStrip.getChildAt(counter)).setTypeface(typeface);
+                ((TextView) pagerTitleStrip.getChildAt(counter)).setTextSize(18);
+            }
+        }
+    }
+
     private void initNavDrawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
@@ -111,11 +151,11 @@ public class HomeActivity extends ActionBarActivity {
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                drawerList.invalidateViews();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
+                drawerList.invalidateViews();
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
@@ -135,43 +175,6 @@ public class HomeActivity extends ActionBarActivity {
                 drawerLayout.openDrawer(drawerList);
             }
         });
-    }
-
-    private void initComicPager() {
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                hideUI(getWindow().getDecorView());
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                String title = ComicCollection.getInstance().getComics()[position].getTitle();
-                if (pref.getBoolean(title, false)) {
-                    editor.putBoolean(title, false);
-                    editor.commit();
-                }
-                drawerList.setItemChecked(position + 1, true); //+1 due to header
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-
-        });
-
-        PagerTitleStrip pagerTitleStrip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/ComicNeue-Regular-Oblique.ttf");
-        for (int counter = 0; counter < pagerTitleStrip.getChildCount(); counter++) {
-
-            if (pagerTitleStrip.getChildAt(counter) instanceof TextView) {
-                ((TextView) pagerTitleStrip.getChildAt(counter)).setTypeface(typeface);
-                ((TextView) pagerTitleStrip.getChildAt(counter)).setTextSize(18);
-            }
-        }
     }
 
     private void initOptions() {
@@ -234,6 +237,29 @@ public class HomeActivity extends ActionBarActivity {
             drawerLayout.openDrawer(drawerList);
             editor.putBoolean(SharedPrefConstants.OPENDRAWER, false);
             editor.commit();
+
+            //find first new comic
+            String title;
+            for (int i = 0; i < ComicCollection.getInstance().getComics().length; i++) {
+                title = ComicCollection.getInstance().getComics()[i].getTitle();
+                if (pref.getBoolean(title, false)) {
+                    drawerList.setItemChecked(i + 1, true); //+1 because of header
+                    drawerList.smoothScrollToPosition(i + 1);
+                    if (viewPager.getCurrentItem() != i) {
+                        viewPager.setCurrentItem(i, false);
+                    } else {
+                        final int position = i;
+                        (new Handler()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                editor.putBoolean(ComicCollection.getInstance().getComics()[position].getTitle(), false);
+                                editor.commit();
+                            }
+                        }, 500);
+                    }
+                    break;
+                }
+            }
         }
         ComicCollection.getInstance().clearAllBitmap();
     }
@@ -264,11 +290,11 @@ public class HomeActivity extends ActionBarActivity {
 //        }
 //    }
 //
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
 
 //        switch (item.getItemId()) {
 //            case R.id.action_clear:
@@ -291,6 +317,6 @@ public class HomeActivity extends ActionBarActivity {
 //                debugging(activity);
 //                break;
 //        }
-        return super.onOptionsItemSelected(item);
-    }
+//        return super.onOptionsItemSelected(item);
+//    }
 }
