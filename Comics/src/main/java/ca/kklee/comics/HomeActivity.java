@@ -29,7 +29,6 @@ import ca.kklee.comics.viewpager.SectionsPagerAdapter;
  * display error icons ??
  * proper image scaling
  * image pinch zooming
- * limit async task (add resource pool)
  * view comics of diff dates ***
  * add authors
  */
@@ -111,16 +110,6 @@ public class HomeActivity extends ActionBarActivity {
             @Override
             public void onPageSelected(int position) {
                 drawerList.setItemChecked(position + 1, true); //because of header
-                final String title = ComicCollection.getInstance().getComics()[position].getTitle();
-                if (pref.getBoolean(title, false)) {
-                    (new Handler()).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            editor.putBoolean(title, false);
-                            editor.commit();
-                        }
-                    }, 500);
-                }
             }
 
             @Override
@@ -151,11 +140,16 @@ public class HomeActivity extends ActionBarActivity {
 
             @Override
             public void onDrawerOpened(View drawerView) {
+                drawerList.invalidateViews();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                drawerList.invalidateViews();
+                String title = ComicCollection.getInstance().getComics()[viewPager.getCurrentItem()].getTitle();
+                if (pref.getBoolean(title, false)) {
+                    editor.putBoolean(title, false);
+                    editor.commit();
+                }
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
@@ -235,6 +229,7 @@ public class HomeActivity extends ActionBarActivity {
         super.onResume();
         if (pref.getBoolean(SharedPrefConstants.OPENDRAWER, true)) {
             drawerLayout.openDrawer(drawerList);
+            viewPager.invalidate();
             editor.putBoolean(SharedPrefConstants.OPENDRAWER, false);
             editor.commit();
 
@@ -245,23 +240,11 @@ public class HomeActivity extends ActionBarActivity {
                 if (pref.getBoolean(title, false)) {
                     drawerList.setItemChecked(i + 1, true); //+1 because of header
                     drawerList.smoothScrollToPosition(i + 1);
-                    if (viewPager.getCurrentItem() != i) {
-                        viewPager.setCurrentItem(i, false);
-                    } else {
-                        final int position = i;
-                        (new Handler()).postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                editor.putBoolean(ComicCollection.getInstance().getComics()[position].getTitle(), false);
-                                editor.commit();
-                            }
-                        }, 500);
-                    }
+                    viewPager.setCurrentItem(i, false);
                     break;
                 }
             }
         }
-        ComicCollection.getInstance().clearAllBitmap();
     }
 
     private void stopAutoHideUI() {
