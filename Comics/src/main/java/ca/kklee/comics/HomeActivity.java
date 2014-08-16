@@ -2,6 +2,8 @@ package ca.kklee.comics;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
@@ -227,6 +229,8 @@ public class HomeActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
         if (pref.getBoolean(SharedPrefConstants.OPENDRAWER, true)) {
             drawerLayout.openDrawer(drawerList);
             viewPager.invalidate();
