@@ -1,1 +1,1 @@
-include ':Comics', ':Utilities'
+include ':Comics', ':Utilities', ':AdvanceViews'

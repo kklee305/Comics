@@ -1,3 +1,6 @@
 [submodule "Utilities"]
 	path = Utilities
 	url = https://github.com/kklee305/Utilities.git
+[submodule "AdvanceViews"]
+	path = AdvanceViews
+	url = https://github.com/kklee305/AdvanceViews.git
