@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.kklee.utilities.StringUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import ca.kklee.util.StringUtil;
 
 /**
  * Created by Keith on 05/06/2014.

@@ -12,6 +12,9 @@ import android.net.wifi.WifiManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import com.kklee.utilities.ConnectionUtil;
+import com.kklee.utilities.Logger;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,8 +25,6 @@ import ca.kklee.comics.SharedPrefConstants;
 import ca.kklee.comics.comic.Comic;
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.comic.ComicLoader;
-import ca.kklee.util.ConnectionUtil;
-import ca.kklee.util.Logger;
 
 /**
  * Created by Keith on 28/06/2014.

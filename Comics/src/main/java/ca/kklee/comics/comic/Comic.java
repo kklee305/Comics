@@ -2,11 +2,12 @@ package ca.kklee.comics.comic;
 
 import android.graphics.Bitmap;
 
+import com.kklee.utilities.Logger;
+
 import java.io.File;
 
 import ca.kklee.comics.AppConfig;
 import ca.kklee.comics.BitmapLoader;
-import ca.kklee.util.Logger;
 
 /**
  * Created by Keith on 04/06/2014.

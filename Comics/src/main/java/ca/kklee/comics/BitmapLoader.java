@@ -7,6 +7,8 @@ import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.kklee.utilities.Logger;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,8 +17,6 @@ import java.io.IOException;
 
 import ca.kklee.comics.comic.Comic;
 import ca.kklee.comics.comic.ComicCollection;
-import ca.kklee.util.FileUtil;
-import ca.kklee.util.Logger;
 
 /**
  * Created by Keith on 27/06/2014.

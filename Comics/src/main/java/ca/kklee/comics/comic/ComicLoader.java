@@ -7,6 +7,8 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.kklee.utilities.Logger;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -24,7 +26,6 @@ import java.net.URL;
 
 import ca.kklee.comics.R;
 import ca.kklee.comics.scheduletask.NewComicListener;
-import ca.kklee.util.Logger;
 
 /**
  * Created by Keith on 05/06/2014.

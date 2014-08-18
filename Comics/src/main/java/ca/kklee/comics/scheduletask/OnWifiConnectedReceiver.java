@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.kklee.utilities.ConnectionUtil;
+
 import ca.kklee.comics.SharedPrefConstants;
-import ca.kklee.util.ConnectionUtil;
 
 /**
  * Created by Keith on 07/08/2014.

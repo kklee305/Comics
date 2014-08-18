@@ -1,10 +1,8 @@
-package ca.kklee.util;
+package ca.kklee.comics;
 
 import android.os.Environment;
 
 import java.io.File;
-
-import ca.kklee.comics.AppConfig;
 
 /**
  * Created by Keith on 27/06/2014.

@@ -10,11 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.kklee.utilities.ConnectionUtil;
+
 import ca.kklee.comics.HomeActivity;
 import ca.kklee.comics.R;
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.comic.ComicLoader;
-import ca.kklee.util.ConnectionUtil;
 
 /**
  * Created by Keith on 02/06/2014.
