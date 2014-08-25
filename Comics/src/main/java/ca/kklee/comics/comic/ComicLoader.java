@@ -168,7 +168,6 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 try {
                     inputStream = entity.getContent();
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    bitmap = checkBitmapSize(bitmap);
                     Logger.d("", "Success DLImage: " + url);
                     return bitmap;
                 } finally {
@@ -188,27 +187,6 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             httpclient.getConnectionManager().shutdown();
         }
         return null;
-    }
-
-    private Bitmap checkBitmapSize(Bitmap bitmap) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int maxSize = 4096;
-        if (width <= maxSize && height <= maxSize) return bitmap;
-        Logger.d("Image Pre-resize", "Width: " + width + " | Height: " + height);
-        if (width > height) {
-            double ratio = width / maxSize;
-            width = maxSize;
-            height = (int) (height / ratio);
-        } else if (height > width) {
-            double ratio = height / maxSize;
-            height = maxSize;
-            width = (int) (width / ratio);
-        } else {
-            width = height = maxSize;
-        }
-        Logger.d("Image Resize", "Width: " + width + " | Height: " + height);
-        return Bitmap.createScaledBitmap(bitmap, width, height, true);
     }
 
     private void newComicResponse(int response) {
