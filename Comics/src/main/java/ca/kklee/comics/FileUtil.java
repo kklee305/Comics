@@ -2,6 +2,8 @@ package ca.kklee.comics;
 
 import android.os.Environment;
 
+import com.kklee.utilities.Logger;
+
 import java.io.File;
 
 /**
@@ -12,6 +14,9 @@ public class FileUtil {
     public static File findFile(String file) {
         File sdCardRoot = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File myDir = new File(sdCardRoot, AppConfig.APPDIRECTORY);
+        if (!myDir.exists()) {
+            myDir.mkdir();
+        }
         for (File f : myDir.listFiles()) {
             if (f.isFile()) {
                 int seperator = f.getName().lastIndexOf("_");
