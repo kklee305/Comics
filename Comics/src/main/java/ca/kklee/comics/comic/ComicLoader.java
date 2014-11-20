@@ -61,6 +61,8 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 return ComicCollection.getInstance().getComics()[id].getUrl() + dom.select("div[class*=STR_Image").select("img[src]").attr("src");
             case "Extra Fabulous Comics":
                 return dom.getElementById("comic").select("img[src]").attr("src");
+            case "Penny Arcade":
+                return dom.getElementById("comicFrame").select("img[src]").attr("src");
             case "Peanuts":
             case "Calvin and Hobbes":
             case "2 Cows and a Chicken":

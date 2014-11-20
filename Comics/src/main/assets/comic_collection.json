@@ -75,12 +75,18 @@
     "title": "MANvsMAGIC",
     "shortForm": "",
     "url": "http://www.manvsmagic.com/",
-    "enabled": "true"
+    "enabled": "false"
   },
   {
     "title": "Extra Fabulous Comics",
     "shortForm": "",
     "url": "http://www.extrafabulouscomics.com/",
+    "enabled": "true"
+  },
+  {
+    "title": "Penny Arcade",
+    "shortForm": "",
+    "url": "http://www.penny-arcade.com/comic#",
     "enabled": "true"
   }
 ]
