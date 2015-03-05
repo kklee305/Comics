@@ -29,7 +29,7 @@ import ca.kklee.comics.comic.ComicLoader;
  */
 public class ScheduleTaskReceiver extends BroadcastReceiver {
 
-    private static final long INTERVAL_MILLIS = AlarmManager.INTERVAL_HOUR * 3;
+    private static final long INTERVAL_MILLIS = AlarmManager.INTERVAL_HOUR * 6;
     private static int newComics = 0;
     private static int dlComplete = 0;
     private final int NOTIFICATION_ID = 1;
@@ -80,7 +80,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
             case 0:
             case 1:
             case 2:
-                return 3;
+//                return 3;
             case 3:
             case 4:
             case 5:
@@ -88,7 +88,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
             case 6:
             case 7:
             case 8:
-                return 9;
+//                return 9;
             default:
                 return 0;
         }
