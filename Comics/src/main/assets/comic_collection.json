@@ -39,7 +39,7 @@
     "title": "Cyanide & Happiness",
     "shortForm": "",
     "url": "http://www.explosm.tumblr.com/",
-    "enabled": "true"
+    "enabled": "false"
   },
   {
     "title": "Dilbert",
@@ -87,6 +87,12 @@
     "title": "Penny Arcade",
     "shortForm": "",
     "url": "http://www.penny-arcade.com/comic#",
+    "enabled": "true"
+  },
+  {
+    "title": "Marmaduke",
+    "shortForm": "",
+    "url": "http://www.gocomics.com/marmaduke",
     "enabled": "true"
   }
 ]
