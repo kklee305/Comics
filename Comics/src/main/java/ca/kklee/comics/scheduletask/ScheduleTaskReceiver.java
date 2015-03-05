@@ -6,9 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.wifi.WifiManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -112,10 +110,10 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
             if (prefForNew.getBoolean(SharedPrefConstants.WIFIRECONNECT, false)) {
                 return false;
             }
-            OnWifiConnectedReceiver broadcastReceiver = new OnWifiConnectedReceiver();
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-            context.getApplicationContext().registerReceiver(broadcastReceiver, intentFilter);
+//            OnWifiConnectedReceiver broadcastReceiver = new OnWifiConnectedReceiver();
+//            IntentFilter intentFilter = new IntentFilter();
+//            intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+//            context.getApplicationContext().registerReceiver(broadcastReceiver, intentFilter);
 
             editorForNew.putBoolean(SharedPrefConstants.WIFIRECONNECT, true);
             editorForNew.apply();
