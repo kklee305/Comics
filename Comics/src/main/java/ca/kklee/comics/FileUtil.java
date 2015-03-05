@@ -2,8 +2,6 @@ package ca.kklee.comics;
 
 import android.os.Environment;
 
-import com.kklee.utilities.Logger;
-
 import java.io.File;
 
 /**

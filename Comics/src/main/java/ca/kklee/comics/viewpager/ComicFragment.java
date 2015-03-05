@@ -61,7 +61,6 @@ public class ComicFragment extends Fragment {
         } else {
             imageView.setImageBitmap(bitmap);
             loading.setVisibility(View.GONE);
-            imageView.setImageBitmap(bitmap);
             imageView.setVisibility(View.VISIBLE);
         }
 
