@@ -1,10 +1,15 @@
 package ca.kklee.comics.viewpager;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.kklee.utilities.Logger;
+
+import ca.kklee.comics.SharedPrefConstants;
 import ca.kklee.comics.comic.ComicCollection;
 
 /**
@@ -12,8 +17,11 @@ import ca.kklee.comics.comic.ComicCollection;
  */
 public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
-    public SectionsPagerAdapter(FragmentManager fm) {
+    private SharedPreferences prefForNew;
+
+    public SectionsPagerAdapter(FragmentManager fm, Activity activity) {
         super(fm);
+        prefForNew = activity.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
     }
 
     @Override
@@ -33,5 +41,19 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     public CharSequence getPageTitle(int position) {
         return ComicCollection.getInstance().getComics()[position].getTitle();
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        ComicFragment fragment = (ComicFragment) object;
+        int id = fragment.getArguments().getInt("ID");
+        String title = ComicCollection.getInstance().getComics()[id].getTitle();
+        if (prefForNew.getBoolean(title, false)) {
+            Logger.d("", title + " returning POSITION_NONE");
+            ComicCollection.getInstance().getComics()[id].clearBitmap();
+            return POSITION_NONE;
+        } else {
+            return POSITION_UNCHANGED;
+        }
     }
 }

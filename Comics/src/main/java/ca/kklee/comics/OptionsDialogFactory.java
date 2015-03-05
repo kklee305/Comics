@@ -14,7 +14,7 @@ import ca.kklee.comics.scheduletask.ScheduleTaskReceiver;
  */
 public class OptionsDialogFactory {
 
-    public static Dialog createDialog(final Activity activity) {
+    public static Dialog createDialog(final HomeActivity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, 2); //2 is for theme
         builder.setTitle("Options")
                 .setItems(enumToStringList(activity), new DialogInterface.OnClickListener() {
@@ -23,10 +23,7 @@ public class OptionsDialogFactory {
 
                         switch (i) {
                             case 0:
-                                BitmapLoader.clearBitmap();
-                                Intent intent = new Intent(activity, HomeActivity.class);
-                                activity.finish();
-                                activity.startActivity(intent);
+                                activity.refresh();
                                 break;
                             case 1:
                                 if (ScheduleTaskReceiver.isAlarmSet(activity)) {
@@ -39,13 +36,18 @@ public class OptionsDialogFactory {
                                 Toast.makeText(activity, "Keith made this", Toast.LENGTH_SHORT).show();
                                 break;
                             case 3:
+                                BitmapLoader.clearBitmap();
+                                Intent intent = new Intent(activity, HomeActivity.class);
+                                activity.finish();
+                                activity.startActivity(intent);
+                                break;
+                            case 4:
                                 debugging(activity);
                                 break;
                         }
                     }
                 });
         Dialog dialog = builder.create();
-
         return dialog;
     }
 
@@ -69,12 +71,12 @@ public class OptionsDialogFactory {
 
     private static String getAlarmStateString(Activity activity) {
         if (ScheduleTaskReceiver.isAlarmSet(activity)) {
-            return "Set Auto-DL OFF";
+            return "Set Auto-Refresh OFF";
         } else {
-            return "Set Auto-DL ON";
+            return "Set Auto-Refresh ON";
         }
     }
 
-    private enum MenuItems {CLEAR, ALARM, ABOUT, DEBUGGIN}
+    private enum MenuItems {REFRESH, ALARM, ABOUT, CLEAR}
 
 }

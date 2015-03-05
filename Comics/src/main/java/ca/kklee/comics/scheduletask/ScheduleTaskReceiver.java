@@ -162,7 +162,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
             }
         };
 
-        ComicCollection.getInstance().clearAllBitmap();
+//        ComicCollection.getInstance().clearAllBitmap();
         for (int i = 0; i < comics.length; i++) {
             new ComicLoader(null, i, newComicListener).execute(comics[i].getUrl());
         }

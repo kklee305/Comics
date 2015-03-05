@@ -1,6 +1,5 @@
 package ca.kklee.comics;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -100,7 +99,7 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void initComicPager() {
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -175,7 +174,7 @@ public class HomeActivity extends ActionBarActivity {
 
     private void initOptions() {
         ImageView optionsButton = (ImageView) findViewById(R.id.options_icon);
-        final Activity activity = this;
+        final HomeActivity activity = this;
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -232,8 +231,8 @@ public class HomeActivity extends ActionBarActivity {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
         if (pref.getBoolean(SharedPrefConstants.OPENDRAWER, true)) {
+            refresh();
             drawerLayout.openDrawer(drawerList);
-            viewPager.invalidate();
             editor.putBoolean(SharedPrefConstants.OPENDRAWER, false);
             editor.commit();
 
@@ -249,6 +248,12 @@ public class HomeActivity extends ActionBarActivity {
                 }
             }
         }
+    }
+
+    protected void refresh() {
+        if (viewPager == null)
+            return;
+        viewPager.getAdapter().notifyDataSetChanged();
     }
 
     private void stopAutoHideUI() {
