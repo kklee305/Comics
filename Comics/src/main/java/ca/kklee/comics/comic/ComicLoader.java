@@ -52,13 +52,13 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             case "Nerf Now":
                 return dom.getElementById("comic").select("img[src]").attr("src");
             case "Saturday Morning Breakfast Cereal":
-                return dom.getElementById("comicimage").select("img[src]").attr("src");
+                return ComicCollection.getInstance().getComics()[id].getUrl() + dom.getElementById("comicbody").select("img[src]").attr("src").substring(9);
             case "Cyanide & Happiness":
                 return dom.getElementById("posts").select("article").select("img[src]").attr("src");
             case "MANvsMAGIC":
                 return ComicCollection.getInstance().getComics()[id].getUrl() + dom.select("main").select("img[src]").attr("src");
             case "Dilbert":
-                return ComicCollection.getInstance().getComics()[id].getUrl() + dom.select("div[class*=STR_Image").select("img[src]").attr("src");
+                return dom.select("div[class*=img-comic-container").select("img[src]").attr("src");
             case "Extra Fabulous Comics":
                 return dom.getElementById("comic").select("img[src]").attr("src");
             case "Penny Arcade":
