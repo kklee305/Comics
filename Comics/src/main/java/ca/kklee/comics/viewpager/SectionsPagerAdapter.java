@@ -49,7 +49,6 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
         int id = fragment.getArguments().getInt("ID");
         String title = ComicCollection.getInstance().getComics()[id].getTitle();
         if (prefForNew.getBoolean(title, false)) {
-            Logger.d("", title + " returning POSITION_NONE");
             ComicCollection.getInstance().getComics()[id].clearBitmap();
             return POSITION_NONE;
         } else {

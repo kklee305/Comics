@@ -77,6 +77,6 @@ public class OptionsDialogFactory {
         }
     }
 
-    private enum MenuItems {REFRESH, ALARM, ABOUT, CLEAR}
+    private enum MenuItems {REFRESH, ALARM, ABOUT}
 
 }
