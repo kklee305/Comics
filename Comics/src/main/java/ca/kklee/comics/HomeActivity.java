@@ -17,10 +17,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.navdrawer.DrawerItemClickListener;
 import ca.kklee.comics.navdrawer.NavDrawerAdapter;
+import ca.kklee.comics.scheduletask.SilentDownload;
 import ca.kklee.comics.viewpager.SectionsPagerAdapter;
 
 /**
@@ -231,7 +233,9 @@ public class HomeActivity extends ActionBarActivity {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
         if (pref.getBoolean(SharedPrefConstants.OPENDRAWER, true)) {
-            refresh();
+            if (viewPager != null) {
+                viewPager.getAdapter().notifyDataSetChanged();
+            }
             drawerLayout.openDrawer(drawerList);
             editor.putBoolean(SharedPrefConstants.OPENDRAWER, false);
             editor.commit();
@@ -251,9 +255,7 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     protected void refresh() {
-        if (viewPager == null)
-            return;
-        viewPager.getAdapter().notifyDataSetChanged();
+        new SilentDownload(this.getApplicationContext(), viewPager).startSilentDownload();
     }
 
     private void stopAutoHideUI() {
