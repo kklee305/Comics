@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -255,7 +256,7 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     protected void refresh() {
-        new SilentDownload(this.getApplicationContext(), viewPager).startSilentDownload();
+        new SilentDownload(this.getApplicationContext(), viewPager, (ProgressBar) findViewById(R.id.refresh_icon)).startSilentDownload();
     }
 
     private void stopAutoHideUI() {

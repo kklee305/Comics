@@ -7,7 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.kklee.utilities.ConnectionUtil;
 import com.kklee.utilities.Logger;
@@ -24,18 +25,21 @@ import ca.kklee.comics.comic.ComicLoader;
 
 /**
  * Created by Keith on 26/03/2015.
+ * TODO make this singleton
  */
 public class SilentDownload {
 
     private ViewPager viewPager;
+    private ProgressBar progressBar;
     private Context context;
     private static int newComics = 0;
     private static int dlComplete = 0;
     private final int NOTIFICATION_ID = 1;
 
-    public SilentDownload(Context context, ViewPager viewPager) {
+    public SilentDownload(Context context, ViewPager viewPager, ProgressBar progressBar) {
         this.context = context;
         this.viewPager = viewPager;
+        this.progressBar = progressBar;
     }
 
     public void startSilentDownload() {
@@ -73,7 +77,9 @@ public class SilentDownload {
 
     private void downloadFiles() {
         Logger.d("", "SilentDownload");
-
+        if (progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
         final SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
         final SharedPreferences.Editor editorForNew = prefForNew.edit();
         final SharedPreferences prefForTime = context.getSharedPreferences(SharedPrefConstants.COMICUPDATETIME, 0);
@@ -97,8 +103,8 @@ public class SilentDownload {
                 }
                 if (dlComplete == comics.length) {
                     Logger.d("", "Done All Scheduled DL, new comics: " + newComics);
-                    if (viewPager != null) {
-                        Toast.makeText(context, "Refresh Complete", Toast.LENGTH_SHORT).show();
+                    if (progressBar != null) {
+                        progressBar.setVisibility(View.GONE);
                     }
                     if (newComics == 0) return;
                     editorForNew.putBoolean(SharedPrefConstants.OPENDRAWER, true);

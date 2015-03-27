@@ -93,7 +93,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        new SilentDownload(context, null).startSilentDownload();
+        new SilentDownload(context, null, null).startSilentDownload();
     }
 
 }
