@@ -48,7 +48,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             case "Garfield":
                 return dom.getElementById("home_comic").select("img[src]").attr("src");
             case "XKCD":
-                return dom.getElementById("comic").select("img[src]").attr("src");
+                return "http:" + dom.getElementById("comic").select("img[src]").attr("src");
             case "Nerf Now":
                 return dom.getElementById("comic").select("img[src]").attr("src");
             case "Saturday Morning Breakfast Cereal":
