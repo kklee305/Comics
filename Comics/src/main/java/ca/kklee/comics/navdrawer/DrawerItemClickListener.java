@@ -28,12 +28,8 @@ public class DrawerItemClickListener implements OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (i > 0) {
-            viewPager.setCurrentItem(i - 1, true); //cause of header
-            drawerLayout.closeDrawers();
-//            setNavDrawerItemNormal();
-//            ((TextView) view.findViewById(R.id.comic_title)).setTypeface(selectedFont);
-        }
+        viewPager.setCurrentItem(i, true);
+        drawerLayout.closeDrawers();
     }
 //
 //    public void setNavDrawerItemNormal()

@@ -15,10 +15,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.navdrawer.DrawerItemClickListener;
@@ -39,12 +39,13 @@ import ca.kklee.comics.viewpager.SectionsPagerAdapter;
 
 public class HomeActivity extends ActionBarActivity {
 
-    DrawerLayout drawerLayout;
+    private DrawerLayout drawerLayout;
+    private ListView drawerList;
+    private LinearLayout drawerLinear;
     private ViewPager viewPager;
     private ActionBarDrawerToggle drawerToggle;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
-    private ListView drawerList;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         @Override
@@ -109,11 +110,12 @@ public class HomeActivity extends ActionBarActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 hideUI(getWindow().getDecorView());
+                drawerList.setSelection(position);
             }
 
             @Override
             public void onPageSelected(int position) {
-                drawerList.setItemChecked(position + 1, true); //because of header
+                drawerList.setItemChecked(position, true);
             }
 
             @Override
@@ -134,7 +136,8 @@ public class HomeActivity extends ActionBarActivity {
 
     private void initNavDrawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerLinear = (LinearLayout) findViewById(R.id.left_drawer);
+        drawerList = (ListView) findViewById(R.id.drawer_list_view);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, 0, 0) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -160,17 +163,14 @@ public class HomeActivity extends ActionBarActivity {
         drawerList.setAdapter(new NavDrawerAdapter(this, R.layout.nav_list_item_layout, ComicCollection.getInstance().getFullTitleArray()));
         drawerList.setOnItemClickListener(new DrawerItemClickListener(viewPager, drawerList, drawerLayout));
 
-        View header = getLayoutInflater().inflate(R.layout.nav_list_header_layout, null);
-        drawerList.addHeaderView(header);
-        drawerList.setHeaderDividersEnabled(false);
         drawerList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        drawerList.setItemChecked(1, true);
+        drawerList.setItemChecked(0, true);
 
         ImageView navButton = (ImageView) findViewById(R.id.nav_icon);
         navButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.openDrawer(drawerList);
+                drawerLayout.openDrawer(drawerLinear);
             }
         });
     }
@@ -237,7 +237,7 @@ public class HomeActivity extends ActionBarActivity {
             if (viewPager != null) {
                 viewPager.getAdapter().notifyDataSetChanged();
             }
-            drawerLayout.openDrawer(drawerList);
+            drawerLayout.openDrawer(drawerLinear);
             editor.putBoolean(SharedPrefConstants.OPENDRAWER, false);
             editor.commit();
 
@@ -246,8 +246,8 @@ public class HomeActivity extends ActionBarActivity {
             for (int i = 0; i < ComicCollection.getInstance().getComics().length; i++) {
                 title = ComicCollection.getInstance().getComics()[i].getTitle();
                 if (pref.getBoolean(title, false)) {
-                    drawerList.setItemChecked(i + 1, true); //+1 because of header
-                    drawerList.smoothScrollToPosition(i + 1);
+                    drawerList.setItemChecked(i, true);
+                    drawerList.smoothScrollToPosition(i);
                     viewPager.setCurrentItem(i, false);
                     break;
                 }

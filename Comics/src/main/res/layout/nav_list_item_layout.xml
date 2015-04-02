@@ -32,7 +32,7 @@
             android:layout_centerInParent="true"
             android:layout_toRightOf="@id/comic_icon"
             android:gravity="center_vertical"
-            android:text="Movie Title"
+            android:text="Comic Title"
             android:textSize="22dp"/>
 
     </RelativeLayout>
@@ -50,6 +50,15 @@
             android:layout_alignParentRight="true"
             android:scaleType="fitCenter"
             android:src="@drawable/new_icon"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/error_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/error"
             android:visibility="invisible"/>
 
         <TextView
