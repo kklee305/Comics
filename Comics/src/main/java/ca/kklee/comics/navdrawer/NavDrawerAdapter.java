@@ -23,7 +23,7 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
     private String[] items;
     private LayoutInflater inflater;
     private Typeface type;
-    private SharedPreferences prefForNew, prefForUpdate;
+    private SharedPreferences prefForNew, prefForError, prefForUpdate;
 
     public NavDrawerAdapter(Context context, int resource, String[] items) {
         super(context, resource, items);
@@ -31,6 +31,7 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
         this.items = items;
         inflater = LayoutInflater.from(context);
         prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
+        prefForError = context.getSharedPreferences(SharedPrefConstants.COMICERRORFLAG, 0);
         prefForUpdate = context.getSharedPreferences(SharedPrefConstants.COMICUPDATETIME, 0);
         type = Typeface.createFromAsset(context.getAssets(), "fonts/ComicNeue-Regular-Oblique.ttf");
     }
@@ -46,6 +47,7 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
             holder.comicTitle.setTypeface(type);
             holder.comicUpdate = (TextView) convertView.findViewById(R.id.comic_update);
             holder.newIcon = (ImageView) convertView.findViewById(R.id.new_icon);
+            holder.errorIcon = (ImageView) convertView.findViewById(R.id.error_icon);
             convertView.setTag(holder);
         } else {
             holder = (NavItem) convertView.getTag();
@@ -58,7 +60,12 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
         if (prefForNew.getBoolean(title, false)) {
             holder.newIcon.setVisibility(View.VISIBLE);
         } else {
-            holder.newIcon.setVisibility(View.INVISIBLE);
+            holder.newIcon.setVisibility(View.GONE);
+        }
+        if (prefForError.getBoolean(title, false)) {
+            holder.errorIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.errorIcon.setVisibility(View.GONE);
         }
 
         calculateLastUpdate(title, holder.comicUpdate);
@@ -90,6 +97,7 @@ public class NavDrawerAdapter extends ArrayAdapter<String> {
         TextView comicTitle;
         TextView comicUpdate;
         ImageView newIcon;
+        ImageView errorIcon;
     }
 
 }

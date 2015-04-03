@@ -7,8 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.kklee.utilities.Logger;
-
 import ca.kklee.comics.SharedPrefConstants;
 import ca.kklee.comics.comic.ComicCollection;
 

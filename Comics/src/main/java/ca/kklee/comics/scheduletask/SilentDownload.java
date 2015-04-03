@@ -29,12 +29,12 @@ import ca.kklee.comics.comic.ComicLoader;
  */
 public class SilentDownload {
 
-    private ViewPager viewPager;
-    private ProgressBar progressBar;
-    private Context context;
     private static int newComics = 0;
     private static int dlComplete = 0;
     private final int NOTIFICATION_ID = 1;
+    private ViewPager viewPager;
+    private ProgressBar progressBar;
+    private Context context;
 
     public SilentDownload(Context context, ViewPager viewPager, ProgressBar progressBar) {
         this.context = context;
@@ -82,6 +82,8 @@ public class SilentDownload {
         }
         final SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
         final SharedPreferences.Editor editorForNew = prefForNew.edit();
+        final SharedPreferences prefForError = context.getSharedPreferences(SharedPrefConstants.COMICERRORFLAG, 0);
+        final SharedPreferences.Editor editorForError = prefForError.edit();
         final SharedPreferences prefForTime = context.getSharedPreferences(SharedPrefConstants.COMICUPDATETIME, 0);
         final SharedPreferences.Editor editorForTime = prefForTime.edit();
 
@@ -92,11 +94,18 @@ public class SilentDownload {
             @Override
             public void onDomCheckCompleted(int response, String title) {
                 dlComplete++;
+                if (response == 0 || response == 1) {
+                    editorForError.putBoolean(title, false);
+                    editorForError.commit();
+                }
                 if (response == 1) {
                     editorForNew.putBoolean(title, true);
                     editorForNew.commit();
                     editorForTime.putLong(title, System.currentTimeMillis());
                     editorForTime.apply();
+                } else if (response == 2) {
+                    editorForError.putBoolean(title, true);
+                    editorForError.commit();
                 }
                 if (prefForNew.getBoolean(title, false)) {
                     newComics++;
@@ -109,6 +118,7 @@ public class SilentDownload {
                     if (newComics == 0) return;
                     editorForNew.putBoolean(SharedPrefConstants.OPENDRAWER, true);
                     editorForNew.apply();
+                    editorForError.apply();
                     fireNotification(newComics);
                 }
             }

@@ -36,6 +36,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
     private NewComicListener newComicListener;
     private View rootView;
     private String imageUrlString;
+    private int return_code = 2;
 
     public ComicLoader(View rootView, int id, NewComicListener newComicListener) {
         this.rootView = rootView;
@@ -86,6 +87,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         int newFileCode = imageUrl.toString().hashCode();
         int oldFileCode = comic.getFileHashCode();
         if (newFileCode == oldFileCode) {
+            return_code = 0;
             return null;
         }
         imageUrlString = imageUrl.toString();
@@ -96,22 +98,15 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
     protected void onPostExecute(Bitmap bitmap) {
         if (bitmap != null) {
             ComicCollection.getInstance().getComics()[id].saveBitmap(bitmap, imageUrlString.hashCode());
-            newComicResponse(1);
+            return_code = 1;
             if (rootView == null)
                 return;
             ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
             imageView.setImageBitmap(bitmap);
             imageView.setVisibility(View.VISIBLE);
             rootView.findViewById(R.id.loading).setVisibility(View.GONE);
-        } else {
-            newComicResponse(0);
-            if (rootView == null)
-                return;
-            ImageView errorView = (ImageView) rootView.findViewById(R.id.error_view);
-            errorView.setImageBitmap(BitmapFactory.decodeResource(rootView.getResources(), R.drawable.error));
-            errorView.setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
         }
+        newComicResponse(return_code);
     }
 
     private URL downloadDom(String comicUrl) {
