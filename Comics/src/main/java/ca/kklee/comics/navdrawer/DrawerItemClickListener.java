@@ -1,6 +1,6 @@
 package ca.kklee.comics.navdrawer;
 
-import android.graphics.Typeface;
+import android.app.Dialog;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -8,36 +8,37 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import ca.kklee.comics.HomeActivity;
+import ca.kklee.comics.OptionsDialogFactory;
+import ca.kklee.comics.comic.ComicCollection;
+
 /**
  * Created by Keith on 09/07/2014.
  */
 public class DrawerItemClickListener implements OnItemClickListener {
 
     private ViewPager viewPager;
-    private ListView drawerList;
     private DrawerLayout drawerLayout;
-    private Typeface normalFont, selectedFont;
+    private HomeActivity activity;
+    private ListView drawerList;
 
-    public DrawerItemClickListener(ViewPager viewPager, ListView drawerList, DrawerLayout drawerLayout) {
+    public DrawerItemClickListener(HomeActivity activity, ViewPager viewPager, DrawerLayout drawerLayout, ListView drawerList) {
         this.viewPager = viewPager;
-        this.drawerList = drawerList;
         this.drawerLayout = drawerLayout;
-        normalFont = Typeface.createFromAsset(viewPager.getContext().getAssets(), "fonts/ComicNeue-Regular-Oblique.ttf");
-        selectedFont = Typeface.createFromAsset(viewPager.getContext().getAssets(), "fonts/ComicNeue-Bold-Oblique.ttf");
+        this.activity = activity;
+        this.drawerList = drawerList;
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        viewPager.setCurrentItem(i, true);
+        if (i >= ComicCollection.getInstance().getComics().length){
+            Dialog dialog = OptionsDialogFactory.createDialog(activity);
+            dialog.show();
+            drawerList.setItemChecked(viewPager.getCurrentItem(), true);
+        } else {
+            viewPager.setCurrentItem(i, true);
+        }
         drawerLayout.closeDrawers();
     }
-//
-//    public void setNavDrawerItemNormal()
-//    {
-//        for (int i=0; i< drawerList.getChildCount(); i++) {
-//            View v = drawerList.getChildAt(i);
-//            TextView textView = (TextView) v.findViewById(R.id.comic_title);
-//            textView.setTypeface(normalFont);
-//        }
-//    }
+
 }

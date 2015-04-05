@@ -1,6 +1,5 @@
 package ca.kklee.comics;
 
-import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -162,7 +161,7 @@ public class HomeActivity extends ActionBarActivity {
         };
         drawerLayout.setDrawerListener(drawerToggle);
         drawerList.setAdapter(new NavDrawerAdapter(this, R.layout.nav_list_item_layout, ComicCollection.getInstance().getFullTitleArray()));
-        drawerList.setOnItemClickListener(new DrawerItemClickListener(viewPager, drawerList, drawerLayout));
+        drawerList.setOnItemClickListener(new DrawerItemClickListener(this, viewPager, drawerLayout, drawerList));
 
         drawerList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         drawerList.setItemChecked(0, true);
@@ -174,6 +173,12 @@ public class HomeActivity extends ActionBarActivity {
                 drawerLayout.openDrawer(drawerLinear);
             }
         });
+
+        //move to somewhere else... maybe
+        View footer = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.nav_list_footer_layout, null, false);
+        TextView option_text = (TextView) footer.findViewById(R.id.options_text);
+        option_text.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/ComicNeue-Regular-Oblique.ttf"));
+        drawerList.addFooterView(footer);
     }
 
     private void initTestButton() {
