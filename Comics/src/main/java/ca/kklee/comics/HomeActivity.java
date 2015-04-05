@@ -190,6 +190,7 @@ public class HomeActivity extends ActionBarActivity {
                 srl.setRefreshing(false);
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 viewPager.getAdapter().notifyDataSetChanged();
+                NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0), (TextView) findViewById(R.id.comic_header_last_update));
             }
         };
         srl = (SwipeRefreshLayout) findViewById(R.id.drawer_swipe_refresh_view);
