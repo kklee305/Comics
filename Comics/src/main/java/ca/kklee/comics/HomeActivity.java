@@ -13,6 +13,7 @@ import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.navdrawer.DrawerItemClickListener;
 import ca.kklee.comics.navdrawer.NavDrawerAdapter;
+import ca.kklee.comics.navdrawer.NavDrawerHeader;
 import ca.kklee.comics.scheduletask.SilentDownload;
 import ca.kklee.comics.viewpager.SectionsPagerAdapter;
 
@@ -30,10 +32,9 @@ import ca.kklee.comics.viewpager.SectionsPagerAdapter;
  * TODO List
  * logger
  * custom options menu
- * display error icons ??
  * proper image scaling
  * image pinch zooming
- * view comics of diff dates ***
+ * view comics of diff dates
  * add authors
  */
 
@@ -110,7 +111,6 @@ public class HomeActivity extends ActionBarActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 hideUI(getWindow().getDecorView());
-                drawerList.setSelection(position);
             }
 
             @Override
@@ -148,6 +148,7 @@ public class HomeActivity extends ActionBarActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 drawerList.invalidateViews();
+                NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0), (TextView) findViewById(R.id.comic_header_last_update));
             }
 
             @Override

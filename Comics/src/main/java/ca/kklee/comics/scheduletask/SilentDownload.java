@@ -112,6 +112,8 @@ public class SilentDownload {
                 }
                 if (dlComplete == comics.length) {
                     Logger.d("", "Done All Scheduled DL, new comics: " + newComics);
+                    editorForNew.putLong(SharedPrefConstants.LASTUPDATE, System.currentTimeMillis());
+                    editorForNew.commit();
                     if (progressBar != null) {
                         progressBar.setVisibility(View.GONE);
                     }

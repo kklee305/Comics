@@ -9,6 +9,7 @@ public class SharedPrefConstants {
     public static final String COMICUPDATETIME = "1";
     public static final String COMICERRORFLAG = "2";
     public static final String OPENDRAWER = "drawer";
+    public static final String LASTUPDATE = "update";
     public static final String WIFIRECONNECT = "wifi";
 
 }

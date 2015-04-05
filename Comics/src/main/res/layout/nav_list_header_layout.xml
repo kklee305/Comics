@@ -3,14 +3,15 @@
     android:id="@+id/layout_list_header"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeightSmall"
-    android:background="@color/primary_3">
+    android:layout_height="65dip"
+    android:background="@drawable/nav_drawer_head_background">
 
     <ImageView
         android:id="@+id/comic_icon"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
@@ -22,8 +23,22 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
         android:layout_marginRight="6dp"
         android:layout_toRightOf="@id/comic_icon"
-        android:src="@drawable/title"/>
+        android:src="@drawable/title"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/comic_header_last_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentBottom="true"
+        android:text="Last Update: "
+        android:textColor="@color/primary_3"
+        android:textSize="10dp"/>
 </RelativeLayout>
