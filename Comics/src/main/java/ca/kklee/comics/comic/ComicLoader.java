@@ -99,12 +99,12 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         if (bitmap != null) {
             ComicCollection.getInstance().getComics()[id].saveBitmap(bitmap, imageUrlString.hashCode());
             return_code = 1;
-            if (rootView == null)
-                return;
-            ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
-            imageView.setImageBitmap(bitmap);
-            imageView.setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
+            if (rootView != null) {
+                ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
+                imageView.setImageBitmap(bitmap);
+                imageView.setVisibility(View.VISIBLE);
+                rootView.findViewById(R.id.loading).setVisibility(View.GONE);
+            }
         }
         newComicResponse(return_code);
     }
