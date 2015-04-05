@@ -7,7 +7,7 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -140,7 +140,7 @@ public class HomeActivity extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLinear = (LinearLayout) findViewById(R.id.left_drawer);
         drawerList = (ListView) findViewById(R.id.drawer_list_view);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, 0, 0) {
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, 0, 0) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 hideUI(getWindow().getDecorView());
