@@ -90,7 +90,7 @@ public class HomeActivity extends ActionBarActivity {
         initComicCollection(); //do this before everything else
         initComicPager();
         initNavDrawer(); //ComicPager comes before this
-        initOptions();
+//        initTestButton();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             hideUI(getWindow().getDecorView());
             initImmersionFullScreen();
@@ -176,17 +176,17 @@ public class HomeActivity extends ActionBarActivity {
         });
     }
 
-    private void initOptions() {
-        ImageView optionsButton = (ImageView) findViewById(R.id.options_icon);
-        final HomeActivity activity = this;
-        optionsButton.setOnClickListener(new View.OnClickListener() {
+    private void initTestButton() {
+//        final LinearLayout optionsDrawer = (LinearLayout) findViewById(R.id.options_drawer);
+
+        ImageView testButton = (ImageView) findViewById(R.id.test_icon);
+        testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog = OptionsDialogFactory.createDialog(activity);
-                dialog.show();
+//                drawerLayout.openDrawer(optionsDrawer);
             }
         });
-        optionsButton.setVisibility(View.VISIBLE);
+        testButton.setVisibility(View.VISIBLE);
     }
 
     private void initImmersionFullScreen() {
