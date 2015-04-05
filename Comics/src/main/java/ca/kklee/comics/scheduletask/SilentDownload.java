@@ -25,13 +25,14 @@ import ca.kklee.comics.comic.ComicLoader;
 
 /**
  * Created by Keith on 26/03/2015.
- * TODO make this singleton
  */
 public class SilentDownload {
 
+    private enum State {ACTIVE, IDLE}
     private static int newComics = 0;
     private static int dlComplete = 0;
     private final int NOTIFICATION_ID = 1;
+    private static State currentState = State.IDLE;
     private ViewPager viewPager;
     private ProgressBar progressBar;
     private Context context;
@@ -43,7 +44,9 @@ public class SilentDownload {
     }
 
     public void startSilentDownload() {
+        if (currentState == State.ACTIVE) return;
         if (!checkConnection()) return;
+        currentState = State.ACTIVE;
         initComics();
         downloadFiles();
 //        debugging();
@@ -110,17 +113,17 @@ public class SilentDownload {
                 if (prefForNew.getBoolean(title, false)) {
                     newComics++;
                 }
-                if (dlComplete == comics.length) {
+                if (dlComplete >= comics.length) {
                     Logger.d("", "Done All Scheduled DL, new comics: " + newComics);
                     editorForNew.putLong(SharedPrefConstants.LASTUPDATE, System.currentTimeMillis());
                     editorForNew.commit();
                     if (progressBar != null) {
                         progressBar.setVisibility(View.GONE);
                     }
+                    currentState = State.IDLE;
                     if (newComics == 0) return;
                     editorForNew.putBoolean(SharedPrefConstants.OPENDRAWER, true);
-                    editorForNew.apply();
-                    editorForError.apply();
+                    editorForNew.commit();
                     fireNotification(newComics);
                 }
             }
