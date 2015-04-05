@@ -11,19 +11,21 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.navdrawer.DrawerItemClickListener;
 import ca.kklee.comics.navdrawer.NavDrawerAdapter;
 import ca.kklee.comics.navdrawer.NavDrawerHeader;
+import ca.kklee.comics.navdrawer.RefreshListener;
 import ca.kklee.comics.scheduletask.SilentDownload;
 import ca.kklee.comics.viewpager.SectionsPagerAdapter;
 
@@ -44,6 +46,7 @@ public class HomeActivity extends ActionBarActivity {
     private LinearLayout drawerLinear;
     private ViewPager viewPager;
     private ActionBarDrawerToggle drawerToggle;
+    private SwipeRefreshLayout srl;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private Handler handler = new Handler();
@@ -166,6 +169,38 @@ public class HomeActivity extends ActionBarActivity {
         drawerList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         drawerList.setItemChecked(0, true);
 
+        drawerList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                if (i == SCROLL_STATE_IDLE)
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                else
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+
+            }
+        });
+
+        final RefreshListener refreshListener = new RefreshListener() {
+            @Override
+            public void onRefreshComplete() {
+                srl.setRefreshing(false);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                viewPager.getAdapter().notifyDataSetChanged();
+            }
+        };
+        srl = (SwipeRefreshLayout) findViewById(R.id.drawer_swipe_refresh_view);
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh(refreshListener);
+            }
+        });
+        srl.setProgressBackgroundColorSchemeResource(R.color.primary_4);
+        srl.setColorSchemeResources(R.color.primary_2, R.color.complement_2);
         ImageView navButton = (ImageView) findViewById(R.id.nav_icon);
         navButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,6 +208,8 @@ public class HomeActivity extends ActionBarActivity {
                 drawerLayout.openDrawer(drawerLinear);
             }
         });
+
+        NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0), (TextView) findViewById(R.id.comic_header_last_update));
 
         //move to somewhere else... maybe
         View footer = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.nav_list_footer_layout, null, false);
@@ -261,8 +298,9 @@ public class HomeActivity extends ActionBarActivity {
         }
     }
 
-    protected void refresh() {
-        new SilentDownload(this.getApplicationContext(), viewPager, (ProgressBar) findViewById(R.id.refresh_icon)).startSilentDownload();
+    protected void refresh(RefreshListener refreshListener) {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+        new SilentDownload(this.getApplicationContext(), refreshListener).startSilentDownload();
     }
 
     private void stopAutoHideUI() {

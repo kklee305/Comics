@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -22,6 +23,7 @@ import ca.kklee.comics.SharedPrefConstants;
 import ca.kklee.comics.comic.Comic;
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.comic.ComicLoader;
+import ca.kklee.comics.navdrawer.RefreshListener;
 
 /**
  * Created by Keith on 26/03/2015.
@@ -33,14 +35,12 @@ public class SilentDownload {
     private static int dlComplete = 0;
     private final int NOTIFICATION_ID = 1;
     private static State currentState = State.IDLE;
-    private ViewPager viewPager;
-    private ProgressBar progressBar;
+    private RefreshListener refreshListener;
     private Context context;
 
-    public SilentDownload(Context context, ViewPager viewPager, ProgressBar progressBar) {
+    public SilentDownload(Context context, RefreshListener refreshListener) {
         this.context = context;
-        this.viewPager = viewPager;
-        this.progressBar = progressBar;
+        this.refreshListener = refreshListener;
     }
 
     public void startSilentDownload() {
@@ -80,9 +80,6 @@ public class SilentDownload {
 
     private void downloadFiles() {
         Logger.d("", "SilentDownload");
-        if (progressBar != null) {
-            progressBar.setVisibility(View.VISIBLE);
-        }
         final SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
         final SharedPreferences.Editor editorForNew = prefForNew.edit();
         final SharedPreferences prefForError = context.getSharedPreferences(SharedPrefConstants.COMICERRORFLAG, 0);
@@ -97,19 +94,22 @@ public class SilentDownload {
             @Override
             public void onDomCheckCompleted(int response, String title) {
                 dlComplete++;
-                if (response == 0 || response == 1) {
-                    editorForError.putBoolean(title, false);
-                    editorForError.commit();
+                switch (response) {
+                    case 1:
+                        editorForNew.putBoolean(title, true);
+                        editorForNew.commit();
+                        editorForTime.putLong(title, System.currentTimeMillis());
+                        editorForTime.apply();
+                    case 0:
+                        editorForError.putBoolean(title, false);
+                        editorForError.commit();
+                        break;
+                    case 2:
+                        editorForError.putBoolean(title, true);
+                        editorForError.commit();
+                        break;
                 }
-                if (response == 1) {
-                    editorForNew.putBoolean(title, true);
-                    editorForNew.commit();
-                    editorForTime.putLong(title, System.currentTimeMillis());
-                    editorForTime.apply();
-                } else if (response == 2) {
-                    editorForError.putBoolean(title, true);
-                    editorForError.commit();
-                }
+
                 if (prefForNew.getBoolean(title, false)) {
                     newComics++;
                 }
@@ -117,8 +117,8 @@ public class SilentDownload {
                     Logger.d("", "Done All Scheduled DL, new comics: " + newComics);
                     editorForNew.putLong(SharedPrefConstants.LASTUPDATE, System.currentTimeMillis());
                     editorForNew.commit();
-                    if (progressBar != null) {
-                        progressBar.setVisibility(View.GONE);
+                    if (refreshListener != null) {
+                        refreshListener.onRefreshComplete();
                     }
                     currentState = State.IDLE;
                     if (newComics == 0) return;
@@ -146,18 +146,11 @@ public class SilentDownload {
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
-        updateViewPager();
     }
 
     private PendingIntent startAppIntent() {
         Intent i = new Intent(context, HomeActivity.class);
         return PendingIntent.getActivity(context, 0, i, 0);
-    }
-
-    private void updateViewPager() {
-        if (viewPager != null) {
-            viewPager.getAdapter().notifyDataSetChanged();
-        }
     }
 
 //    private void debugging(Context context) {

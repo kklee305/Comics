@@ -23,19 +23,16 @@ public class OptionsDialogFactory {
 
                         switch (i) {
                             case 0:
-                                activity.refresh();
-                                break;
-                            case 1:
                                 if (ScheduleTaskReceiver.isAlarmSet(activity)) {
                                     ScheduleTaskReceiver.cancelAlarm(activity);
                                 } else {
                                     ScheduleTaskReceiver.startScheduledTask(activity);
                                 }
                                 break;
-                            case 2:
+                            case 1:
                                 Toast.makeText(activity, "Keith made this", Toast.LENGTH_SHORT).show();
                                 break;
-                            case 3:
+                            case 2:
                                 BitmapLoader.clearBitmap();
                                 Intent intent = new Intent(activity, HomeActivity.class);
                                 activity.finish();
@@ -77,6 +74,6 @@ public class OptionsDialogFactory {
         }
     }
 
-    private enum MenuItems {REFRESH, ALARM, ABOUT}
+    private enum MenuItems {ALARM, ABOUT}
 
 }
