@@ -1,7 +1,7 @@
 package ca.kklee.comics;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,8 +15,8 @@ import ca.kklee.comics.scheduletask.ScheduleTaskReceiver;
 public class OptionsDialogFactory {
 
     public static Dialog createDialog(final HomeActivity activity) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity, 2); //2 is for theme
-        builder.setTitle("Options")
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AppCompatAlertDialogStyle); //2 is for theme
+        builder.setTitle("Settings")
                 .setItems(enumToStringList(activity), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
