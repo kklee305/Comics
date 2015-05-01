@@ -7,15 +7,17 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,6 +28,7 @@ import ca.kklee.comics.navdrawer.DrawerItemClickListener;
 import ca.kklee.comics.navdrawer.NavDrawerAdapter;
 import ca.kklee.comics.navdrawer.NavDrawerHeader;
 import ca.kklee.comics.navdrawer.RefreshListener;
+import ca.kklee.comics.scheduletask.ScheduleTaskReceiver;
 import ca.kklee.comics.scheduletask.SilentDownload;
 import ca.kklee.comics.viewpager.SectionsPagerAdapter;
 
@@ -39,7 +42,7 @@ import ca.kklee.comics.viewpager.SectionsPagerAdapter;
  * add authors
  */
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -164,7 +167,7 @@ public class HomeActivity extends ActionBarActivity {
         };
         drawerLayout.setDrawerListener(drawerToggle);
         drawerList.setAdapter(new NavDrawerAdapter(this, R.layout.nav_list_item_layout, ComicCollection.getInstance().getFullTitleArray()));
-        drawerList.setOnItemClickListener(new DrawerItemClickListener(this, viewPager, drawerLayout, drawerList));
+        drawerList.setOnItemClickListener(new DrawerItemClickListener(this, viewPager, drawerLayout));
 
         drawerList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         drawerList.setItemChecked(0, true);
@@ -213,9 +216,31 @@ public class HomeActivity extends ActionBarActivity {
         NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0), (TextView) findViewById(R.id.comic_header_last_update));
 
         //move to somewhere else... maybe
-        View footer = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.nav_list_footer_layout, null, false);
-        TextView option_text = (TextView) footer.findViewById(R.id.options_text);
+        View refreshSwitchLayout = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.options_switch_item_layout, null, false);
+        SwitchCompat switchCompat = (SwitchCompat) refreshSwitchLayout.findViewById(R.id.options_refresh_switch);
+        TextView option_text = (TextView) refreshSwitchLayout.findViewById(R.id.options_text);
         option_text.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/ComicNeue-Regular-Oblique.ttf"));
+        switchCompat.setChecked(ScheduleTaskReceiver.isAlarmSet(this));
+        final HomeActivity homeActivity = this;
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (!ScheduleTaskReceiver.isAlarmSet(homeActivity)) {
+                        ScheduleTaskReceiver.startScheduledTask(homeActivity);
+                        buttonView.setChecked(ScheduleTaskReceiver.isAlarmSet(homeActivity));
+                    }
+                } else {
+                    if (ScheduleTaskReceiver.isAlarmSet(homeActivity)) {
+                        ScheduleTaskReceiver.cancelAlarm(homeActivity);
+                        buttonView.setChecked(ScheduleTaskReceiver.isAlarmSet(homeActivity));
+                    }
+                }
+            }
+        });
+        drawerList.addFooterView(refreshSwitchLayout);
+
+        View footer = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.nav_list_footer_layout, null, false);
         drawerList.addFooterView(footer);
     }
 

@@ -106,20 +106,6 @@
 
     </LinearLayout>
 
-    <!--<LinearLayout-->
-    <!--android:id="@+id/options_drawer"-->
-    <!--android:layout_width="240dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_gravity="start"-->
-    <!--android:orientation="vertical"-->
-    <!--android:background="@color/primary_3">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="OPTIONS!!! OMG YOLO"/>-->
-    <!--</LinearLayout>-->
-
 </android.support.v4.widget.DrawerLayout>
 
 

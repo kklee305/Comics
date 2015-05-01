@@ -3,30 +3,17 @@
     android:id="@+id/layout_list_footer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeightSmall"
-    android:background="@drawable/nav_options_selector"
+    android:layout_height="24dp"
+    android:background="@color/primary_3"
     android:orientation="horizontal"
     android:padding="5dp">
 
-        <RelativeLayout
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="6dp"
-            android:layout_gravity="center_vertical">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:scaleType="fitCenter"
-                android:layout_centerInParent="true"
-                android:src="@drawable/options"/>
-        </RelativeLayout>
-
         <TextView
-            android:id="@+id/options_text"
-            android:layout_width="wrap_content"
-            android:layout_height="43dp"
-            android:gravity="center_vertical"
-            android:text="Settings"
-            android:textSize="22dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:text="Keith made this"
+            android:textSize="12dp"/>
 
 </LinearLayout>
