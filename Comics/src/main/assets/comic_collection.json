@@ -94,5 +94,11 @@
     "shortForm": "",
     "url": "http://www.gocomics.com/marmaduke",
     "enabled": "true"
+  },
+  {
+    "title": "Pigminted",
+    "shortForm": "",
+    "url": "http://www.pigminted.com/",
+    "enabled": "true"
   }
 ]
