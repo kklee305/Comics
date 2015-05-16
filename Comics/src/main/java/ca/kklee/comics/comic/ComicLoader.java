@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Patterns;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 
 import com.kklee.utilities.Logger;
@@ -20,9 +21,12 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 import ca.kklee.comics.R;
 import ca.kklee.comics.scheduletask.NewComicListener;
@@ -109,6 +113,12 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             }
         }
         newComicResponse(return_code);
+        if (rootView != null) {
+            ImageView errorView = (ImageView) rootView.findViewById(R.id.error_view);
+            errorView.setBackground(rootView.getResources().getDrawable(R.drawable.error));
+            errorView.setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.loading).setVisibility(View.GONE);
+        }
     }
 
     private URL downloadDom(String comicUrl) {
@@ -152,39 +162,31 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             Logger.e("ERROR: url not valid: " + url);
             return null;
         }
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpGet httpget = new HttpGet(url.toString());
-        HttpResponse response = null;
+
         try {
-            response = httpclient.execute(httpget);
-            int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode != HttpStatus.SC_OK) {
-                Logger.e("ERROR: downloadImage " + statusCode + " : " + url);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setDoInput(true);
+            urlConnection.connect();
+            int responseCode = urlConnection.getResponseCode();
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                Logger.e("ERROR: response code " + responseCode + " ||| " + url);
                 return null;
             }
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                InputStream inputStream = null;
-                try {
-                    inputStream = entity.getContent();
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    Logger.d("", "Success DLImage: " + url);
-                    return bitmap;
-                } finally {
-                    if (inputStream != null) {
-                        inputStream.close();
-                    }
-                    entity.consumeContent();
+
+            InputStream inputStream = null;
+            try {
+                inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                Logger.d("", "Success DLImage: " + url);
+                return bitmap;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
                 }
             }
-        } catch (ClientProtocolException e) {
-            Logger.e("ClientProtocolException: " + e.getLocalizedMessage());
-            e.printStackTrace();
         } catch (IOException e) {
             Logger.e("IOException: " + e.getLocalizedMessage());
             e.printStackTrace();
-        } finally {
-            httpclient.getConnectionManager().shutdown();
         }
         return null;
     }
