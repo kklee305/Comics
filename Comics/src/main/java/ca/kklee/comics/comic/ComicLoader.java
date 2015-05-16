@@ -148,7 +148,8 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
     private Bitmap downloadImage(URL url) {
         Logger.d("", "Attempt DL image: " + url);
-        if (url == null) {
+        if (url == null || !URLUtil.isValidUrl(url.toString())) {
+            Logger.e("ERROR: url not valid: " + url);
             return null;
         }
         HttpClient httpclient = new DefaultHttpClient();
