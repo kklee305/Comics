@@ -128,7 +128,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         try {
             imageUrl = new URL(imageUrlFromDOM);
         } catch (Exception e) {
-            Logger.e("Failed to create url: " + imageUrlFromDOM, e);
+            Logger.e("Failed to create url from dom for " + ComicCollection.getInstance().getComics()[id].getFullTitle(), e);
         }
         return imageUrl;
     }
