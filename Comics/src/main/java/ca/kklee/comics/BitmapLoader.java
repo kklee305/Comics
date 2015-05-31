@@ -47,7 +47,7 @@ public class BitmapLoader extends FileUtil {
         try {
             return BitmapFactory.decodeFile(file.getPath());
         } catch (Exception e) {
-            Logger.e(e.getMessage());
+            Logger.e("load bitmap excpetion", e);
         }
         return null;
     }

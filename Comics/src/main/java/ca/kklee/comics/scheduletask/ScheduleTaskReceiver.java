@@ -22,7 +22,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
     public static void startScheduledTask(Context context) {
         Intent intent = new Intent(context, ScheduleTaskReceiver.class);
         if (isAlarmSet(context)) {
-            Logger.d("", "Alarm already set");
+            Logger.i("Alarm already set");
             return;
         }
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

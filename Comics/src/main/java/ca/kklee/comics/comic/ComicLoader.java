@@ -114,7 +114,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
     }
 
     private URL downloadDom(String comicUrl) {
-        Logger.d("", "Attempt DOM Retrieval: " + comicUrl);
+        Logger.i("Attempt DOM Retrieval: " + comicUrl);
         if (!Patterns.WEB_URL.matcher(comicUrl).matches()) {
             Logger.e("Base URL not valid: " + comicUrl);
             return null;
@@ -128,7 +128,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         try {
             imageUrl = new URL(imageUrlFromDOM);
         } catch (Exception e) {
-            Logger.e("Failed to create url: " + imageUrlFromDOM + " exception: " + e.toString());
+            Logger.e("Failed to create url: " + imageUrlFromDOM, e);
         }
         return imageUrl;
     }
@@ -143,15 +143,15 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 Logger.e("Error getting dom: Response code " + statusCode);
             }
         } catch (IOException e) {
-            Logger.e("Error getting dom: " + e.getMessage());
+            Logger.e("Excpetion getting dom: ", e);
         }
         return null;
     }
 
     private Bitmap downloadImage(URL url) {
-        Logger.d("", "Attempt DL image: " + url);
+        Logger.i("Attempt DL image: " + url);
         if (url == null || !URLUtil.isValidUrl(url.toString())) {
-            Logger.e("ERROR: url not valid: " + url);
+            Logger.e("Download image url not valid: " + url);
             return null;
         }
 
@@ -161,7 +161,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             urlConnection.connect();
             int responseCode = urlConnection.getResponseCode();
             if (responseCode != HttpURLConnection.HTTP_OK) {
-                Logger.e("ERROR: response code " + responseCode + " ||| " + url);
+                Logger.e("Http response code not ok: " + responseCode + " ||| " + url);
                 return null;
             }
 
@@ -169,7 +169,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             try {
                 inputStream = new BufferedInputStream(urlConnection.getInputStream());
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                Logger.d("", "Success DLImage: " + url);
+                Logger.i("Success DLImage: " + url);
                 return bitmap;
             } finally {
                 if (inputStream != null) {
@@ -177,7 +177,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 }
             }
         } catch (IOException e) {
-            Logger.e("IOException: " + e.getLocalizedMessage());
+            Logger.e("IOException: ", e);
             e.printStackTrace();
         }
         return null;

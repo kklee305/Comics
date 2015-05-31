@@ -23,6 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.kklee.utilities.Logger;
+
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.navdrawer.DrawerItemClickListener;
 import ca.kklee.comics.navdrawer.NavDrawerAdapter;
@@ -34,7 +36,6 @@ import ca.kklee.comics.viewpager.SectionsPagerAdapter;
 
 /**
  * TODO List
- * logger
  * custom options menu
  * proper image scaling
  * image pinch zooming
@@ -86,10 +87,13 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_home);
 
-        pref = getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
+        //setLogger
+        Logger.setIsLogging(true);
+        Logger.setLogToFile(getApplicationContext());
+
+        pref = getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, Context.MODE_PRIVATE);
         editor = pref.edit();
 
         initComicCollection(); //do this before everything else

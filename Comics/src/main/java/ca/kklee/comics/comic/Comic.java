@@ -60,7 +60,7 @@ public class Comic {
         if (file != null) {
             return BitmapLoader.loadBitmap(file);
         } else {
-            Logger.d("", "File not found: " + title);
+            Logger.w("File not found: " + title);
             return null;
         }
     }

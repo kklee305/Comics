@@ -6,10 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.kklee.utilities.ConnectionUtil;
 import com.kklee.utilities.Logger;
@@ -54,7 +50,7 @@ public class SilentDownload {
 
     private boolean checkConnection() {
         if (!ConnectionUtil.isOnline(context)) {
-            Logger.d("", "No Connection, Silent Download delayed");
+            Logger.w("No Connection, Silent Download delayed");
             SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
             SharedPreferences.Editor editorForNew = prefForNew.edit();
             if (prefForNew.getBoolean(SharedPrefConstants.WIFIRECONNECT, false)) {
@@ -79,7 +75,7 @@ public class SilentDownload {
     }
 
     private void downloadFiles() {
-        Logger.d("", "SilentDownload");
+        Logger.i("SilentDownload starting");
         final SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
         final SharedPreferences.Editor editorForNew = prefForNew.edit();
         final SharedPreferences prefForError = context.getSharedPreferences(SharedPrefConstants.COMICERRORFLAG, 0);
@@ -114,7 +110,7 @@ public class SilentDownload {
                     newComics++;
                 }
                 if (dlComplete >= comics.length) {
-                    Logger.d("", "Done All Scheduled DL, new comics: " + newComics);
+                    Logger.i("Done All Scheduled DL, new comics: " + newComics);
                     editorForNew.putLong(SharedPrefConstants.LASTUPDATE, System.currentTimeMillis());
                     editorForNew.commit();
                     if (refreshListener != null) {
