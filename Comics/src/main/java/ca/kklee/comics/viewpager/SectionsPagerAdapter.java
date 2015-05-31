@@ -1,6 +1,7 @@
 package ca.kklee.comics.viewpager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,7 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     public SectionsPagerAdapter(FragmentManager fm, Activity activity) {
         super(fm);
-        prefForNew = activity.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
+        prefForNew = activity.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, Context.MODE_PRIVATE);
     }
 
     @Override

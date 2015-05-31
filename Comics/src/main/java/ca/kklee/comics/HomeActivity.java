@@ -157,7 +157,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 drawerList.invalidateViews();
-                NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0), (TextView) findViewById(R.id.comic_header_last_update));
+                NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, Context.MODE_PRIVATE), (TextView) findViewById(R.id.comic_header_last_update));
             }
 
             @Override
@@ -197,7 +197,7 @@ public class HomeActivity extends AppCompatActivity {
                 srl.setRefreshing(false);
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 viewPager.getAdapter().notifyDataSetChanged();
-                NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0), (TextView) findViewById(R.id.comic_header_last_update));
+                NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, Context.MODE_PRIVATE), (TextView) findViewById(R.id.comic_header_last_update));
             }
         };
         srl = (SwipeRefreshLayout) findViewById(R.id.drawer_swipe_refresh_view);
@@ -217,7 +217,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0), (TextView) findViewById(R.id.comic_header_last_update));
+        NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, Context.MODE_PRIVATE), (TextView) findViewById(R.id.comic_header_last_update));
 
         //move to somewhere else... maybe
         View refreshSwitchLayout = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.options_switch_item_layout, null, false);
