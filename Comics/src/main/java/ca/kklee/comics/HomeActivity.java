@@ -23,8 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.kklee.utilities.Logger.Logger;
-import com.kklee.utilities.Logger.ViewLogDialogFactory;
+import com.kklee.utilities.Logger;
 
 import ca.kklee.comics.comic.ComicCollection;
 import ca.kklee.comics.navdrawer.DrawerItemClickListener;
@@ -250,7 +249,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (BuildConfig.DEBUG) {
-                    ViewLogDialogFactory.showDialog(homeActivity);
+                    Logger.showDialog(homeActivity);
                 }
             }
         });

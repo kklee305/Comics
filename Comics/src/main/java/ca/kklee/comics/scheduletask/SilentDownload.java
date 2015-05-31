@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 
 import com.kklee.utilities.ConnectionUtil;
-import com.kklee.utilities.Logger.Logger;
+import com.kklee.utilities.Logger;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -27,6 +27,7 @@ import ca.kklee.comics.navdrawer.RefreshListener;
 public class SilentDownload {
 
     private enum State {ACTIVE, IDLE}
+
     private static int newComics = 0;
     private static int dlComplete = 0;
     private final int NOTIFICATION_ID = 1;

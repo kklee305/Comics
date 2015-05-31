@@ -8,7 +8,7 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 
-import com.kklee.utilities.Logger.Logger;
+import com.kklee.utilities.Logger;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
