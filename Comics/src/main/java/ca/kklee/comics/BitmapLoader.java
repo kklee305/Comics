@@ -7,7 +7,7 @@ import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.kklee.utilities.Logger;
+import com.kklee.utilities.Logger.Logger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

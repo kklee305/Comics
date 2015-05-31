@@ -2,7 +2,7 @@ package ca.kklee.comics.comic;
 
 import android.graphics.Bitmap;
 
-import com.kklee.utilities.Logger;
+import com.kklee.utilities.Logger.Logger;
 
 import java.io.File;
 

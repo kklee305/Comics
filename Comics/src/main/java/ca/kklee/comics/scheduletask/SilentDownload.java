@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 
 import com.kklee.utilities.ConnectionUtil;
-import com.kklee.utilities.Logger;
+import com.kklee.utilities.Logger.Logger;
 
 import java.text.DateFormat;
 import java.util.Date;

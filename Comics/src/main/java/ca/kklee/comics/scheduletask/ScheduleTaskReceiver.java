@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import com.kklee.utilities.Logger;
+import com.kklee.utilities.Logger.Logger;
 
 import java.util.Calendar;
 
