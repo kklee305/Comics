@@ -130,16 +130,16 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 return null;
             }
 
-            InputStream inputStream = null;
+            InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
             try {
-                inputStream = new BufferedInputStream(urlConnection.getInputStream());
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 Logger.i("Success DLImage: " + url);
                 return bitmap;
+            } catch (OutOfMemoryError e) {
+                Logger.e("OutOfMemoryError while decoding bitmap, attempting downscale", e);
+//            return downscaleBitmap(url, new BufferedInputStream(urlConnection.getInputStream()));
             } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
+                inputStream.close();
             }
         } catch (IOException e) {
             Logger.e("IOException: ", e);
@@ -147,6 +147,42 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         }
         return null;
     }
+
+//    private Bitmap downscaleBitmap(URL url, InputStream inputStream) {
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inJustDecodeBounds = true;
+//        BitmapFactory.decodeStream(inputStream, null, options);
+//        int bitmapW = options.outWidth;
+//        int bitmapH = options.outHeight;
+//        Logger.d("bitmap width: %d, height: %d", bitmapW, bitmapH);
+//
+//
+//        int scaleFactor = (int) Math.max(1.0, Math.min((double) bitmapW / (double) 2, (double) bitmapH / (double) 2));    //1, 2, 3, 4, 5, 6, ...
+//        scaleFactor = (int) Math.pow(2.0, Math.floor(Math.log((double) scaleFactor) / Math.log(2.0)));               //1, 2, 4, 8, ...
+//
+//        options.inJustDecodeBounds = false;
+//        options.inSampleSize = scaleFactor;
+//        options.inPurgeable = true;
+//
+//        Bitmap bitmap = null;
+//        do {
+//            try {
+//                Logger.d("scaleFactor: " + scaleFactor);
+//                scaleFactor *= 2;
+//                bitmap = BitmapFactory.decodeStream(inputStream, null, options);
+//            } catch (OutOfMemoryError e) {
+//                options.inSampleSize = scaleFactor;
+//
+//            }
+//        } while (bitmap == null && scaleFactor <= 256);
+//        if (bitmap == null) {
+//            Logger.d("OutOfMemoryError: downscale failed");
+//        } else {
+//            Logger.i("Success DLImage: " + url);
+//        }
+//
+//        return bitmap;
+//    }
 
     private void newComicResponse(int response) {
         if (newComicListener != null) {
