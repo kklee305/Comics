@@ -40,41 +40,6 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         this.newComicListener = newComicListener;
     }
 
-    private String getImageUrlFromDOM(Document dom) {
-        switch (ComicCollection.getInstance().getComics()[id].getFullTitle()) {
-            case "Garfield":
-                return dom.getElementById("home_comic").select("img[src]").attr("src");
-            case "XKCD":
-                return "http:" + dom.getElementById("comic").select("img[src]").attr("src");
-            case "Nerf Now":
-                return dom.getElementById("comic").select("img[src]").attr("src");
-            case "Saturday Morning Breakfast Cereal":
-                return ComicCollection.getInstance().getComics()[id].getUrl() + dom.getElementById("comicbody").select("img[src]").attr("src");
-            case "Cyanide & Happiness":
-                return dom.getElementById("posts").select("article").select("img[src]").attr("src");
-            case "MANvsMAGIC":
-                return ComicCollection.getInstance().getComics()[id].getUrl() + dom.select("main").select("img[src]").attr("src");
-            case "Dilbert":
-                return dom.select("div[class*=img-comic-container").select("img[src]").attr("src");
-            case "Extra Fabulous Comics":
-                return dom.getElementById("comic").select("img[src]").attr("src");
-            case "Penny Arcade":
-                return dom.getElementById("comicFrame").select("img[src]").attr("src");
-            case "Pigminted":
-                return dom.select("figure[class*=photo-hires-item").select("img[src]").attr("src");
-            case "Peanuts":
-            case "Calvin and Hobbes":
-            case "2 Cows and a Chicken":
-            case "Wizard of Id":
-            case "Get Fuzzy":
-            case "Dilbert Classics":
-            case "Marmaduke":
-                return dom.select("Body").select("img[src*=amuniversal]").attr("src");
-            default:
-                return "error";
-        }
-    }
-
     @Override
     protected Bitmap doInBackground(String... strings) {
         Comic comic = ComicCollection.getInstance().getComics()[id];
