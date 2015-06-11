@@ -37,9 +37,9 @@ public class BitmapLoader extends FileUtil {
             fo.close();
             bytes.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logger.e("File not found", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e("IOException", e);
         }
     }
 
@@ -47,7 +47,7 @@ public class BitmapLoader extends FileUtil {
         try {
             return BitmapFactory.decodeFile(file.getPath());
         } catch (Exception e) {
-            Logger.e("load bitmap excpetion", e);
+            Logger.e("load bitmap exception", e);
         }
         return null;
     }

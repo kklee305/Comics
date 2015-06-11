@@ -89,7 +89,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
             return null;
         }
         URL imageUrl = null;
-        String imageUrlFromDOM = getImageUrlFromDOM(dom);
+        String imageUrlFromDOM = ComicDOMDictionary.getImageUrlFromDOM(dom, id);
         try {
             imageUrl = new URL(imageUrlFromDOM);
         } catch (Exception e) {
@@ -108,7 +108,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 Logger.e("Error getting dom: Response code " + statusCode);
             }
         } catch (IOException e) {
-            Logger.e("Excpetion getting dom: ", e);
+            Logger.e("Exception getting dom: ", e);
         }
         return null;
     }

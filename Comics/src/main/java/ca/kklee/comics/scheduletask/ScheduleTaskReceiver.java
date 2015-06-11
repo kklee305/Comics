@@ -81,8 +81,6 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Logger.setIsLogging(true);
-        Logger.setLogToFile(context);
         new SilentDownload(context, null).startSilentDownload();
     }
 
