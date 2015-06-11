@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import com.kklee.utilities.ConnectionUtil;
 import com.kklee.utilities.Logger;
@@ -42,6 +43,8 @@ public class SilentDownload {
 
     public void startSilentDownload() {
         if (currentState == State.ACTIVE) return;
+        Logger.setIsLogging(true);
+        Logger.setLogToFile(context);
         if (!checkConnection()) return;
         currentState = State.ACTIVE;
         initComics();
@@ -52,6 +55,10 @@ public class SilentDownload {
     private boolean checkConnection() {
         if (!ConnectionUtil.isOnline(context)) {
             Logger.w("No Connection, Silent Download delayed");
+            Toast.makeText(context,"No Connection Found!", Toast.LENGTH_LONG).show();
+            if (refreshListener != null) {
+                refreshListener.onRefreshComplete();
+            }
             SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
             SharedPreferences.Editor editorForNew = prefForNew.edit();
             if (prefForNew.getBoolean(SharedPrefConstants.WIFIRECONNECT, false)) {
