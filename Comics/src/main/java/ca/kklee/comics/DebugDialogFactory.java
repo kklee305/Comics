@@ -1,10 +1,10 @@
 package ca.kklee.comics;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import ca.kklee.comics.scheduletask.ScheduleTaskReceiver;
@@ -12,11 +12,11 @@ import ca.kklee.comics.scheduletask.ScheduleTaskReceiver;
 /**
  * Created by Keith on 30/06/2014.
  */
-public class OptionsDialogFactory {
+public class DebugDialogFactory {
 
     public static Dialog createDialog(final HomeActivity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AppCompatAlertDialogStyle); //2 is for theme
-        builder.setTitle("Settings")
+        builder.setTitle("Debugging")
                 .setItems(enumToStringList(activity), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -43,7 +43,8 @@ public class OptionsDialogFactory {
                                 break;
                         }
                     }
-                });
+                })
+        ;
         Dialog dialog = builder.create();
         return dialog;
     }
