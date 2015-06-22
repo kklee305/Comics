@@ -1,5 +1,7 @@
 package ca.kklee.comics;
 
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Environment;
 
 import java.io.File;
@@ -34,4 +36,30 @@ public class FileUtil {
         }
     }
 
+
+    public static void scanFile(File file) {
+        new SingleMediaScanner(file);
+    }
+
+    private static class SingleMediaScanner implements MediaScannerConnection.MediaScannerConnectionClient {
+
+        private MediaScannerConnection mediaScannerConnection;
+        private File file;
+
+        public SingleMediaScanner(File file) {
+            this.mediaScannerConnection = new MediaScannerConnection(AppConfig.getContext(), this);
+            this.file = file;
+            mediaScannerConnection.connect();
+        }
+
+        @Override
+        public void onMediaScannerConnected() {
+            mediaScannerConnection.scanFile(file.getAbsolutePath(), null);
+        }
+
+        @Override
+        public void onScanCompleted(String s, Uri uri) {
+            mediaScannerConnection.disconnect();
+        }
+    }
 }

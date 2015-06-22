@@ -2,9 +2,6 @@ package ca.kklee.comics;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaScannerConnection;
-import android.media.MediaScannerConnection.MediaScannerConnectionClient;
-import android.net.Uri;
 import android.os.Environment;
 
 import com.kklee.utilities.Logger;
@@ -59,29 +56,4 @@ public class BitmapLoader extends FileUtil {
         clearDir();
     }
 
-    private static void scanImage(File file) {
-        new SingleMediaScanner(file);
-    }
-
-    private static class SingleMediaScanner implements MediaScannerConnectionClient {
-
-        private MediaScannerConnection mediaScannerConnection;
-        private File file;
-
-        public SingleMediaScanner(File file) {
-            this.mediaScannerConnection = new MediaScannerConnection(AppConfig.getContext(), this);
-            this.file = file;
-            mediaScannerConnection.connect();
-        }
-
-        @Override
-        public void onMediaScannerConnected() {
-            mediaScannerConnection.scanFile(file.getAbsolutePath(), null);
-        }
-
-        @Override
-        public void onScanCompleted(String s, Uri uri) {
-            mediaScannerConnection.disconnect();
-        }
-    }
 }
