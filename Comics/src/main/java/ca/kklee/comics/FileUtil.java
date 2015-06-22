@@ -19,8 +19,9 @@ public class FileUtil {
         }
         for (File f : myDir.listFiles()) {
             if (f.isFile()) {
-                int seperator = f.getName().lastIndexOf("_");
-                String comicTitle = f.getName().substring(0, seperator);
+                int separator = f.getName().lastIndexOf("_");
+                if (separator < 0) separator = 0;
+                String comicTitle = f.getName().substring(0, separator);
                 if (comicTitle.equals(file))
                     return f;
             }
