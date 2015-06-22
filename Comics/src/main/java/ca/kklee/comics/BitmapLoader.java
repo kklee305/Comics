@@ -30,7 +30,7 @@ public class BitmapLoader extends FileUtil {
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
-            scanImage(f);
+            scanFile(f);
             fo.close();
             bytes.close();
         } catch (FileNotFoundException e) {
@@ -45,6 +45,9 @@ public class BitmapLoader extends FileUtil {
             return BitmapFactory.decodeFile(file.getPath());
         } catch (Exception e) {
             Logger.e("load bitmap exception", e);
+        } catch (OutOfMemoryError e2) {
+            Logger.d("OutOfMemoryError loading bitmap from file", e2);
+            //downscale image
         }
         return null;
     }
