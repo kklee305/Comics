@@ -5,9 +5,11 @@ import android.graphics.Bitmap;
 import com.kklee.utilities.Logger;
 
 import java.io.File;
+import java.io.IOException;
 
 import ca.kklee.comics.AppConfig;
 import ca.kklee.comics.BitmapLoader;
+import ca.kklee.comics.FileUtil;
 
 /**
  * Created by Keith on 04/06/2014.
@@ -69,7 +71,13 @@ public class Comic {
         setBitmap(bitmap);
         File file = BitmapLoader.findFile(title);
         if (file != null) {
-            file.delete();
+            try {
+                if (!file.getCanonicalFile().delete())
+                    Logger.wtf("File for %s not deleted!", title);
+                FileUtil.scanFile(file);
+            } catch (IOException e) {
+                Logger.e("IOException",e);
+            }
         }
         BitmapLoader.saveBitmap(AppConfig.APPDIRECTORY + File.separator + title + "_" + hashCode, bitmap);
     }
