@@ -1,7 +1,8 @@
 ##Daily Comics
 Application that allows viewing of my personal list of comics strips in one convenient place even when offline. App can automatically download new comic strips if they are updated.
 
-This is an Android Studio project
+This is an Android Studio project.
+This project is for personal use only.
 
 ####Features
 * View comic strips 
@@ -23,3 +24,4 @@ This is an Android Studio project
 ####How to add comic
 1. Add comic information to 'assets/comic_collection.json'
 2. Define image src location in 'ca/kklee/comics/comic/ComicDOMDictionary.java'
+  * location should be the same with every update
