@@ -21,5 +21,5 @@ This is an Android Studio project
 * Convert to Material design????
 
 ####How to add comic
-1. Add comic information to 'assests/comic_collection.json'
-2. Define image src location in ca/kklee/comics/comic/ComicDOMDictionary.java
+1. Add comic information to 'assets/comic_collection.json'
+2. Define image src location in 'ca/kklee/comics/comic/ComicDOMDictionary.java'
