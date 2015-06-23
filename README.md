@@ -13,8 +13,8 @@ This is an Android Studio project
 
 ####TODO
 * Better customization of features (example set update interval)
-* Re-enable automatic update on phone reboot (implemented but broken)
-* Reattempt update check if delayed due to no connection
+* Re-enable automatic update on phone reboot
+* Reattempt update check if delayed due to no connection (implemented but broken)
 * Image pinchzoom
 * Image scaling based on dimensions for better viewing
 * Automatic image src finding
