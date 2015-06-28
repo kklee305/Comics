@@ -6,8 +6,7 @@
     android:layout_height="?android:attr/listPreferredItemHeightSmall"
     android:background="@drawable/nav_options_selector"
     android:orientation="horizontal"
-    android:padding="5dp"
-    >
+    android:padding="5dp">
 
     <RelativeLayout
         android:layout_width="45dp"
