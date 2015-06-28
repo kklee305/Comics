@@ -38,8 +38,8 @@
   {
     "title": "Cyanide & Happiness",
     "shortForm": "",
-    "url": "http://www.explosm.tumblr.com/",
-    "enabled": "false"
+    "url": "http://explosm.net/",
+    "enabled": "true"
   },
   {
     "title": "Dilbert",
@@ -100,5 +100,17 @@
     "shortForm": "",
     "url": "http://www.pigminted.com/",
     "enabled": "true"
+  },
+  {
+    "title": "CTRL+ALT+DEL",
+    "shortForm": "",
+    "url": "http://www.cad-comic.com/cad/",
+    "enabled": "true"
+  },
+  {
+    "title": "Down the Upward Spiral",
+    "shortForm": "",
+    "url": "http://www.downtheupwardspiral.com/",
+    "enabled": "false"
   }
 ]

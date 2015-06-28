@@ -1,6 +1,10 @@
 package ca.kklee.comics.comic;
 
+import com.kklee.utilities.Logger;
+
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * Created by Keith on 11/06/2015.
@@ -18,7 +22,7 @@ public class ComicDOMDictionary {
             case "Saturday Morning Breakfast Cereal":
                 return ComicCollection.getInstance().getComics()[id].getUrl() + dom.getElementById("comicbody").select("img[src]").attr("src");
             case "Cyanide & Happiness":
-                return dom.getElementById("posts").select("article").select("img[src]").attr("src");
+                return "http:" + dom.getElementById("featured-comic").attr("src");
             case "MANvsMAGIC":
                 return ComicCollection.getInstance().getComics()[id].getUrl() + dom.select("main").select("img[src]").attr("src");
             case "Dilbert":
@@ -29,6 +33,10 @@ public class ComicDOMDictionary {
                 return dom.getElementById("comicFrame").select("img[src]").attr("src");
             case "Pigminted":
                 return dom.select("figure[class*=photo-hires-item").select("img[src]").attr("src");
+            case "CTRL+ALT+DEL":
+                return dom.getElementById("content").select("img[src]").attr("src");
+            case "Down the Upward Spiral":
+                return dom.select("div[class*=wslide-slide-inner2").select("img[src]").attr("src");
             case "Peanuts":
             case "Calvin and Hobbes":
             case "2 Cows and a Chicken":
