@@ -14,8 +14,6 @@ This project is for personal use only.
 
 ####TODO
 * Better customization of features (example set update interval)
-* Re-enable automatic update on phone reboot
-* Reattempt update check if delayed due to no connection (implemented but broken)
 * In-app comic enable-diable options
 * Image pinchzoom
 * Image scaling based on dimensions for better viewing
