@@ -50,25 +50,21 @@ public class OptionsActivity extends AppCompatActivity {
         option_text.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/ComicNeue-Regular-Oblique.ttf"));
         switchCompat.setChecked(ScheduleTaskReceiver.isAlarmSet(this));
 
-        final SharedPreferences.Editor isRefreshEnabledRrefEditor = getSharedPreferences(SharedPrefConstants.ISREFRESHENABLED, Context.MODE_PRIVATE).edit();
-        final OptionsActivity activity = this;
+        final Context context = this.getApplicationContext();
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if (!ScheduleTaskReceiver.isAlarmSet(activity)) {
-                        ScheduleTaskReceiver.startScheduledTask(activity);
-                        buttonView.setChecked(ScheduleTaskReceiver.isAlarmSet(activity));
-                        isRefreshEnabledRrefEditor.putBoolean(SharedPrefConstants.ISREFRESHENABLED, ScheduleTaskReceiver.isAlarmSet(activity));
+                    if (!ScheduleTaskReceiver.isAlarmSet(context)) {
+                        ScheduleTaskReceiver.startScheduledTask(context);
+                        buttonView.setChecked(ScheduleTaskReceiver.isAlarmSet(context));
                     }
                 } else {
-                    if (ScheduleTaskReceiver.isAlarmSet(activity)) {
-                        ScheduleTaskReceiver.cancelAlarm(activity);
-                        buttonView.setChecked(ScheduleTaskReceiver.isAlarmSet(activity));
-                        isRefreshEnabledRrefEditor.putBoolean(SharedPrefConstants.ISREFRESHENABLED, ScheduleTaskReceiver.isAlarmSet(activity));
+                    if (ScheduleTaskReceiver.isAlarmSet(context)) {
+                        ScheduleTaskReceiver.cancelAlarm(context);
+                        buttonView.setChecked(ScheduleTaskReceiver.isAlarmSet(context));
                     }
                 }
-                isRefreshEnabledRrefEditor.apply();
             }
         });
         list.addFooterView(refreshSwitchLayout);

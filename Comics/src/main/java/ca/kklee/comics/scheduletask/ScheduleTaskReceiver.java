@@ -3,9 +3,11 @@ package ca.kklee.comics.scheduletask;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.widget.Toast;
 
 import com.kklee.utilities.Logger;
@@ -32,6 +34,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         calendar.set(Calendar.SECOND, 00);
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarms.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL_MILLIS, alarmIntent);
+        OnBootCompletedReceiver.registerMe(context);
         Toast.makeText(context, "Scheduled Download Started", Toast.LENGTH_LONG).show();
     }
 
@@ -57,6 +60,7 @@ public class ScheduleTaskReceiver extends BroadcastReceiver {
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarms.cancel(alarmIntent);
         alarmIntent.cancel();
+        OnBootCompletedReceiver.unregisterMe(context);
         Toast.makeText(context, "Scheduled Download Cancelled", Toast.LENGTH_LONG).show();
     }
 

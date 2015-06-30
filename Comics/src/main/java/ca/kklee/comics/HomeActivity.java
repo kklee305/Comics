@@ -36,7 +36,11 @@ import ca.kklee.comics.viewpager.SectionsPagerAdapter;
 
 /**
  * TODO List
+ * fix refresh drawer on pull refresh
+ * move pref setting from silent download to comic loader
+ *
  * seperate FileUtil so it can be moved to lib
+ * sharedpref manager
  * custom options menu
  * proper image scaling
  * image pinch zooming

@@ -34,7 +34,9 @@
             android:screenOrientation="userLandscape"/>
 
         <receiver android:name=".scheduletask.ScheduleTaskReceiver"/>
-        <receiver android:name=".scheduletask.OnBootCompletedReceiver">
+        <receiver
+            android:name=".scheduletask.OnBootCompletedReceiver"
+            android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
