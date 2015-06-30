@@ -59,18 +59,8 @@ public class SilentDownload {
             if (refreshListener != null) {
                 refreshListener.onRefreshComplete();
             }
-            SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
-            SharedPreferences.Editor editorForNew = prefForNew.edit();
-            if (prefForNew.getBoolean(SharedPrefConstants.WIFIRECONNECT, false)) {
-                return false;
-            }
-//            OnWifiConnectedReceiver broadcastReceiver = new OnWifiConnectedReceiver();
-//            IntentFilter intentFilter = new IntentFilter();
-//            intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-//            context.getApplicationContext().registerReceiver(broadcastReceiver, intentFilter);
 
-            editorForNew.putBoolean(SharedPrefConstants.WIFIRECONNECT, true);
-            editorForNew.apply();
+            OnWifiReconnectedReceiver.registerMe(context);
             return false;
         }
         return true;
@@ -119,14 +109,13 @@ public class SilentDownload {
                 if (dlComplete >= comics.length) {
                     Logger.i("Done All Scheduled DL, new comics: " + newComics);
                     editorForNew.putLong(SharedPrefConstants.LASTUPDATE, System.currentTimeMillis());
-                    editorForNew.commit();
                     if (refreshListener != null) {
                         refreshListener.onRefreshComplete();
                     }
                     currentState = State.IDLE;
                     if (newComics == 0) return;
                     editorForNew.putBoolean(SharedPrefConstants.OPENDRAWER, true);
-                    editorForNew.commit();
+                    editorForNew.apply();
                     fireNotification(newComics);
                 }
             }
