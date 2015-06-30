@@ -5,6 +5,10 @@ package ca.kklee.comics.scheduletask;
  */
 public interface NewComicListener {
 
-    void onDomCheckCompleted(int response, String title);
+    enum ResponseCode {
+        NOUPDATE, UPDATED, ERROR
+    }
+
+    void onDomCheckCompleted(ResponseCode response, String title);
 
 }

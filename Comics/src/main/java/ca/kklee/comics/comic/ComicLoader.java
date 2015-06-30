@@ -22,6 +22,7 @@ import java.net.URL;
 
 import ca.kklee.comics.R;
 import ca.kklee.comics.scheduletask.NewComicListener;
+import ca.kklee.comics.scheduletask.NewComicListener.ResponseCode;
 
 /**
  * Created by Keith on 05/06/2014.
@@ -32,7 +33,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
     private NewComicListener newComicListener;
     private View rootView;
     private String imageUrlString;
-    private int return_code = 2;
+    private ResponseCode response_code = ResponseCode.ERROR;
 
     public ComicLoader(View rootView, int id, NewComicListener newComicListener) {
         this.rootView = rootView;
@@ -50,7 +51,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         int newFileCode = imageUrl.toString().hashCode();
         int oldFileCode = comic.getFileHashCode();
         if (newFileCode == oldFileCode) {
-            return_code = 0;
+            response_code = ResponseCode.NOUPDATE;
             return null;
         }
         imageUrlString = imageUrl.toString();
@@ -61,7 +62,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
     protected void onPostExecute(Bitmap bitmap) {
         if (bitmap != null) {
             ComicCollection.getInstance().getComics()[id].saveBitmap(bitmap, imageUrlString.hashCode());
-            return_code = 1;
+            response_code = ResponseCode.UPDATED;
             if (rootView != null) {
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
                 imageView.setImageBitmap(bitmap);
@@ -69,8 +70,8 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 rootView.findViewById(R.id.loading).setVisibility(View.GONE);
             }
         }
-        newComicResponse(return_code);
-        if (rootView != null) {
+        newComicResponse(response_code);
+        if (rootView != null && response_code.equals(ResponseCode.ERROR)) {
             ImageView errorView = (ImageView) rootView.findViewById(R.id.error_view);
             errorView.setBackground(rootView.getResources().getDrawable(R.drawable.error));
             errorView.setVisibility(View.VISIBLE);
@@ -184,7 +185,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 //        return bitmap;
 //    }
 
-    private void newComicResponse(int response) {
+    private void newComicResponse(ResponseCode response) {
         if (newComicListener != null) {
             newComicListener.onDomCheckCompleted(response, ComicCollection.getInstance().getComics()[id].getTitle());
         }

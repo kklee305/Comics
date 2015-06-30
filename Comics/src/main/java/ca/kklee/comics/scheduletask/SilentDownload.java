@@ -96,23 +96,22 @@ public class SilentDownload {
         dlComplete = 0;
         final NewComicListener newComicListener = new NewComicListener() {
             @Override
-            public void onDomCheckCompleted(int response, String title) {
+            public void onDomCheckCompleted(ResponseCode response, String title) {
                 dlComplete++;
                 switch (response) {
-                    case 1:
+                    case UPDATED:
                         editorForNew.putBoolean(title, true);
                         editorForNew.commit();
                         editorForTime.putLong(title, System.currentTimeMillis());
                         editorForTime.apply();
-                    case 0:
+                    case NOUPDATE:
                         editorForError.putBoolean(title, false);
-                        editorForError.commit();
                         break;
-                    case 2:
+                    case ERROR:
                         editorForError.putBoolean(title, true);
-                        editorForError.commit();
                         break;
                 }
+                editorForError.apply();
 
                 if (prefForNew.getBoolean(title, false)) {
                     newComics++;
