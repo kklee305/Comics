@@ -26,7 +26,7 @@ This project is for personal use only.
   * location should be the same with every update
  
 #####APK
-<a rel='nofollow' href='http://www.qrcode-generator.de' border='0' style='cursor:default'><img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fgithub.com%2Fkklee305%2FComics%2Fblob%2Fmaster%2Fapk%2FComics.apk%3Fraw%3Dtrue&chs=180x180&choe=UTF-8&chld=L|2' alt=''></a>
+<img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fgithub.com%2Fkklee305%2FComics%2Fblob%2Fmaster%2Fapk%2FComics.apk%3Fraw%3Dtrue&chs=180x180&choe=UTF-8&chld=L|2' alt=''></a>
 
 <img src="https://github.com/kklee305/Comics/blob/master/screenshots/New%20Comics.png" width="300">
 
