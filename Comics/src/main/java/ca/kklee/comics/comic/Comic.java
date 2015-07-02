@@ -7,7 +7,6 @@ import com.kklee.utilities.Logger;
 import java.io.File;
 import java.io.IOException;
 
-import ca.kklee.comics.AppConfig;
 import ca.kklee.comics.BitmapLoader;
 import ca.kklee.comics.FileUtil;
 
@@ -79,7 +78,7 @@ public class Comic {
                 Logger.e("IOException",e);
             }
         }
-        BitmapLoader.saveBitmap(AppConfig.APPDIRECTORY + File.separator + title + "_" + hashCode, bitmap);
+        BitmapLoader.saveBitmap(title + "_" + hashCode, bitmap);
     }
 
     public void clearBitmap() {

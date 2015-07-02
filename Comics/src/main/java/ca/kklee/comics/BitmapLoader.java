@@ -2,7 +2,6 @@ package ca.kklee.comics;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 
 import com.kklee.utilities.Logger;
 
@@ -24,9 +23,13 @@ public class BitmapLoader extends FileUtil {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes);
 
+        File myDir = getMyDir();
+        if (!myDir.exists()) {
+            myDir.mkdir();
+        }
+
         try {
-            File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                    + File.separator + fileName + ".png");
+            File f = new File(myDir + File.separator + fileName + ".png");
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());

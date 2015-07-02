@@ -2,7 +2,6 @@ package ca.kklee.comics;
 
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Environment;
 
 import java.io.File;
 
@@ -11,11 +10,16 @@ import java.io.File;
  */
 public class FileUtil {
 
-    public static File findFile(String file) {
-        File sdCardRoot = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+    protected static File getMyDir() {
+        File sdCardRoot = AppConfig.getContext().getExternalFilesDir(null);
         File myDir = new File(sdCardRoot, AppConfig.APPDIRECTORY);
+        return myDir;
+    }
+
+    public static File findFile(String file) {
+        File myDir = getMyDir();
         if (!myDir.exists()) {
-            myDir.mkdir();
+            return null;
         }
         for (File f : myDir.listFiles()) {
             if (f.isFile()) {
@@ -30,9 +34,7 @@ public class FileUtil {
     }
 
     public static void clearDir() {
-        File sdCardRoot = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File myDir = new File(sdCardRoot, AppConfig.APPDIRECTORY);
-        for (File f : myDir.listFiles()) {
+        for (File f : getMyDir().listFiles()) {
             f.delete();
         }
     }
