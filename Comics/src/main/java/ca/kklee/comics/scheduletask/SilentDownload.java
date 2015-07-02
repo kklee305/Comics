@@ -14,6 +14,7 @@ import com.kklee.utilities.Logger;
 import java.text.DateFormat;
 import java.util.Date;
 
+import ca.kklee.comics.AppConfig;
 import ca.kklee.comics.HomeActivity;
 import ca.kklee.comics.R;
 import ca.kklee.comics.SharedPrefConstants;
@@ -43,7 +44,6 @@ public class SilentDownload {
 
     public void startSilentDownload() {
         if (currentState == State.ACTIVE) return;
-        Logger.setIsLogging(true);
         Logger.setLogToFile(context);
         if (!checkConnection()) return;
         currentState = State.ACTIVE;
@@ -55,7 +55,7 @@ public class SilentDownload {
     private boolean checkConnection() {
         if (!ConnectionUtil.isOnline(context)) {
             Logger.w("No Connection, Silent Download delayed");
-            Toast.makeText(context,"No Connection Found!", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "No Connection Found!", Toast.LENGTH_LONG).show();
             if (refreshListener != null) {
                 refreshListener.onRefreshComplete();
             }
@@ -76,33 +76,14 @@ public class SilentDownload {
         Logger.i("SilentDownload starting");
         final SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
         final SharedPreferences.Editor editorForNew = prefForNew.edit();
-        final SharedPreferences prefForError = context.getSharedPreferences(SharedPrefConstants.COMICERRORFLAG, 0);
-        final SharedPreferences.Editor editorForError = prefForError.edit();
-        final SharedPreferences prefForTime = context.getSharedPreferences(SharedPrefConstants.COMICUPDATETIME, 0);
-        final SharedPreferences.Editor editorForTime = prefForTime.edit();
 
         final Comic[] comics = ComicCollection.getInstance().getComics();
         newComics = 0;
         dlComplete = 0;
         final NewComicListener newComicListener = new NewComicListener() {
             @Override
-            public void onDomCheckCompleted(ResponseCode response, String title) {
+            public void onDomCheckCompleted(String title) {
                 dlComplete++;
-                switch (response) {
-                    case UPDATED:
-                        editorForNew.putBoolean(title, true);
-                        editorForNew.commit();
-                        editorForTime.putLong(title, System.currentTimeMillis());
-                        editorForTime.apply();
-                    case NOUPDATE:
-                        editorForError.putBoolean(title, false);
-                        break;
-                    case ERROR:
-                        editorForError.putBoolean(title, true);
-                        break;
-                }
-                editorForError.apply();
-
                 if (prefForNew.getBoolean(title, false)) {
                     newComics++;
                 }

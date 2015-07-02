@@ -1,5 +1,7 @@
 package ca.kklee.comics.comic;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -20,20 +22,24 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import ca.kklee.comics.AppConfig;
 import ca.kklee.comics.R;
+import ca.kklee.comics.SharedPrefConstants;
 import ca.kklee.comics.scheduletask.NewComicListener;
-import ca.kklee.comics.scheduletask.NewComicListener.ResponseCode;
 
 /**
  * Created by Keith on 05/06/2014.
  */
 public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
-    protected int id;
+    private enum ResultCode {
+        NOUPDATE, UPDATED, ERROR
+    }
+    private int id;
     private NewComicListener newComicListener;
     private View rootView;
     private String imageUrlString;
-    private ResponseCode response_code = ResponseCode.ERROR;
+    private ResultCode result = ResultCode.ERROR;
 
     public ComicLoader(View rootView, int id, NewComicListener newComicListener) {
         this.rootView = rootView;
@@ -51,7 +57,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         int newFileCode = imageUrl.toString().hashCode();
         int oldFileCode = comic.getFileHashCode();
         if (newFileCode == oldFileCode) {
-            response_code = ResponseCode.NOUPDATE;
+            result = ResultCode.NOUPDATE;
             return null;
         }
         imageUrlString = imageUrl.toString();
@@ -62,7 +68,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
     protected void onPostExecute(Bitmap bitmap) {
         if (bitmap != null) {
             ComicCollection.getInstance().getComics()[id].saveBitmap(bitmap, imageUrlString.hashCode());
-            response_code = ResponseCode.UPDATED;
+            result = ResultCode.UPDATED;
             if (rootView != null) {
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
                 imageView.setImageBitmap(bitmap);
@@ -70,8 +76,8 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 rootView.findViewById(R.id.loading).setVisibility(View.GONE);
             }
         }
-        newComicResponse(response_code);
-        if (rootView != null && response_code.equals(ResponseCode.ERROR)) {
+        newComicResponse(result);
+        if (rootView != null && result.equals(ResultCode.ERROR)) {
             ImageView errorView = (ImageView) rootView.findViewById(R.id.error_view);
             errorView.setBackground(rootView.getResources().getDrawable(R.drawable.error));
             errorView.setVisibility(View.VISIBLE);
@@ -185,9 +191,31 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 //        return bitmap;
 //    }
 
-    private void newComicResponse(ResponseCode response) {
+    private void newComicResponse(ResultCode response) {
+        String title = ComicCollection.getInstance().getComics()[id].getTitle();
         if (newComicListener != null) {
-            newComicListener.onDomCheckCompleted(response, ComicCollection.getInstance().getComics()[id].getTitle());
+            newComicListener.onDomCheckCompleted(title);
         }
+        Context context = AppConfig.getContext();
+        SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
+        SharedPreferences.Editor editorForNew = prefForNew.edit();
+        SharedPreferences prefForError = context.getSharedPreferences(SharedPrefConstants.COMICERRORFLAG, 0);
+        SharedPreferences.Editor editorForError = prefForError.edit();
+        SharedPreferences prefForTime = context.getSharedPreferences(SharedPrefConstants.COMICUPDATETIME, 0);
+        SharedPreferences.Editor editorForTime = prefForTime.edit();
+        switch (response) {
+            case UPDATED:
+                editorForNew.putBoolean(title, true);
+                editorForNew.commit();
+                editorForTime.putLong(title, System.currentTimeMillis());
+                editorForTime.apply();
+            case NOUPDATE:
+                editorForError.putBoolean(title, false);
+                break;
+            case ERROR:
+                editorForError.putBoolean(title, true);
+                break;
+        }
+        editorForError.apply();
     }
 }
