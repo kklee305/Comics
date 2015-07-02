@@ -90,6 +90,7 @@ public class SilentDownload {
                 if (dlComplete >= comics.length) {
                     Logger.i("Done All Scheduled DL, new comics: " + newComics);
                     editorForNew.putLong(SharedPrefConstants.LASTUPDATE, System.currentTimeMillis());
+                    editorForNew.apply();
                     if (refreshListener != null) {
                         refreshListener.onRefreshComplete();
                     }
