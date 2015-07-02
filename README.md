@@ -13,7 +13,6 @@ This project is for personal use only.
 * Last update time
 
 ####TODO
-* Move saved imgs to externalcache
 * Better customization of features (example set update interval)
 * In-app comic enable-diable options
 * Image pinchzoom
