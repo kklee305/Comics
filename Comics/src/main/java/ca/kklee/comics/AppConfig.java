@@ -10,19 +10,11 @@ public class AppConfig extends Application {
     public static final String APPDIRECTORY = "Daily Comics";
 
     private static AppConfig instance;
-    private static boolean IS_DEBUGGING = true;
-    private static boolean IS_LOGGING = true;
+    private static boolean DEBUGGABLE = BuildConfig.DEBUG;
+    private static boolean IS_LOGGING = true & DEBUGGABLE;
 
     public static Context getContext() {
         return instance.getApplicationContext();
-    }
-
-    public static boolean IS_DEBUGGING() {
-        return IS_DEBUGGING;
-    }
-
-    public static boolean IS_LOGGING() {
-        return IS_LOGGING;
     }
 
     @Override
@@ -30,4 +22,12 @@ public class AppConfig extends Application {
         super.onCreate();
         instance = this;
     }
+
+    public static boolean DEBUGGABLE() {
+        return DEBUGGABLE;
+    }
+    public static boolean IS_LOGGING() {
+        return IS_LOGGING;
+    }
+
 }

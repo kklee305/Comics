@@ -13,7 +13,6 @@
     <application
         android:name="ca.kklee.comics.AppConfig"
         android:allowBackup="true"
-        android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
@@ -36,7 +35,8 @@
             android:screenOrientation="userLandscape"/>
 
         <receiver android:name=".scheduletask.ScheduleTaskReceiver"/>
-        <receiver android:name=".scheduletask.OnWifiReconnectedReceiver"
+        <receiver
+            android:name=".scheduletask.OnWifiReconnectedReceiver"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
