@@ -10,8 +10,10 @@ public class AppConfig extends Application {
     public static final String APPDIRECTORY = "Daily Comics";
 
     private static AppConfig instance;
+
     private static boolean DEBUGGABLE = BuildConfig.DEBUG;
     private static boolean IS_LOGGING = true & DEBUGGABLE;
+    private static boolean DEMOMODE = !DEBUGGABLE;
 
     public static Context getContext() {
         return instance.getApplicationContext();
@@ -23,6 +25,10 @@ public class AppConfig extends Application {
 
     public static boolean IS_LOGGING() {
         return IS_LOGGING;
+    }
+
+    public static boolean DEMOMODE() {
+        return DEMOMODE;
     }
 
     @Override

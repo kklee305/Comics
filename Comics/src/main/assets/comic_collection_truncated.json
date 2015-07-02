@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Garfield",
+    "shortForm": "",
+    "url": "http://www.garfield.com",
+    "enabled": "true"
+  },
+  {
+    "title": "XKCD",
+    "shortForm": "",
+    "url": "http://www.xkcd.com",
+    "enabled": "true"
+  },
+  {
+    "title": "Peanuts",
+    "shortForm": "",
+    "url": "http://www.gocomics.com/peanuts",
+    "enabled": "true"
+  },
+  {
+    "title": "Calvin and Hobbes",
+    "shortForm": "",
+    "url": "http://www.gocomics.com/calvinandhobbes",
+    "enabled": "true"
+  },
+  {
+    "title": "Saturday Morning Breakfast Cereal",
+    "shortForm": "SMBC",
+    "url": "http://www.smbc-comics.com/",
+    "enabled": "true"
+  },
+  {
+    "title": "Dilbert",
+    "shortForm": "",
+    "url": "http://www.dilbert.com/",
+    "enabled": "true"
+  },
+  {
+    "title": "Dilbert Classics",
+    "shortForm": "",
+    "url": "http://www.gocomics.com/dilbert-classics",
+    "enabled": "true"
+  },
+  {
+    "title": "Wizard of Id",
+    "shortFormForm": "",
+    "url": "http://www.gocomics.com/wizardofid",
+    "enabled": "true"
+  },
+  {
+    "title": "2 Cows and a Chicken",
+    "shortForm": "",
+    "url": "http://www.gocomics.com/2cowsandachicken",
+    "enabled": "true"
+  },
+  {
+    "title": "Get Fuzzy",
+    "shortForm": "",
+    "url": "http://www.gocomics.com/getfuzzy",
+    "enabled": "true"
+  },
+  {
+    "title": "Marmaduke",
+    "shortForm": "",
+    "url": "http://www.gocomics.com/marmaduke",
+    "enabled": "true"
+  }
+]

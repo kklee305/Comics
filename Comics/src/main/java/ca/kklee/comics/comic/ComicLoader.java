@@ -37,6 +37,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
     private View rootView;
     private String imageUrlString;
     private ResultCode result = ResultCode.ERROR;
+
     public ComicLoader(View rootView, int id, NewComicListener newComicListener) {
         this.rootView = rootView;
         this.id = id;

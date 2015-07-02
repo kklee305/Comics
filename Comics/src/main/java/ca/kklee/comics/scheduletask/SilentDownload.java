@@ -33,6 +33,7 @@ public class SilentDownload {
     private final int NOTIFICATION_ID = 1;
     private RefreshListener refreshListener;
     private Context context;
+
     public SilentDownload(Context context, RefreshListener refreshListener) {
         this.context = context;
         this.refreshListener = refreshListener;

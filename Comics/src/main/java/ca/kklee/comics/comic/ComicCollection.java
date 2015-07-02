@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.kklee.utilities.Logger;
 import com.kklee.utilities.StringUtil;
 
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import ca.kklee.comics.AppConfig;
 
 /**
  * Created by Keith on 05/06/2014.
@@ -37,18 +40,21 @@ public class ComicCollection {
 
     public void setComics(Context context) {
         comics = parse(context);
+        if (comics == null) {
+            Logger.wtf("FATAL ERROR: json not parsed");
+        }
         checkComicEnabled();
     }
 
     public Comic[] parse(Context context) {
         String inputString = "";
-
+        String jsonFile = AppConfig.DEMOMODE() ? "comic_collection_truncated.json" : "comic_collection.json";
         try {
-            InputStream inputFile = context.getAssets().open("comic_collection.json");
+            InputStream inputFile = context.getAssets().open(jsonFile);
             inputString = StringUtil.convertStreamToString(inputFile);
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e("ERROR", e.toString());
+            Log.e("ERROR parsing json", e.toString());
         }
 
         if (inputString.isEmpty())
