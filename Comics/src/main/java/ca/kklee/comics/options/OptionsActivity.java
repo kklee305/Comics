@@ -1,7 +1,6 @@
 package ca.kklee.comics.options;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ca.kklee.comics.R;
-import ca.kklee.comics.SharedPrefConstants;
 import ca.kklee.comics.scheduletask.ScheduleTaskReceiver;
 
 /**

@@ -13,11 +13,6 @@ import com.kklee.utilities.Logger;
  */
 public class OnBootCompletedReceiver extends BroadcastReceiver {
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        ScheduleTaskReceiver.startScheduledTask(context);
-    }
-
     public static void registerMe(Context context) {
         context.getPackageManager().setComponentEnabledSetting(
                 new ComponentName(context, OnBootCompletedReceiver.class),
@@ -32,6 +27,11 @@ public class OnBootCompletedReceiver extends BroadcastReceiver {
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
         Logger.i("OnBootReceiver disabled");
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        ScheduleTaskReceiver.startScheduledTask(context);
     }
 
 }

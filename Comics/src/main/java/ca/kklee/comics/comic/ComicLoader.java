@@ -32,15 +32,11 @@ import ca.kklee.comics.scheduletask.NewComicListener;
  */
 public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
-    private enum ResultCode {
-        NOUPDATE, UPDATED, ERROR
-    }
     private int id;
     private NewComicListener newComicListener;
     private View rootView;
     private String imageUrlString;
     private ResultCode result = ResultCode.ERROR;
-
     public ComicLoader(View rootView, int id, NewComicListener newComicListener) {
         this.rootView = rootView;
         this.id = id;
@@ -155,6 +151,34 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
         return null;
     }
 
+    private void newComicResponse(ResultCode response) {
+        String title = ComicCollection.getInstance().getComics()[id].getTitle();
+        if (newComicListener != null) {
+            newComicListener.onDomCheckCompleted(title);
+        }
+        Context context = AppConfig.getContext();
+        SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
+        SharedPreferences.Editor editorForNew = prefForNew.edit();
+        SharedPreferences prefForError = context.getSharedPreferences(SharedPrefConstants.COMICERRORFLAG, 0);
+        SharedPreferences.Editor editorForError = prefForError.edit();
+        SharedPreferences prefForTime = context.getSharedPreferences(SharedPrefConstants.COMICUPDATETIME, 0);
+        SharedPreferences.Editor editorForTime = prefForTime.edit();
+        switch (response) {
+            case UPDATED:
+                editorForNew.putBoolean(title, true);
+                editorForNew.commit();
+                editorForTime.putLong(title, System.currentTimeMillis());
+                editorForTime.apply();
+            case NOUPDATE:
+                editorForError.putBoolean(title, false);
+                break;
+            case ERROR:
+                editorForError.putBoolean(title, true);
+                break;
+        }
+        editorForError.apply();
+    }
+
 //    private Bitmap downscaleBitmap(URL url, InputStream inputStream) {
 //        BitmapFactory.Options options = new BitmapFactory.Options();
 //        options.inJustDecodeBounds = true;
@@ -191,31 +215,7 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 //        return bitmap;
 //    }
 
-    private void newComicResponse(ResultCode response) {
-        String title = ComicCollection.getInstance().getComics()[id].getTitle();
-        if (newComicListener != null) {
-            newComicListener.onDomCheckCompleted(title);
-        }
-        Context context = AppConfig.getContext();
-        SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
-        SharedPreferences.Editor editorForNew = prefForNew.edit();
-        SharedPreferences prefForError = context.getSharedPreferences(SharedPrefConstants.COMICERRORFLAG, 0);
-        SharedPreferences.Editor editorForError = prefForError.edit();
-        SharedPreferences prefForTime = context.getSharedPreferences(SharedPrefConstants.COMICUPDATETIME, 0);
-        SharedPreferences.Editor editorForTime = prefForTime.edit();
-        switch (response) {
-            case UPDATED:
-                editorForNew.putBoolean(title, true);
-                editorForNew.commit();
-                editorForTime.putLong(title, System.currentTimeMillis());
-                editorForTime.apply();
-            case NOUPDATE:
-                editorForError.putBoolean(title, false);
-                break;
-            case ERROR:
-                editorForError.putBoolean(title, true);
-                break;
-        }
-        editorForError.apply();
+    private enum ResultCode {
+        NOUPDATE, UPDATED, ERROR
     }
 }

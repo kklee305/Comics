@@ -75,7 +75,7 @@ public class Comic {
                     Logger.wtf("File for %s not deleted!", title);
                 FileUtil.scanFile(file);
             } catch (IOException e) {
-                Logger.e("IOException",e);
+                Logger.e("IOException", e);
             }
         }
         BitmapLoader.saveBitmap(title + "_" + hashCode, bitmap);

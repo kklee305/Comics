@@ -2,6 +2,7 @@ package ca.kklee.comics.navdrawer;
 
 import android.content.SharedPreferences;
 import android.widget.TextView;
+
 import ca.kklee.comics.SharedPrefConstants;
 
 /**

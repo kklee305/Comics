@@ -14,7 +14,6 @@ import com.kklee.utilities.Logger;
 import java.text.DateFormat;
 import java.util.Date;
 
-import ca.kklee.comics.AppConfig;
 import ca.kklee.comics.HomeActivity;
 import ca.kklee.comics.R;
 import ca.kklee.comics.SharedPrefConstants;
@@ -28,15 +27,12 @@ import ca.kklee.comics.navdrawer.RefreshListener;
  */
 public class SilentDownload {
 
-    private enum State {ACTIVE, IDLE}
-
     private static int newComics = 0;
     private static int dlComplete = 0;
-    private final int NOTIFICATION_ID = 1;
     private static State currentState = State.IDLE;
+    private final int NOTIFICATION_ID = 1;
     private RefreshListener refreshListener;
     private Context context;
-
     public SilentDownload(Context context, RefreshListener refreshListener) {
         this.context = context;
         this.refreshListener = refreshListener;
@@ -126,6 +122,8 @@ public class SilentDownload {
         Intent i = new Intent(context, HomeActivity.class);
         return PendingIntent.getActivity(context, 0, i, 0);
     }
+
+    private enum State {ACTIVE, IDLE}
 
 //    private void debugging(Context context) {
 //        SharedPreferences preferences = context.getSharedPreferences("debuggingAlarm", 0);

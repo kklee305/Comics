@@ -1,10 +1,6 @@
 package ca.kklee.comics.comic;
 
-import com.kklee.utilities.Logger;
-
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 /**
  * Created by Keith on 11/06/2015.

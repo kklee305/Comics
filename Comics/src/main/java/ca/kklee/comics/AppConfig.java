@@ -17,17 +17,18 @@ public class AppConfig extends Application {
         return instance.getApplicationContext();
     }
 
+    public static boolean DEBUGGABLE() {
+        return DEBUGGABLE;
+    }
+
+    public static boolean IS_LOGGING() {
+        return IS_LOGGING;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-    }
-
-    public static boolean DEBUGGABLE() {
-        return DEBUGGABLE;
-    }
-    public static boolean IS_LOGGING() {
-        return IS_LOGGING;
     }
 
 }
