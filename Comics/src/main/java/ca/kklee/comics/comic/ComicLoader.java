@@ -154,9 +154,6 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
 
     private void newComicResponse(ResultCode response) {
         String title = ComicCollection.getInstance().getComics()[id].getTitle();
-        if (newComicListener != null) {
-            newComicListener.onDomCheckCompleted(title);
-        }
         Context context = AppConfig.getContext();
         SharedPreferences prefForNew = context.getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, 0);
         SharedPreferences.Editor editorForNew = prefForNew.edit();
@@ -178,6 +175,9 @@ public class ComicLoader extends AsyncTask<String, Void, Bitmap> {
                 break;
         }
         editorForError.apply();
+        if (newComicListener != null) {
+            newComicListener.onDomCheckCompleted(title);
+        }
     }
 
 //    private Bitmap downscaleBitmap(URL url, InputStream inputStream) {
