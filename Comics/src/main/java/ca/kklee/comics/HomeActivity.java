@@ -204,6 +204,7 @@ public class HomeActivity extends AppCompatActivity {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 viewPager.getAdapter().notifyDataSetChanged();
                 NavDrawerHeader.update(getSharedPreferences(SharedPrefConstants.COMICNEWFLAG, Context.MODE_PRIVATE), (TextView) findViewById(R.id.comic_header_last_update));
+                drawerList.invalidateViews();
             }
         };
         srl = (SwipeRefreshLayout) findViewById(R.id.drawer_swipe_refresh_view);
